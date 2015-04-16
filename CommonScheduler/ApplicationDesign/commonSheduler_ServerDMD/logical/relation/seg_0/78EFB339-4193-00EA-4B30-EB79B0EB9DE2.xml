@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Schedule-classes" directorySegmentName="seg_0" id="78EFB339-4193-00EA-4B30-EB79B0EB9DE2">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 14:40:02 UTC</createdTime>
+<ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
+<engineerTo>
+<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+</engineerTo>
+<sourcePk>18A29E44-F7DC-9772-E681-422D56FDD9A9</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>791DFB7A-C7B3-E407-09F8-EDBB8E9FB187</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>C9766C40-2743-0F1D-8FD5-9E3D849F53E7</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

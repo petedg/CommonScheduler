@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Location-room" directorySegmentName="seg_0" id="250A266D-6B35-AE79-58D4-D12C641899C1">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:59:16 UTC</createdTime>
+<ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
+<engineerTo>
+<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+</engineerTo>
+<sourcePk>686C4B75-A11F-1992-B68D-91A0D1B15DC3</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>6741F8E3-25FE-18A8-FA49-7114D481F8E5</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>640E8106-5D4C-6BBC-0B05-AD356110C0D6</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
