@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Classes-week" directorySegmentName="seg_0" id="E1858BD6-0751-9843-E8C0-4F16AA496D13">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 11:14:32 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>C9766C40-2743-0F1D-8FD5-9E3D849F53E7</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>4714F5B5-A7E3-10EF-336A-7835406F220A</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

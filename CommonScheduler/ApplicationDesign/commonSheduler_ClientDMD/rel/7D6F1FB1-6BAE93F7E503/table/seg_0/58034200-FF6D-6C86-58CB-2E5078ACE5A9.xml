@@ -1,0 +1,35 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="58034200-FF6D-6C86-58CB-2E5078ACE5A9" name="Schedule">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>791DFB7A-C7B3-E407-09F8-EDBB8E9FB187</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="816A77A3-C5C1-524C-2967-09A77997C7AB">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>088D38DE-6AE4-A6A3-49FA-802F9E01E44D</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5F4DC917-5012-3432-A1CE-391C0A9B501F" name="Schedule_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>18A29E44-F7DC-9772-E681-422D56FDD9A9</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="816A77A3-C5C1-524C-2967-09A77997C7AB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

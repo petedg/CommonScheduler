@@ -1,0 +1,117 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="6741F8E3-25FE-18A8-FA49-7114D481F8E5" name="Location">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:10:58 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="9B3429A2-A318-7CA4-1B68-BF90E4B732CD">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:11:11 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+</Attribute>
+<Attribute name="Name" id="1B281A83-EB6B-406B-F8F9-8AC6A9B67189">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:16:13 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+</Attribute>
+<Attribute name="City" id="ADAB16F9-725A-F482-E99A-73DE261DC5EA">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:11:18 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+</Attribute>
+<Attribute name="Street" id="8D9DAC4F-4764-4296-388E-FEBE638EBDCC">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:14:32 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+</Attribute>
+<Attribute name="Number" id="C8BE0297-438E-412F-62F6-73A073BA0923">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:14:54 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>B1C029F8-8C9E-E8C4-2E32-21F88AEA52D5</domain>
+</Attribute>
+<Attribute name="Post_code" id="6CD40489-F36D-9C55-AD3B-752E55E773CC">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:16:33 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>473CD50A-DA4F-B206-29F5-B6C01083C6B7</domain>
+</Attribute>
+<Attribute name="ID1" id="F4A4C01A-0196-A721-BB02-A7AC8BF12D14">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 14:43:39 UTC</createdTime>
+<generatorID>E784A5D5-9FD1-B71A-7FF4-FF2D3C9634AE</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>9B3429A2-A318-7CA4-1B68-BF90E4B732CD</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="686C4B75-A11F-1992-B68D-91A0D1B15DC3" name="{entity} PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 13:11:17 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>9B3429A2-A318-7CA4-1B68-BF90E4B732CD</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

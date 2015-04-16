@@ -1,0 +1,179 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7D895767-6EE0-A1A4-43CE-2E9BE2552AF8" name="Classes">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>C9766C40-2743-0F1D-8FD5-9E3D849F53E7</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="0D58C77F-CF3E-3A71-F52C-2AFD49F0BFDF">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>C5B6616F-97E0-3920-535B-C026556A5A22</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Start_date" id="50DFC26E-5DA6-2088-06B5-7C24F7A0A067">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>FFCEFE4F-EFAD-6ED9-9999-3C5DD37D7F06</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>1C62122B-D462-DE1D-9D04-55E6BF6A2BE1</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="End_date" id="31780243-51C3-4B52-4C64-DF6B9C2445DD">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>179B60D2-9A8D-F9EC-C5AF-665B6FD19CF3</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>1C62122B-D462-DE1D-9D04-55E6BF6A2BE1</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Start_time" id="19E747EE-5558-8C0C-6985-F5B1C91127CD">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>8CE72E1B-EAC4-D5EA-12CB-FB1CA7F8858B</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<domain>08A1AF51-928A-A73A-654C-3E5965F4C718</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="End_time" id="83121357-9480-096F-AF42-A82290D90A70">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>6C5E33F0-F018-DD22-760C-752B0BD9E292</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<domain>08A1AF51-928A-A73A-654C-3E5965F4C718</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Room_ID" id="6DFF7B4F-4BB2-B098-441C-1089E9FED666">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>D0793E8D-9092-4B5E-C299-D6B19030CC57</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>787E36A9-BADA-4878-0F18-04B7E428B364</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="591EF1A6-9859-BFAD-6865-F9358EC76A9C" referredColumn="787E36A9-BADA-4878-0F18-04B7E428B364"/>
+</associations>
+</Column>
+<Column name="Subject_ID" id="5F8C0477-F311-A66D-9F3C-C9F0A63A5E87">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>6C008B93-75CC-FD7A-591A-4C0C1659C92F</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>AFFB9714-B48B-98BB-80F0-FA0A87A5ABA6</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="29B9E801-A847-B88F-6F74-B92C2969CA23" referredColumn="AFFB9714-B48B-98BB-80F0-FA0A87A5ABA6"/>
+</associations>
+</Column>
+<Column name="Teacher_ID" id="5B3923A2-C759-1CAE-92AE-2FDBAE333D0C">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>3007669E-9827-A84C-EBF2-F2C0698F0721</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>D60682FD-6CF7-6809-7207-06E3EA9ED6FF</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A32D7622-7677-BBBA-9EC6-C8447EA0CAEE" referredColumn="D60682FD-6CF7-6809-7207-06E3EA9ED6FF"/>
+</associations>
+</Column>
+<Column name="Schedule_ID" id="94CD01CC-AF70-EB25-F8F4-61C6F772576E">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>4F05D67B-BBF5-85F7-EF3C-492F8FBB95B1</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>816A77A3-C5C1-524C-2967-09A77997C7AB</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B8043E27-1620-DF6D-4022-ADA72DEFAE62" referredColumn="816A77A3-C5C1-524C-2967-09A77997C7AB"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="87659799-64CB-A2F0-86B5-6F66C3AD7738" name="Classes_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>AA7C9DEE-1781-770A-DC5F-B7AE916BEA21</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0D58C77F-CF3E-3A71-F52C-2AFD49F0BFDF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7E5AEDA5-094A-01C2-9434-08246DE29DCC" name="Classes_Room_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>22386264-1151-9597-2C25-D303E598CBC1</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6DFF7B4F-4BB2-B098-441C-1089E9FED666"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="54340D27-D357-633B-ECD5-912E8A932173" name="Classes_Schedule_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>78EFB339-4193-00EA-4B30-EB79B0EB9DE2</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="94CD01CC-AF70-EB25-F8F4-61C6F772576E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1894729A-2B84-14ED-3FA2-AF090F48CBDE" name="Classes_Subject_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>BF580881-62C6-E343-CF44-CA01C94601AD</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5F8C0477-F311-A66D-9F3C-C9F0A63A5E87"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="94F5BE67-59E9-2F04-56C5-CAE314BE439B" name="Classes_Teacher_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>5DEB6623-E5BF-F22B-BAD7-028C4FB14F08</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5B3923A2-C759-1CAE-92AE-2FDBAE333D0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

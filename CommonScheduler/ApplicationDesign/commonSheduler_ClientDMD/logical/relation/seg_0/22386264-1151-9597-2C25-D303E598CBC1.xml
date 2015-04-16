@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Room-classes" directorySegmentName="seg_0" id="22386264-1151-9597-2C25-D303E598CBC1">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 14:01:00 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<sourcePk>E641D068-CDE7-537E-9032-59C82A13CC5E</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>640E8106-5D4C-6BBC-0B05-AD356110C0D6</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>C9766C40-2743-0F1D-8FD5-9E3D849F53E7</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

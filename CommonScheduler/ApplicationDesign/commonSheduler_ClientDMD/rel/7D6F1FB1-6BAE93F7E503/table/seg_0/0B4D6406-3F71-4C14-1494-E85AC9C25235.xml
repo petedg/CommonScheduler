@@ -1,0 +1,74 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0B4D6406-3F71-4C14-1494-E85AC9C25235" name="Classes-week">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="Classes_ID" id="C40B5BFE-0E53-E5A8-4033-2664E7B219A7">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>0D58C77F-CF3E-3A71-F52C-2AFD49F0BFDF</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="79D1495D-D168-C52A-3497-C5F30CC5F8DC" referredColumn="0D58C77F-CF3E-3A71-F52C-2AFD49F0BFDF"/>
+</associations>
+</Column>
+<Column name="Week_ID" id="82ABF339-7631-6BE3-95AC-6B6BBF882B9F">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>B077411E-080F-ABFD-7634-5F50CFA6D76C</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EB9533DD-B806-B584-B4B3-9951FD3A3C2E" referredColumn="B077411E-080F-ABFD-7634-5F50CFA6D76C"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="EA5B8D9C-9273-50AD-D8EC-65EFDDA7C6CE" name="Classes-week_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C40B5BFE-0E53-E5A8-4033-2664E7B219A7"/>
+<colUsage columnID="82ABF339-7631-6BE3-95AC-6B6BBF882B9F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5C3A0E8D-695C-E8ED-A81E-60D3898775DF" name="FK_ASS_1">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>E1858BD6-0751-9843-E8C0-4F16AA496D13</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C40B5BFE-0E53-E5A8-4033-2664E7B219A7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B3B2F83B-70EE-6134-AFEA-6DD026301365" name="FK_ASS_2">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>E1858BD6-0751-9843-E8C0-4F16AA496D13</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="82ABF339-7631-6BE3-95AC-6B6BBF882B9F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

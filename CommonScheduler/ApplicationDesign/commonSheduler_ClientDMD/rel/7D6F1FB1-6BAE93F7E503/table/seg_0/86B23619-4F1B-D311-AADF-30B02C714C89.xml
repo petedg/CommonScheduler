@@ -1,0 +1,81 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="86B23619-4F1B-D311-AADF-30B02C714C89" name="Week">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>4714F5B5-A7E3-10EF-336A-7835406F220A</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="B077411E-080F-ABFD-7634-5F50CFA6D76C">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>149FB844-C9C9-2401-8530-334C6A0B8088</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Start_date" id="9A0C908E-2629-A262-5094-88BCC4C2FBC2">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>F4567205-43CC-BBF6-2908-7CA500D92F84</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>1C62122B-D462-DE1D-9D04-55E6BF6A2BE1</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="End_date" id="5EA67EDC-6B82-A3E5-DABE-8EDA42B58838">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>752C2B7A-B6F3-20EB-E8FE-8CE00861D2AA</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>1C62122B-D462-DE1D-9D04-55E6BF6A2BE1</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Semester_ID" id="9DC126D5-68C1-5420-4530-CAFBBCEA3E94">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>ADB65C03-B1A3-223D-F1AF-471A77E56463</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>65410EF0-5AAF-A4DC-6ABA-F4E1A214641C</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2DB1A483-88A6-A4FA-CE8D-B153D4B82E57" referredColumn="65410EF0-5AAF-A4DC-6ABA-F4E1A214641C"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C5CAF94D-220F-51AD-49BB-F06C342F2C3B" name="Week_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>85654FBF-E601-F088-F7BA-93D04C2FD19E</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B077411E-080F-ABFD-7634-5F50CFA6D76C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5090D535-BF68-34AB-A51D-559F09585A48" name="Week_Semester_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>FEE45CA4-3C56-7BCC-B5ED-56645EE005E5</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9DC126D5-68C1-5420-4530-CAFBBCEA3E94"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

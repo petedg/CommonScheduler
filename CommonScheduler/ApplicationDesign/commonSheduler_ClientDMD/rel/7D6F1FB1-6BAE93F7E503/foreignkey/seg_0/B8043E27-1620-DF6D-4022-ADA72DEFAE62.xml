@@ -1,0 +1,14 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="B8043E27-1620-DF6D-4022-ADA72DEFAE62" name="Classes_Schedule_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>78EFB339-4193-00EA-4B30-EB79B0EB9DE2</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<containerWithKeyObject>7D895767-6EE0-A1A4-43CE-2E9BE2552AF8</containerWithKeyObject>
+<deleteRule>NO ACTION</deleteRule>
+<localFKIndex>54340D27-D357-633B-ECD5-912E8A932173</localFKIndex>
+<keyObject>5F4DC917-5012-3432-A1CE-391C0A9B501F</keyObject>
+<mandatory>true</mandatory>
+<transferable>true</transferable>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

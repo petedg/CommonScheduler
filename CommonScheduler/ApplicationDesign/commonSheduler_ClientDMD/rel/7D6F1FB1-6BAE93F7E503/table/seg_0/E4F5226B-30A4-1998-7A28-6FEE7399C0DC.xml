@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E4F5226B-30A4-1998-7A28-6FEE7399C0DC" name="Local_user">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>A3F6969E-8F86-685A-51BA-73A6FBC13889</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="A9E32D7D-4A2F-2266-5856-305B36A9DDCF">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>DB5FE3B6-FF64-659C-4D07-F194124DF56F</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Name" id="CE100BF0-80D4-F9A9-2179-E4FEF8009F25">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>E11AA69E-E423-BB6D-83A6-F2902CFFA2A4</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Surname" id="75F4B3BC-42B5-28D3-90AD-AC7E4FFB84A5">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>F47592F0-BB7E-0175-FEAB-8BCF7C5126B4</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>E84BFF6F-1FDD-304E-7764-E6F3EE4DD30D</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Login" id="F6EC43F4-16B4-4D59-B5C9-453198FF9C14">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>302A44A3-119B-64D3-5A3B-6B7D406DA930</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>65FB5F5D-D0D6-95D9-31B8-1B3E63AD36FE</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Password" id="E7FE14ED-5F4A-68EE-7D4C-3FCF8B923D6E">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>EC9CB92B-F81A-1EBA-6609-742217F7B241</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>ACA3D95F-356A-41C6-5B1A-E481387CD55A</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Server_path" id="B2FF0A53-DA2B-2850-0E71-28A8293F25E7">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>4B72A208-8841-753E-3DC8-6DDA810D7F7B</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D2019BB8-0FAA-F343-9D35-6D33DDB5EC5C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9565A99F-16C5-8102-ECC9-78D4805A4FC7" name="Local_user_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>1640D323-EA56-4EDD-7B49-02E989D4CE38</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A9E32D7D-4A2F-2266-5856-305B36A9DDCF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D41AA5EA-BDC8-CC5D-6BD1-3FCEFE714C87" name="Subject">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>82B02921-A49F-3682-E6E9-B72DAD9F7A16</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="AFFB9714-B48B-98BB-80F0-FA0A87A5ABA6">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>84B9A728-0321-E10E-B568-9B4F0F09A7A4</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Name" id="80D1E4A8-C205-0F27-9698-368098FAF5E3">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>4C04972F-F264-D975-A936-0D0F6EA1E66B</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Short_name" id="470BA826-02F1-030F-B0E2-EDD5D2682962">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>A321A0FC-9FE3-0B34-0719-07685446083B</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>B1C029F8-8C9E-E8C4-2E32-21F88AEA52D5</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Description" id="E83E9D1B-9425-90F3-8814-5C88E8AC5394">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>A0E63EB6-1404-DED9-C671-1C6270DF0914</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D2019BB8-0FAA-F343-9D35-6D33DDB5EC5C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="84309766-1DA4-BFD1-7C04-C1E266A5190A" name="Subject_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>40770B0D-B980-C46D-555B-3F9946B5C04D</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AFFB9714-B48B-98BB-80F0-FA0A87A5ABA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

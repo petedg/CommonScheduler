@@ -1,28 +1,28 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <oracle.dbtools.crest.model.design.logical.LogicalDesign>
-   <object objectType="Entity" objectID="4714F5B5-A7E3-10EF-336A-7835406F220A" name="Week" seqName="seg_0"/>
+   <object objectType="Entity" objectID="E8E6E218-A205-EB36-40CA-44A41F308A04" name="Class_group" seqName="seg_0"/>
+   <object objectType="Entity" objectID="C9766C40-2743-0F1D-8FD5-9E3D849F53E7" name="Classes" seqName="seg_0"/>
+   <object objectType="Entity" objectID="A3F6969E-8F86-685A-51BA-73A6FBC13889" name="Global_user" seqName="seg_0"/>
+   <object objectType="Entity" objectID="6741F8E3-25FE-18A8-FA49-7114D481F8E5" name="Location" seqName="seg_0"/>
+   <object objectType="Entity" objectID="640E8106-5D4C-6BBC-0B05-AD356110C0D6" name="Room" seqName="seg_0"/>
+   <object objectType="Entity" objectID="791DFB7A-C7B3-E407-09F8-EDBB8E9FB187" name="Schedule" seqName="seg_0"/>
+   <object objectType="Entity" objectID="E80757A2-1675-896A-DC98-5C660194D6FC" name="Semester" seqName="seg_0"/>
+   <object objectType="Entity" objectID="A54D7B43-7922-6A26-C6B5-CA6CFDF8D78D" name="Subgroup" seqName="seg_0"/>
+   <object objectType="Entity" objectID="82B02921-A49F-3682-E6E9-B72DAD9F7A16" name="Subject" seqName="seg_0"/>
    <object objectType="Entity" objectID="4B00995E-162D-F437-E61F-5A12C21014F5" name="Teacher" seqName="seg_0"/>
    <object objectType="Entity" objectID="55D6D594-3834-0CA3-C43A-6992C9428425" name="Unit" seqName="seg_0"/>
-   <object objectType="Entity" objectID="640E8106-5D4C-6BBC-0B05-AD356110C0D6" name="Room" seqName="seg_0"/>
-   <object objectType="Entity" objectID="6741F8E3-25FE-18A8-FA49-7114D481F8E5" name="Location" seqName="seg_0"/>
-   <object objectType="Entity" objectID="791DFB7A-C7B3-E407-09F8-EDBB8E9FB187" name="Schedule" seqName="seg_0"/>
-   <object objectType="Entity" objectID="82B02921-A49F-3682-E6E9-B72DAD9F7A16" name="Subject" seqName="seg_0"/>
-   <object objectType="Entity" objectID="A3F6969E-8F86-685A-51BA-73A6FBC13889" name="Global_user" seqName="seg_0"/>
-   <object objectType="Entity" objectID="A54D7B43-7922-6A26-C6B5-CA6CFDF8D78D" name="Subgroup" seqName="seg_0"/>
-   <object objectType="Entity" objectID="C9766C40-2743-0F1D-8FD5-9E3D849F53E7" name="Classes" seqName="seg_0"/>
-   <object objectType="Entity" objectID="E80757A2-1675-896A-DC98-5C660194D6FC" name="Semester" seqName="seg_0"/>
-   <object objectType="Entity" objectID="E8E6E218-A205-EB36-40CA-44A41F308A04" name="Class_group" seqName="seg_0"/>
-   <object objectType="Relation" objectID="0629870C-38A6-5C70-5234-EBB393979EB0" name="Unit-teacherv2" seqName="seg_0"/>
-   <object objectType="Relation" objectID="1212BE6B-40F0-AC48-A458-3CA217C826D8" name="Subgroup-subgroup" seqName="seg_0"/>
-   <object objectType="Relation" objectID="22386264-1151-9597-2C25-D303E598CBC1" name="Room-classes" seqName="seg_0"/>
-   <object objectType="Relation" objectID="250A266D-6B35-AE79-58D4-D12C641899C1" name="Location-room" seqName="seg_0"/>
-   <object objectType="Relation" objectID="58BB7725-D4BE-A3E7-DB42-6393AC35FA61" name="Schedule-class_group" seqName="seg_0"/>
-   <object objectType="Relation" objectID="5DEB6623-E5BF-F22B-BAD7-028C4FB14F08" name="Teacher-classes" seqName="seg_0"/>
-   <object objectType="Relation" objectID="78EFB339-4193-00EA-4B30-EB79B0EB9DE2" name="Schedule-classes" seqName="seg_0"/>
-   <object objectType="Relation" objectID="AB0E6BB3-B058-9A43-B904-FE9A3904AADE" name="Unit-unit" seqName="seg_0"/>
-   <object objectType="Relation" objectID="BF580881-62C6-E343-CF44-CA01C94601AD" name="Subject-classes" seqName="seg_0"/>
-   <object objectType="Relation" objectID="D9D5B731-F4D2-7302-BA45-9E941FA94C51" name="Subgroup-class_group" seqName="seg_0"/>
+   <object objectType="Entity" objectID="4714F5B5-A7E3-10EF-336A-7835406F220A" name="Week" seqName="seg_0"/>
    <object objectType="Relation" objectID="E1858BD6-0751-9843-E8C0-4F16AA496D13" name="Classes-week" seqName="seg_0"/>
    <object objectType="Relation" objectID="E784A5D5-9FD1-B71A-7FF4-FF2D3C9634AE" name="Location-location" seqName="seg_0"/>
+   <object objectType="Relation" objectID="250A266D-6B35-AE79-58D4-D12C641899C1" name="Location-room" seqName="seg_0"/>
+   <object objectType="Relation" objectID="22386264-1151-9597-2C25-D303E598CBC1" name="Room-classes" seqName="seg_0"/>
+   <object objectType="Relation" objectID="58BB7725-D4BE-A3E7-DB42-6393AC35FA61" name="Schedule-class_group" seqName="seg_0"/>
+   <object objectType="Relation" objectID="78EFB339-4193-00EA-4B30-EB79B0EB9DE2" name="Schedule-classes" seqName="seg_0"/>
    <object objectType="Relation" objectID="FEE45CA4-3C56-7BCC-B5ED-56645EE005E5" name="Semester-week" seqName="seg_0"/>
+   <object objectType="Relation" objectID="D9D5B731-F4D2-7302-BA45-9E941FA94C51" name="Subgroup-class_group" seqName="seg_0"/>
+   <object objectType="Relation" objectID="1212BE6B-40F0-AC48-A458-3CA217C826D8" name="Subgroup-subgroup" seqName="seg_0"/>
+   <object objectType="Relation" objectID="BF580881-62C6-E343-CF44-CA01C94601AD" name="Subject-classes" seqName="seg_0"/>
+   <object objectType="Relation" objectID="5DEB6623-E5BF-F22B-BAD7-028C4FB14F08" name="Teacher-classes" seqName="seg_0"/>
+   <object objectType="Relation" objectID="0629870C-38A6-5C70-5234-EBB393979EB0" name="Unit-teacherv2" seqName="seg_0"/>
+   <object objectType="Relation" objectID="AB0E6BB3-B058-9A43-B904-FE9A3904AADE" name="Unit-unit" seqName="seg_0"/>
 </oracle.dbtools.crest.model.design.logical.LogicalDesign>

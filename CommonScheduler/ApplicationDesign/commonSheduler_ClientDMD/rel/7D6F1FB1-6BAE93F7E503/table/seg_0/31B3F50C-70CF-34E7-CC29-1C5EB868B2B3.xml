@@ -1,0 +1,82 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="31B3F50C-70CF-34E7-CC29-1C5EB868B2B3" name="Room">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>640E8106-5D4C-6BBC-0B05-AD356110C0D6</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="787E36A9-BADA-4878-0F18-04B7E428B364">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>B5058C19-02FC-BCB9-D89D-08B6D4201741</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Number" id="9DAA347A-1A74-1645-AA35-FE3E3EDB050F">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>8FC6F9B0-261C-0F89-DF47-2923908C9AEE</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>473CD50A-DA4F-B206-29F5-B6C01083C6B7</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Seats" id="9F4F4EAE-056F-37CF-4468-9A61DD90EE84">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>96E8122B-D17C-6688-87DA-31CC35CA8241</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>1003A329-3049-C0C4-3AD1-3C405D7173D4</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Location_ID" id="CF1876B6-4C9A-7444-A2CC-5465FA9EC804">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>C7202993-230B-58AC-EBDE-CE0D2B5115DA</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>8C26B13E-0EA6-AE9E-258D-F1805DA1E12A</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1A6A1950-2AA8-D286-AC01-C1742718113E" referredColumn="8C26B13E-0EA6-AE9E-258D-F1805DA1E12A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E28E5298-57B1-3386-29D8-B8CBFA36736A" name="Room_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>E641D068-CDE7-537E-9032-59C82A13CC5E</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="787E36A9-BADA-4878-0F18-04B7E428B364"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D0465108-4E2B-D341-C6F4-47D589C791CF" name="Room_Location_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>250A266D-6B35-AE79-58D4-D12C641899C1</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CF1876B6-4C9A-7444-A2CC-5465FA9EC804"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

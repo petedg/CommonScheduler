@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="8A5DD136-65D7-9C32-9F23-42D16AD88E32" name="Teacher">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>4B00995E-162D-F437-E61F-5A12C21014F5</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="D60682FD-6CF7-6809-7207-06E3EA9ED6FF">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>03BB7B52-70AB-9739-EA92-D0E29D487C61</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Name" id="82FF8D5E-E76C-4A2D-C7D6-3A0D3C5D875D">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>7FAD1329-C5C3-E31B-2C5E-534F84C292A3</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Surname" id="C5CF50CF-C34B-EBE9-60E8-61014DE6619E">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>B43B04BE-74D5-7556-5CC6-3AFB541F77CB</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<domain>E84BFF6F-1FDD-304E-7764-E6F3EE4DD30D</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Degree" id="B2869F18-3817-40C4-8D6C-B33A5A23E71B">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>19AED93B-2921-FF50-2479-891F42CCD23D</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<domain>473CD50A-DA4F-B206-29F5-B6C01083C6B7</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Position" id="77B5A634-A463-3A58-A3CE-3F162BBBF4A4">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>32042321-1027-1494-9BCE-087B9CAB4A2A</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<domain>473CD50A-DA4F-B206-29F5-B6C01083C6B7</domain>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Unit_ID" id="7899644F-826A-BA35-0A5B-57A127491A0D">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>8BDCCE4B-77F4-04C3-FD7D-19F4DE8341AA</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+<delegate>9F2377DF-35FD-8636-5F0A-76F15938120B</delegate>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F4A7FA1C-B3C1-6BC8-CB95-D3EFA751A354" referredColumn="9F2377DF-35FD-8636-5F0A-76F15938120B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="6B419588-B295-E0CA-DA4A-5523E794B55B" name="Teacher_PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>C5CB76A6-7036-91DE-603A-EADF7964CF60</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D60682FD-6CF7-6809-7207-06E3EA9ED6FF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="866F8E9E-D5B0-722E-0932-DBD9E14E21E9" name="Teacher_Unit_FK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:14:07 UTC</createdTime>
+<generatorID>0629870C-38A6-5C70-5234-EBB393979EB0</generatorID>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7899644F-826A-BA35-0A5B-57A127491A0D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

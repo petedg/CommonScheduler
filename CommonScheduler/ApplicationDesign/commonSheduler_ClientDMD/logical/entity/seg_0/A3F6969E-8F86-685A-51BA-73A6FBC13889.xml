@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A3F6969E-8F86-685A-51BA-73A6FBC13889" name="Local_user">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:54:38 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="DB5FE3B6-FF64-659C-4D07-F194124DF56F">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:54:46 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+</Attribute>
+<Attribute name="Name" id="E11AA69E-E423-BB6D-83A6-F2902CFFA2A4">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:54:53 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>3F2852F6-30B3-1008-4F20-BE72B4D21128</domain>
+</Attribute>
+<Attribute name="Surname" id="F47592F0-BB7E-0175-FEAB-8BCF7C5126B4">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:55:00 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>E84BFF6F-1FDD-304E-7764-E6F3EE4DD30D</domain>
+</Attribute>
+<Attribute name="Login" id="302A44A3-119B-64D3-5A3B-6B7D406DA930">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:55:09 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>65FB5F5D-D0D6-95D9-31B8-1B3E63AD36FE</domain>
+</Attribute>
+<Attribute name="Password" id="EC9CB92B-F81A-1EBA-6609-742217F7B241">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:55:17 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>ACA3D95F-356A-41C6-5B1A-E481387CD55A</domain>
+</Attribute>
+<Attribute name="Server_path" id="4B72A208-8841-753E-3DC8-6DDA810D7F7B">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:12:48 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>D2019BB8-0FAA-F343-9D35-6D33DDB5EC5C</domain>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="1640D323-EA56-4EDD-7B49-02E989D4CE38" name="{entity} PK">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-15 12:55:27 UTC</createdTime>
+<ownerDesignName>commonSheduler_ClientDMD</ownerDesignName>
+<engineerTo>
+<item key="7D6F1FB1-A108-E763-7087-6BAE93F7E503" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>DB5FE3B6-FF64-659C-4D07-F194124DF56F</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

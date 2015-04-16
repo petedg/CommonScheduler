@@ -1,0 +1,30 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.relational.RelationalDesign>
+   <object objectType="Table" objectID="4F31D0C2-0F80-0CB2-B51C-94297C859213" name="Class_group" seqName="seg_0"/>
+   <object objectType="Table" objectID="7D895767-6EE0-A1A4-43CE-2E9BE2552AF8" name="Classes" seqName="seg_0"/>
+   <object objectType="Table" objectID="0B4D6406-3F71-4C14-1494-E85AC9C25235" name="Classes-week" seqName="seg_0"/>
+   <object objectType="Table" objectID="E4F5226B-30A4-1998-7A28-6FEE7399C0DC" name="Local_user" seqName="seg_0"/>
+   <object objectType="Table" objectID="E79E5DD9-C7D8-1709-507D-73675FB3828F" name="Location" seqName="seg_0"/>
+   <object objectType="Table" objectID="31B3F50C-70CF-34E7-CC29-1C5EB868B2B3" name="Room" seqName="seg_0"/>
+   <object objectType="Table" objectID="58034200-FF6D-6C86-58CB-2E5078ACE5A9" name="Schedule" seqName="seg_0"/>
+   <object objectType="Table" objectID="F25B93B4-3130-7E6C-EA51-653B2CE27935" name="Semester" seqName="seg_0"/>
+   <object objectType="Table" objectID="9C9E1ED3-DDCB-A263-40EF-7BF8578B6116" name="Subgroup" seqName="seg_0"/>
+   <object objectType="Table" objectID="D41AA5EA-BDC8-CC5D-6BD1-3FCEFE714C87" name="Subject" seqName="seg_0"/>
+   <object objectType="Table" objectID="8A5DD136-65D7-9C32-9F23-42D16AD88E32" name="Teacher" seqName="seg_0"/>
+   <object objectType="Table" objectID="5555CC27-AFB2-8D1C-D36C-9AFE002D9DD2" name="Unit" seqName="seg_0"/>
+   <object objectType="Table" objectID="86B23619-4F1B-D311-AADF-30B02C714C89" name="Week" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="6E32D301-DEBE-1103-0FD7-C373B544B1A6" name="Class_group_Schedule_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="B38C01AE-34F6-F33B-35A8-D17B0A21DD0D" name="Class_group_Subgroup_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="591EF1A6-9859-BFAD-6865-F9358EC76A9C" name="Classes_Room_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="B8043E27-1620-DF6D-4022-ADA72DEFAE62" name="Classes_Schedule_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="29B9E801-A847-B88F-6F74-B92C2969CA23" name="Classes_Subject_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="A32D7622-7677-BBBA-9EC6-C8447EA0CAEE" name="Classes_Teacher_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="79D1495D-D168-C52A-3497-C5F30CC5F8DC" name="FK_ASS_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="EB9533DD-B806-B584-B4B3-9951FD3A3C2E" name="FK_ASS_2" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="39F1992A-EB99-41C4-86D6-EFFCE747FFDF" name="Location_Location_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="1A6A1950-2AA8-D286-AC01-C1742718113E" name="Room_Location_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="AFEDBF1D-534C-E3FE-DF92-40234C742D01" name="Subgroup_Subgroup_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="F4A7FA1C-B3C1-6BC8-CB95-D3EFA751A354" name="Teacher_Unit_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="0F0FC301-C49A-DD5A-E728-2B654B4ABB97" name="Unit_Unit_FK" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="2DB1A483-88A6-A4FA-CE8D-B153D4B82E57" name="Week_Semester_FK" seqName="seg_0"/>
+</oracle.dbtools.crest.model.design.relational.RelationalDesign>

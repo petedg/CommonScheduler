@@ -4,7 +4,7 @@
 <createdTime>2015-04-15 12:54:38 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,18 +20,29 @@
 <createdTime>2015-04-15 12:54:46 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <use>0</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <domain>C37E22D3-FC38-63A7-60B2-2FC6CB70B29C</domain>
+</Attribute>
+<Attribute name="Type" id="9DC9DDE7-34CB-A45A-3E1B-DB035E70A72A">
+<createdBy>Piotr</createdBy>
+<createdTime>2015-04-16 12:17:29 UTC</createdTime>
+<ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
+<engineerTo>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>473CD50A-DA4F-B206-29F5-B6C01083C6B7</domain>
 </Attribute>
 <Attribute name="Name" id="E11AA69E-E423-BB6D-83A6-F2902CFFA2A4">
 <createdBy>Piotr</createdBy>
 <createdTime>2015-04-15 12:54:53 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -42,7 +53,7 @@
 <createdTime>2015-04-15 12:55:00 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -53,7 +64,7 @@
 <createdTime>2015-04-15 12:55:09 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -64,7 +75,7 @@
 <createdTime>2015-04-15 12:55:17 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="true"/>
 </engineerTo>
 <use>0</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
@@ -76,8 +87,9 @@
 <createdBy>Piotr</createdBy>
 <createdTime>2015-04-15 12:55:27 UTC</createdTime>
 <ownerDesignName>commonSheduler_ServerDMD</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B" value="true"/>
+<item key="99583BFA-701D-7FD3-34AA-7992CABE3FB4" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
