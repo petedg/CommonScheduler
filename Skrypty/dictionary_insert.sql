@@ -1,0 +1,20 @@
+--INSERT INTO Dictionary VALUES (isnull((select max(id)+1 from Dictionary), 1), 'Types of users.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Roles dictionary.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Major degrees.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Major types.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Subgroup types.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Semester types.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Teacher degrees.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Dictionary with positions of teachers in department.', GETDATE(), null, 0);
+--INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Classess types.', GETDATE(), null, 0);
+
+INSERT INTO Dictionary VALUES (isnull((select max(id)+1 from Dictionary), 0), 'Typy danych: 1 - string, 2 - int, 3 - bool', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES (isnull((select max(id)+1 from Dictionary), 0), 'Typy u¿ytkowników', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'S³ownik ról', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Poziomy studiów', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Typy studiów', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Typy podgrup', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Typy semestrów', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Stopnie naukowe nauczycieli', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'S³ownik typów stanowisk nauczycieli', GETDATE(), null, 0);
+INSERT INTO Dictionary VALUES ((select max(id)+1 from Dictionary), 'Typy zajêæ', GETDATE(), null, 0);

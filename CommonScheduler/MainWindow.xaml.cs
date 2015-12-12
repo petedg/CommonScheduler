@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CommonScheduler.DAL;
 
 namespace CommonScheduler
 {
@@ -23,6 +24,15 @@ namespace CommonScheduler
         public MainWindow()
         {
             InitializeComponent();
+
+            // insert
+            using (var db = new shedulerDBEntities())
+            {
+                var users = db.Set<GlobalUser>();
+                users.Add(new GlobalUser { ID = 2, NAME="adam", SURNAME="Małysz", ID_CREATED=1, DATE_CREATED=DateTime.Now, DATE_MODIFIED=null, LOGIN="amalysz", PASSWORD="ppp", ROLE_ID=1 });
+
+                db.SaveChanges();
+            }
         }
     }
 }

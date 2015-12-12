@@ -33,9 +33,33 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite.Designer, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.98.1\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,6 +85,138 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\Classes.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Classes_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Deparment_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Department.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DepartmentTeacher.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DepartmentTeacher_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Dictionary.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DictionaryValue.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DictionaryValue_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Dictionary_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\GlobalUser.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Group.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Group_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Holiday.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Holiday_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\LocalModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\LocalModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\LocalModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\LocalUser_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Location.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Location_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Major.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Major_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Role.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Role_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Room.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Room_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Semester.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Semester_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SpecialLocation.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SpecialLocation_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Subgroup.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Subgroup_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Teacher.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Teacher_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Week.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Week_L.cs">
+      <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -84,6 +240,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ApplicationDesign\Baza_danych.docx" />
     <None Include="ApplicationDesign\commonSheduler_ClientDMD.dmd" />
     <None Include="ApplicationDesign\commonSheduler_ClientDMD\businessinfo\Objects.local" />
@@ -109,14 +268,48 @@
     <None Include="ApplicationDesign\commonSheduler_ServerDMD\pm\Objects.local" />
     <None Include="ApplicationDesign\commonSheduler_ServerDMD\rel\DDFA6D12-148F3EBDFA10\DDLSelection.local" />
     <None Include="ApplicationDesign\commonSheduler_ServerDMD\rel\DDFA6D12-148F3EBDFA10\Diagrams.local" />
+    <EntityDeploy Include="DAL\LocalModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LocalModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DAL\LocalModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalModel.edmx</DependentUpon>
+      <LastGenOutput>LocalModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="DAL\LocalModel.edmx.diagram">
+      <DependentUpon>LocalModel.edmx</DependentUpon>
+    </None>
+    <None Include="DAL\LocalModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalModel.edmx</DependentUpon>
+      <LastGenOutput>LocalModel.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="DAL\ServerModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ServerModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DAL\ServerModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ServerModel.edmx</DependentUpon>
+      <LastGenOutput>ServerModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="DAL\ServerModel.edmx.diagram">
+      <DependentUpon>ServerModel.edmx</DependentUpon>
+    </None>
+    <None Include="DAL\ServerModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ServerModel.edmx</DependentUpon>
+      <LastGenOutput>ServerModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\businessinfo\Business Information.xml" />
@@ -227,7 +420,20 @@
     <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\E79E5DD9-C7D8-1709-507D-73675FB3828F.xml" />
     <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\F25B93B4-3130-7E6C-EA51-653B2CE27935.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Włącz przywracanie pakietu NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
