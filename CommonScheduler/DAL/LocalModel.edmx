@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="localDBModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=&quot;C:\Users\Piotr\Documents\Visual Studio 2012\Projects\CommonScheduler\CommonScheduler\App_Data\localDB.db&quot;" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="localDBModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=&quot;C:\Users\Piotr\Documents\Visual Studio 2012\Projects\CommonScheduler\CommonScheduler\App_Data\localDB.db&quot;" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classes_L">
           <Key>
             <PropertyRef Name="ID" />
@@ -116,7 +116,6 @@
           <Property Name="PASSWORD" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="SERVER_ADDRESS" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="SERVER_LOGIN" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="SERVER_PASSWORD" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="DATE_CREATED" Type="datetime" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime" />
           <Property Name="ROLE_ID" Type="integer" Nullable="false" />
@@ -515,8 +514,7 @@
             <End Role="Week_L" EntitySet="Week_L" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="localDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -626,7 +624,6 @@
           <Property Name="PASSWORD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SERVER_ADDRESS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SERVER_LOGIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SERVER_PASSWORD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="DateTime" />
           <Property Name="ROLE_ID" Type="Int64" Nullable="false" />
@@ -1097,7 +1094,6 @@
                 <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
                 <ScalarProperty Name="SERVER_ADDRESS" ColumnName="SERVER_ADDRESS" />
                 <ScalarProperty Name="SERVER_LOGIN" ColumnName="SERVER_LOGIN" />
-                <ScalarProperty Name="SERVER_PASSWORD" ColumnName="SERVER_PASSWORD" />
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />

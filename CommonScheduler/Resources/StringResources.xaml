@@ -1,0 +1,15 @@
+﻿<ResourceDictionary x:Class="CommonScheduler.Resources.StringResources"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d">
+    <s:String x:Key="authWindowTitle">Scheduler - logowanie</s:String>
+    <s:String x:Key="authTabHeaderLogin">ZALOGUJ</s:String>
+    <s:String x:Key="authTabHeaderLoginAsSuperAdmin">ZALOGUJ (SUPER ADMINISTRATOR)</s:String>
+    <s:String x:Key="authLabelContentLogin">Nazwa użytkownika:</s:String>
+    <s:String x:Key="authLabelContentPassword">Hasło:</s:String>
+    <s:String x:Key="authButtonContentLogin">Zaloguj</s:String>
+    <s:String x:Key="authButtonRegisterRedirect">Zarejestruj z użyciem konta globalnego</s:String>
+</ResourceDictionary>

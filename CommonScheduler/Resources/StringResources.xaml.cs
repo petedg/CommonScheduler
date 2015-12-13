@@ -12,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CommonScheduler.DAL;
-using CommonScheduler.Authentication.Windows;
 
-namespace CommonScheduler
+namespace CommonScheduler.Resources
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Logika interakcji dla klasy PolishLanguage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class StringResources : ResourceDictionary
     {
-        public MainWindow()
+        public StringResources()
         {
-            InitializeComponent();                           
+            InitializeComponent();
         }
     }
 }

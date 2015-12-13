@@ -21,7 +21,6 @@ namespace CommonScheduler.DAL
         public string PASSWORD { get; set; }
         public string SERVER_ADDRESS { get; set; }
         public string SERVER_LOGIN { get; set; }
-        public string SERVER_PASSWORD { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public long ROLE_ID { get; set; }

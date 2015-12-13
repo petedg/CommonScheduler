@@ -37,12 +37,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
     <Reference Include="SQLite.Designer, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -58,6 +61,8 @@
       <Private>True</Private>
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -68,6 +73,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -77,6 +84,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Authentication\Controls\LoginControlTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Authentication\Windows\AuthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +99,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Authentication\Controls\LoginControlTab.xaml.cs">
+      <DependentUpon>LoginControlTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Authentication\PasswordPolicy\PasswordAdvisor.cs" />
+    <Compile Include="Authentication\PasswordPolicy\PasswordHash.cs" />
+    <Compile Include="Authentication\PasswordPolicy\PasswordScore.cs" />
+    <Compile Include="Authentication\Windows\AuthWindow.xaml.cs">
+      <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DAL\Classes.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
@@ -221,8 +245,20 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\StringResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\LoginControlTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Multilingual.cs" />
+    <Compile Include="Resources\StringResources.xaml.cs">
+      <DependentUpon>StringResources.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -243,35 +279,11 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ApplicationDesign\Baza_danych.docx" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD.dmd" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\businessinfo\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\ChangeRequests.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\DDLSelection.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\Diagrams.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\logical\Diagrams.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\logical\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\pm\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\DDLSelection.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\Diagrams.local" />
-    <None Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD.dmd" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\businessinfo\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\ChangeRequests.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\DDLSelection.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\Diagrams.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\dmd_open.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\logical\Diagrams.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\logical\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\pm\Objects.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\rel\DDFA6D12-148F3EBDFA10\DDLSelection.local" />
-    <None Include="ApplicationDesign\commonSheduler_ServerDMD\rel\DDFA6D12-148F3EBDFA10\Diagrams.local" />
     <EntityDeploy Include="DAL\LocalModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>LocalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App_Data\localDB.db" />
     <None Include="DAL\LocalModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LocalModel.edmx</DependentUpon>
@@ -311,118 +323,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\businessinfo\Business Information.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\DataTypes.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\structuredtype\seg_0\47E390DE-0671-C4B1-8428-0F45CBEE18F8.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\structuredtype\seg_0\F72C39E0-D1CA-8821-2AD7-A1E95A37D3D1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\datatypes\subviews\12115DA7-2650-319F-EF64-66D16B7171F5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\dl_settings.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\4714F5B5-A7E3-10EF-336A-7835406F220A.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\4B00995E-162D-F437-E61F-5A12C21014F5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\55D6D594-3834-0CA3-C43A-6992C9428425.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\640E8106-5D4C-6BBC-0B05-AD356110C0D6.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\6741F8E3-25FE-18A8-FA49-7114D481F8E5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\791DFB7A-C7B3-E407-09F8-EDBB8E9FB187.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\82B02921-A49F-3682-E6E9-B72DAD9F7A16.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\A3F6969E-8F86-685A-51BA-73A6FBC13889.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\A54D7B43-7922-6A26-C6B5-CA6CFDF8D78D.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\C9766C40-2743-0F1D-8FD5-9E3D849F53E7.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\E80757A2-1675-896A-DC98-5C660194D6FC.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\entity\seg_0\E8E6E218-A205-EB36-40CA-44A41F308A04.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\Logical.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\0629870C-38A6-5C70-5234-EBB393979EB0.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\1212BE6B-40F0-AC48-A458-3CA217C826D8.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\22386264-1151-9597-2C25-D303E598CBC1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\250A266D-6B35-AE79-58D4-D12C641899C1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\58BB7725-D4BE-A3E7-DB42-6393AC35FA61.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\5DEB6623-E5BF-F22B-BAD7-028C4FB14F08.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\78EFB339-4193-00EA-4B30-EB79B0EB9DE2.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\AB0E6BB3-B058-9A43-B904-FE9A3904AADE.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\BF580881-62C6-E343-CF44-CA01C94601AD.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\D9D5B731-F4D2-7302-BA45-9E941FA94C51.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\E1858BD6-0751-9843-E8C0-4F16AA496D13.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\E784A5D5-9FD1-B71A-7FF4-FF2D3C9634AE.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\relation\seg_0\FEE45CA4-3C56-7BCC-B5ED-56645EE005E5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\logical\subviews\AA7B5987-5975-A088-3EC0-4918971DA67A.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\mapping\DeletedMap_RM16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\mapping\ExtendedMap.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\mapping\ExtendedMap_RM16D40DF1-1FCE-50F6-B40F-EF7D7DF5423B.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\pm\Process Model.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ServerDMD\rdbms\commonSheduler_ServerDMD_RDBMSSites.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\businessinfo\Business Information.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\DataTypes.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\structuredtype\seg_0\47E390DE-0671-C4B1-8428-0F45CBEE18F8.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\structuredtype\seg_0\F72C39E0-D1CA-8821-2AD7-A1E95A37D3D1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\datatypes\subviews\12115DA7-2650-319F-EF64-66D16B7171F5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\dl_settings.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\4714F5B5-A7E3-10EF-336A-7835406F220A.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\4B00995E-162D-F437-E61F-5A12C21014F5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\55D6D594-3834-0CA3-C43A-6992C9428425.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\640E8106-5D4C-6BBC-0B05-AD356110C0D6.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\6741F8E3-25FE-18A8-FA49-7114D481F8E5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\791DFB7A-C7B3-E407-09F8-EDBB8E9FB187.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\82B02921-A49F-3682-E6E9-B72DAD9F7A16.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\A3F6969E-8F86-685A-51BA-73A6FBC13889.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\A54D7B43-7922-6A26-C6B5-CA6CFDF8D78D.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\C9766C40-2743-0F1D-8FD5-9E3D849F53E7.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\E80757A2-1675-896A-DC98-5C660194D6FC.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\entity\seg_0\E8E6E218-A205-EB36-40CA-44A41F308A04.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\Logical.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\0629870C-38A6-5C70-5234-EBB393979EB0.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\1212BE6B-40F0-AC48-A458-3CA217C826D8.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\22386264-1151-9597-2C25-D303E598CBC1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\250A266D-6B35-AE79-58D4-D12C641899C1.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\58BB7725-D4BE-A3E7-DB42-6393AC35FA61.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\5DEB6623-E5BF-F22B-BAD7-028C4FB14F08.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\78EFB339-4193-00EA-4B30-EB79B0EB9DE2.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\AB0E6BB3-B058-9A43-B904-FE9A3904AADE.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\BF580881-62C6-E343-CF44-CA01C94601AD.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\D9D5B731-F4D2-7302-BA45-9E941FA94C51.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\E1858BD6-0751-9843-E8C0-4F16AA496D13.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\E784A5D5-9FD1-B71A-7FF4-FF2D3C9634AE.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\relation\seg_0\FEE45CA4-3C56-7BCC-B5ED-56645EE005E5.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\logical\subviews\AA7B5987-5975-A088-3EC0-4918971DA67A.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\mapping\DeletedMap_RM99583BFA-701D-7FD3-34AA-7992CABE3FB4.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\mapping\ExtendedMap.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\mapping\ExtendedMap_RM7D6F1FB1-A108-E763-7087-6BAE93F7E503.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\mapping\ExtendedMap_RM99583BFA-701D-7FD3-34AA-7992CABE3FB4.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\pm\Process Model.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rdbms\commonSheduler_ClientDMD_RDBMSSites.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\0F0FC301-C49A-DD5A-E728-2B654B4ABB97.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\1A6A1950-2AA8-D286-AC01-C1742718113E.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\29B9E801-A847-B88F-6F74-B92C2969CA23.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\2DB1A483-88A6-A4FA-CE8D-B153D4B82E57.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\39F1992A-EB99-41C4-86D6-EFFCE747FFDF.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\591EF1A6-9859-BFAD-6865-F9358EC76A9C.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\6E32D301-DEBE-1103-0FD7-C373B544B1A6.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\79D1495D-D168-C52A-3497-C5F30CC5F8DC.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\A32D7622-7677-BBBA-9EC6-C8447EA0CAEE.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\AFEDBF1D-534C-E3FE-DF92-40234C742D01.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\B38C01AE-34F6-F33B-35A8-D17B0A21DD0D.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\B8043E27-1620-DF6D-4022-ADA72DEFAE62.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\EB9533DD-B806-B584-B4B3-9951FD3A3C2E.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\foreignkey\seg_0\F4A7FA1C-B3C1-6BC8-CB95-D3EFA751A354.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\subviews\F813E02C-86D7-9C9D-EFAD-E901A6A2D70B.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\0B4D6406-3F71-4C14-1494-E85AC9C25235.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\31B3F50C-70CF-34E7-CC29-1C5EB868B2B3.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\4F31D0C2-0F80-0CB2-B51C-94297C859213.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\5555CC27-AFB2-8D1C-D36C-9AFE002D9DD2.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\58034200-FF6D-6C86-58CB-2E5078ACE5A9.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\7D895767-6EE0-A1A4-43CE-2E9BE2552AF8.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\86B23619-4F1B-D311-AADF-30B02C714C89.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\8A5DD136-65D7-9C32-9F23-42D16AD88E32.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\9C9E1ED3-DDCB-A263-40EF-7BF8578B6116.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\D41AA5EA-BDC8-CC5D-6BD1-3FCEFE714C87.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\E4F5226B-30A4-1998-7A28-6FEE7399C0DC.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\E79E5DD9-C7D8-1709-507D-73675FB3828F.xml" />
-    <Resource Include="ApplicationDesign\commonSheduler_ClientDMD\rel\7D6F1FB1-6BAE93F7E503\table\seg_0\F25B93B4-3130-7E6C-EA51-653B2CE27935.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
