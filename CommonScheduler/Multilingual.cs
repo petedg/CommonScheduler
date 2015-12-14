@@ -10,7 +10,7 @@ namespace CommonScheduler
 {
     /// <summary>
     /// Static Class with one method to set proper string resource (depends on system localization)
-    /// Method SetLanguageDictionary should be executed before InitializeComponent() in each window class
+    /// Method SetLanguageDictionary should be executed before InitializeComponent() in each page/window class
     /// </summary>
     static class Multilingual
     {

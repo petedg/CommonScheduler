@@ -7,9 +7,18 @@
              mc:Ignorable="d">
     <s:String x:Key="authWindowTitle">Scheduler - logowanie</s:String>
     <s:String x:Key="authTabHeaderLogin">ZALOGUJ</s:String>
-    <s:String x:Key="authTabHeaderLoginAsSuperAdmin">ZALOGUJ (SUPER ADMINISTRATOR)</s:String>
     <s:String x:Key="authLabelContentLogin">Nazwa użytkownika:</s:String>
     <s:String x:Key="authLabelContentPassword">Hasło:</s:String>
     <s:String x:Key="authButtonContentLogin">Zaloguj</s:String>
-    <s:String x:Key="authButtonRegisterRedirect">Zarejestruj z użyciem konta globalnego</s:String>
+    <s:String x:Key="authLabelWrongUsernamePassword">Błędny login lub hasło</s:String>
+    <s:String x:Key="authLabelExpiredPassword">Pierwsze logowanie - konieczna zmiana hasła.</s:String>
+    <s:String x:Key="authTabHeaderExpiredPassword">ZMIANA HASŁA</s:String>
+    <s:String x:Key="authTypeNewPassword">Hasło</s:String>
+    <s:String x:Key="authRepeatNewPassword">Powtórz hasło</s:String>
+    <s:String x:Key="authApplyNewPassword">Zastosuj</s:String>
+    <s:String x:Key="authWindowTitlePasswordChange">Scheduler - zmiana hasła</s:String>
+    <s:String x:Key="authLabelTemporaryPasswordExpired">Twoje hasło tymczasowe wygasło. Skontaktuj się z administratorem w celu ponownego wygenerowania hasła, które będzie dostępne przez 24 godziny.</s:String>
+    <s:String x:Key="authLabelPasswordsMismatch">Podane hasła różnią się!</s:String>
+    <s:String x:Key="authLabelPasswordsConstraint">Hasło musi zawierać co najmniej jeden znak specjalny!</s:String>
+    <s:String x:Key="authLabelPasswordsSame">Hasło nie może być tożsame z hasłem tymczasowym!</s:String>
 </ResourceDictionary>

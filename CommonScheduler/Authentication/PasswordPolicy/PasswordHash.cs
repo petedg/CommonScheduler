@@ -18,8 +18,6 @@ namespace CommonScheduler.Authentication.PasswordPolicy
         public const int SALT_INDEX = 1;
         public const int PBKDF2_INDEX = 2;
 
-        public const char[] delimiter = { ':' };
-
         /// <summary>
         /// Creates a salted PBKDF2 hash of the password.
         /// </summary>

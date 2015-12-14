@@ -18,16 +18,16 @@ namespace CommonScheduler.Authentication.PasswordPolicy
             if (password.Length < 4)
                 return PasswordScore.VeryWeak;
 
-            if (password.Length >= 8)
+            if (password.Length >= 6)
                 score++;
-            if (password.Length >= 12)
+            //if (password.Length >= 12)
+            //    score++;
+            if (Regex.Match(password, @"\d+", RegexOptions.None).Success)
                 score++;
-            if (Regex.Match(password, @"/\d+/", RegexOptions.ECMAScript).Success)
-                score++;
-            if (Regex.Match(password, @"/[a-z]/", RegexOptions.ECMAScript).Success &&
-              Regex.Match(password, @"/[A-Z]/", RegexOptions.ECMAScript).Success)
-                score++;
-            if (Regex.Match(password, @"/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/", RegexOptions.ECMAScript).Success)
+            //if (Regex.Match(password, @"[a-z]+", RegexOptions.None).Success &&
+            //  Regex.Match(password, @"[A-Z]+", RegexOptions.None).Success)
+            //    score++;
+            if (Regex.Match(password, @".[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]+", RegexOptions.None).Success)
                 score++;
 
             return (PasswordScore)score;

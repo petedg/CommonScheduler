@@ -154,3 +154,6 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/CommonScheduler/ApplicationDesign/commonSheduler_ServerDMD
+/CommonScheduler/ApplicationDesign/commonScheduler_clientDatabase
+/CommonScheduler/ApplicationDesign/commonScheduler_serverDatabase

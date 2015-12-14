@@ -8,6 +8,7 @@ namespace CommonScheduler.Authentication.PasswordPolicy
 {
     public enum PasswordScore
     {
+        DifferentPasswords = -1,
         Blank = 0,
         VeryWeak = 1,
         Weak = 2,

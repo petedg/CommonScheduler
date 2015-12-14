@@ -14,6 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CommonScheduler.Properties;
 using CommonScheduler.Authentication.PasswordPolicy;
+using CommonScheduler.DAL;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
+using CommonScheduler.Authorization;
+using CommonScheduler.CommonComponents;
 
 namespace CommonScheduler.Authentication.Controls
 {
@@ -22,31 +27,103 @@ namespace CommonScheduler.Authentication.Controls
     /// </summary>
     public partial class LoginControlTab : UserControl
     {
-        private char[] hashDelimiter = { ':' };
-
         public LoginControlTab()
         {
             InitializeComponent();
         }
 
-        private void ButtonLoginAdmin_Click(object sender, RoutedEventArgs e)
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            //String passwordHash = PasswordHash.CreateHash(passwordBoxAdmin.Password);
+            GlobalUser selectedUser = getUserDataForLoginAttempt(textBoxLoginAdmin.Text);
 
-            //string[] split = passwordHash.Split(PasswordHash.delimiter);
-            //int iterations = Int32.Parse(split[PasswordHash.ITERATION_INDEX]);
-            //String salt = split[PasswordHash.SALT_INDEX];
-            //String hash = split[PasswordHash.PBKDF2_INDEX];
+            if (selectedUser != null && PasswordHash.ValidatePassword(passwordBoxAdmin.Password, selectedUser.PASSWORD))
+            {
+                errorMessageControl.Visibility = Visibility.Hidden;
+
+                CurrentUser.Instance.UserData = selectedUser;
+
+                if (selectedUser.PASSWORD_TEMPORARY[0] == '1')
+                {
+                    if (selectedUser.PASSWORD_EXPIRATION < DateTime.Now)
+                    {
+                        new Message((String)FindResource("authLabelTemporaryPasswordExpired"), MessageType.ERROR_MESSAGE).showMessage();
+                    }
+                    else
+                    {
+                        RaiseEvent(new RoutedEventArgs(LogInPasswordExpiredEvent));
+                    }                        
+                }
+                else
+                {         
+                    RaiseEvent(new RoutedEventArgs(LogInEvent));
+                }                         
+            }
+            else
+            {
+                errorMessageControl.Visibility = Visibility.Visible;
+            }            
+
+            //using (var context = new serverDBEntities())
+            //{
+            //    try
+            //    {
+            //        context.GlobalUser.Add(new GlobalUser
+            //        {
+            //            ID = 1,
+            //            NAME = "Konto administracyjne",
+            //            SURNAME = "",
+            //            LOGIN = "sa",
+            //            PASSWORD = PasswordHash.CreateHash("sa"),
+            //            DATE_CREATED = DateTime.Now,
+            //            DATE_MODIFIED = null,
+            //            ID_CREATED = 0,
+            //            ROLE_ID = 1
+            //        });
+
+            //        context.SaveChanges();
+            //    }
+            //    catch (DbEntityValidationException dbEx)
+            //    {
+            //        foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //        {
+            //            foreach (var validationError in validationErrors.ValidationErrors)
+            //            {
+            //                Trace.TraceInformation("Property: {0} Error: {1}",
+            //                                        validationError.PropertyName,
+            //                                        validationError.ErrorMessage);
+            //            }
+            //        }
+            //    }                
+            //}
         }
 
-        private void ButtonLoginSuperAdmin_Click(object sender, RoutedEventArgs e)
+        private GlobalUser getUserDataForLoginAttempt(string login)
         {
+            using (var context = new serverDBEntities())
+            {
+                var users = from user in context.GlobalUser
+                            where user.LOGIN == login
+                            select user;
 
+                return users.FirstOrDefault();
+            }
         }
 
-        private void ButtonRegister_Click(object sender, RoutedEventArgs e)
-        {            
-            
+        public static readonly RoutedEvent LogInEvent = EventManager.RegisterRoutedEvent("LogIn", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoginControlTab));
+
+        public event RoutedEventHandler LogIn
+        {
+            add { AddHandler(LogInEvent, value); }
+            remove { RemoveHandler(LogInEvent, value); }
+        }
+
+
+        public static readonly RoutedEvent LogInPasswordExpiredEvent = EventManager.RegisterRoutedEvent("LogInPasswordExpired", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoginControlTab));
+
+        public event RoutedEventHandler LogInPasswordExpired
+        {
+            add { AddHandler(LogInPasswordExpiredEvent, value); }
+            remove { RemoveHandler(LogInPasswordExpiredEvent, value); }
         }
     }
 }

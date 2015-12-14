@@ -18,11 +18,13 @@ namespace CommonScheduler.DAL
         public string NAME { get; set; }
         public string SURNAME { get; set; }
         public string LOGIN { get; set; }
-        public string PASSWORD { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<int> ID_CREATED { get; set; }
         public int ROLE_ID { get; set; }
+        public string PASSWORD { get; set; }
+        public Nullable<System.DateTime> PASSWORD_EXPIRATION { get; set; }
+        public string PASSWORD_TEMPORARY { get; set; }
     
         public virtual Role Role { get; set; }
     }
