@@ -59,7 +59,15 @@ namespace CommonScheduler.MenuComponents.Controls
 
         private void buttonSAManagementEventHandler(object sender, RoutedEventArgs e)
         {
+            RaiseEvent(new RoutedEventArgs(ButtonSAManagementClickEvent));
+        }
 
+        public static readonly RoutedEvent ButtonSAManagementClickEvent = EventManager.RegisterRoutedEvent("ButtonSAManagementClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LeftMenuButtonControl));
+
+        public event RoutedEventHandler ButtonSAManagementClick
+        {
+            add { AddHandler(ButtonSAManagementClickEvent, value); }
+            remove { RemoveHandler(ButtonSAManagementClickEvent, value); }
         }
     }
 }

@@ -124,8 +124,9 @@
     <Compile Include="Authentication\Windows\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Authorization\ContentType.cs" />
     <Compile Include="Authorization\CurrentUser.cs" />
-    <Compile Include="Authorization\RolesManager.cs" />
+    <Compile Include="Authorization\ContentManager.cs" />
     <Compile Include="CommonComponents\Controls\MenuMainButtonControl.xaml.cs">
       <DependentUpon>MenuMainButtonControl.xaml</DependentUpon>
     </Compile>

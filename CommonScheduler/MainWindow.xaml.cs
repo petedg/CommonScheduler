@@ -28,6 +28,7 @@ namespace CommonScheduler
 
         object previousContent = null;
         object previousTopContent = null;
+        string previousTitle = null;
 
         public MainWindow()
         {
@@ -40,11 +41,10 @@ namespace CommonScheduler
             InitializeComponent();
             Multilingual.SetLanguageDictionary(this.Resources);
             setWindowTitle();
-            setLeftMenuContent();
-
-            topMenuContentControl.Content = new TopMenuGridControl();
-            //topMenuContentControl.Content = new Rectangle { Fill = Brushes.LightGray };
-            contentControl.Content = new Rectangle { Fill = Brushes.LightGray };
+            menuClickContentReset();
+            
+            setTopMenuContent( new Rectangle { Fill = Brushes.LightGray } );
+            setContent ( new Rectangle { Fill = Brushes.LightGray } );
         }
 
         private void setWindowTitle()
@@ -67,47 +67,84 @@ namespace CommonScheduler
 
         private void ButtonMenu_Click(object sender, RoutedEventArgs e)
         {
-            setLeftMenuContent();
+            menuClickContentReset();
         }
 
-        private void setLeftMenuContent()
+        private void menuClickContentReset()
         {
             if (showMenu)
-            {
-                //<!--myAuthControl:MenuGridControl Grid.Row="1" Margin="2" /-->
-                previousContent = contentControl.Content;
-                previousTopContent = topMenuContentControl.Content;
-
-                topMenuContentControl.Content = new Rectangle { Fill = Brushes.LightGray };
-                contentControl.Content = new Rectangle { Fill = Brushes.LightGray };
-                
+            {              
+                setContentsAfterMenuClick();
                 menuButton.Background = Brushes.BurlyWood;
-                MenuGridControl menuGridControl = new MenuGridControl();
-                Grid.SetRow(menuGridControl, 0);                
-                this.leftMenuContentControl.Content = menuGridControl;
+                previousTitle = this.Title;
+                this.Title = (String)FindResource("mainWindowTitleGlobalAdminMenu");
+                
+                setLeftMenuContent(new MenuGridControl());
             }
             else
             {
-                //<!--myAuthControl:LeftMenuGridControl Grid.Row="1" Margin="2" /-->
-
-                if (previousContent != null)
-                {
-                    contentControl.Content = previousContent;
-                    previousContent = null;
-                }
-                if (previousTopContent != null)
-                {
-                    topMenuContentControl.Content = previousTopContent;
-                    previousTopContent = null;
-                }
-
+                setPreviousContent();
                 menuButton.Background = Brushes.White;
-                LeftMenuGridControl leftMenuGridControl = new LeftMenuGridControl();
-                Grid.SetRow(leftMenuGridControl, 0);                
-                this.leftMenuContentControl.Content = leftMenuGridControl;
+                if (previousTitle != null)
+                {
+                    this.Title = previousTitle;
+                }
+
+                setLeftMenuContent(new LeftMenuGridControl());
+                ((LeftMenuGridControl)leftMenuContentControl.Content).ButtonSAManagementClick += leftMenuGridControl_ButtonSAManagementClick;                
             }
 
             showMenu = !showMenu;        
+        }
+
+        void leftMenuGridControl_ButtonSAManagementClick(object sender, RoutedEventArgs e)
+        {
+            this.Title = (String)FindResource("mainWindowTitleSuperAdminManagement");
+            ContentManager.Instance.CurrentContentType = ContentType.SUPER_ADMIN_MANAGEMENT;
+
+            setTopMenuContent(new TopMenuGridControl());
+            //setContent();
+        }
+
+        private void setTopMenuContent(UIElement content)
+        {
+            Grid.SetRow(content, 1);
+            topMenuContentControl.Content = content;
+        }
+
+        private void setLeftMenuContent(UIElement content)
+        {
+            Grid.SetRow(content, 0);
+            this.leftMenuContentControl.Content = content;
+        }
+
+        private void setContent(UIElement content)
+        {
+            Grid.SetRow(content, 1);
+            this.contentControl.Content = content;
+        }
+
+        private void setContentsAfterMenuClick()
+        {
+            previousContent = contentControl.Content;
+            previousTopContent = topMenuContentControl.Content;
+
+            setTopMenuContent ( new Rectangle { Fill = Brushes.LightGray } );
+            setContent ( new Rectangle { Fill = Brushes.LightGray } );
+        }
+
+        private void setPreviousContent()
+        {
+            if (previousContent != null)
+            {
+                contentControl.Content = previousContent;
+                previousContent = null;
+            }
+            if (previousTopContent != null)
+            {
+                topMenuContentControl.Content = previousTopContent;
+                previousTopContent = null;
+            }
         }
     }
 }

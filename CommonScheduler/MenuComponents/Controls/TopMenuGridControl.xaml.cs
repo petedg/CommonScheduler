@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonScheduler.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,26 +26,26 @@ namespace CommonScheduler.MenuComponents.Controls
         public TopMenuGridControl()
         {
             InitializeComponent();
-            addButtonToList("Zapisz", imageSuper, new Thickness(0, 0, 0, 0), failEvent);
+            setTopMenuButtons();
         }
 
-        //public void setLeftMenuButtons()
-        //{
-            
+        public void setTopMenuButtons()
+        {
+            ContentType currentContentType = ContentManager.Instance.CurrentContentType;
 
-        //    if (ContentType == ContentType.ManagingSuperAdmins)
-        //    {
-        //        addButtonToList("ZARZĄDZANIE SUPER ADMINISTRATORAMI", imageSuper, new Thickness(0, 0, 0, 0), buttonSAManagementEventHandler);
-        //    }
-        //    else if (userType.Equals("SuperAdmin"))
-        //    {
+            if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            {
+                addButtonToList("Zapisz", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
+            }
+            else if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            {
 
-        //    }
-        //    else if (userType.Equals("Admin"))
-        //    {
+            }
+            else if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            {
 
-        //    }
-        //}
+            }
+        }        
 
         public void addButtonToList(string text, BitmapImage imageSource, Thickness margin, RoutedEventHandler eventHandler)        
         {
@@ -56,7 +57,7 @@ namespace CommonScheduler.MenuComponents.Controls
             topMenuGrid.Children.Add(button1);
         }
 
-        private void failEvent(object sender, RoutedEventArgs e)
+        private void saveEventHandler(object sender, RoutedEventArgs e)
         {
 
         }

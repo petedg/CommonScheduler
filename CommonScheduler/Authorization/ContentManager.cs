@@ -9,18 +9,20 @@ using System.Windows.Media.Imaging;
 
 namespace CommonScheduler.Authorization
 {
-    public class RolesManager
-    {       
-        private static RolesManager instance;
-        private RolesManager() { }
+    public class ContentManager
+    {
+        public ContentType CurrentContentType { get; set; }
 
-        public static RolesManager Instance
+        private static ContentManager instance;
+        private ContentManager() { }
+
+        public static ContentManager Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new RolesManager();                    
+                    instance = new ContentManager();                    
                 }
                 return instance;
             }
