@@ -3,5 +3,5 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:myAuthControl="clr-namespace:CommonScheduler.Authentication.Controls"               
         Title="{DynamicResource authWindowTitle}" Height="320" Width="420" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <ContentControl x:Name="contentControl" Grid.Row="1" />
+    <ContentControl x:Name="contentControl" />
 </Window>

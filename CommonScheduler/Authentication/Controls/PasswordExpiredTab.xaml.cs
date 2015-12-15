@@ -24,6 +24,7 @@ namespace CommonScheduler.Authentication.Controls
     public partial class PasswordExpiredTab : UserControl
     {
         private BitmapImage image = new BitmapImage(new Uri("/CommonScheduler;component/Resources/Images/errorIcon.png", UriKind.Relative));
+        private GlobalUser currentUser = CurrentUser.Instance.UserData;
 
         public PasswordExpiredTab()
         {
@@ -32,7 +33,7 @@ namespace CommonScheduler.Authentication.Controls
         
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            PasswordScore passwordScore = passwordStrength();
+            PasswordScore passwordScore = currentUser.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword);
             if (passwordScore < PasswordScore.Medium)
             {
                 if (passwordScore == PasswordScore.DifferentPasswords)
@@ -48,9 +49,12 @@ namespace CommonScheduler.Authentication.Controls
             }
             else
             {
-                if (!samePassword())
+                if (!currentUser.SamePassword(passwordBox1.SecurePassword))
                 {
-                    changePassword();
+                    if (currentUser.ChangePassword(passwordBox1.SecurePassword))
+                    {
+                        RaiseEvent(new RoutedEventArgs(LogInEvent));
+                    }
                 }
                 else
                 {
@@ -58,40 +62,7 @@ namespace CommonScheduler.Authentication.Controls
                     expiredMessageControl.MessageImageSource = image;
                 }
             }
-        }
-
-        private PasswordScore passwordStrength()
-        {
-            if(!passwordBox1.Password.Equals(passwordBox2.Password))
-            {
-                return PasswordScore.DifferentPasswords;
-            }            
-
-            return PasswordAdvisor.CheckStrength(passwordBox1.Password);
-        }
-
-        private void changePassword()
-        {
-            using (var context = new serverDBEntities())
-            {
-                var users = from user in context.GlobalUser
-                            where user.ID == CurrentUser.Instance.UserData.ID
-                            select user;
-
-                var editedUser = users.FirstOrDefault();
-
-                if (editedUser != null)
-                {
-                    editedUser.DATE_MODIFIED = DateTime.Now;
-                    editedUser.PASSWORD = PasswordHash.CreateHash(passwordBox1.Password);
-                    editedUser.PASSWORD_TEMPORARY = '0'.ToString();
-                    editedUser.PASSWORD_EXPIRATION = null;
-                    editedUser.DATE_MODIFIED = DateTime.Now;
-                    context.SaveChanges();
-                    RaiseEvent(new RoutedEventArgs(LogInEvent));
-                }
-            }            
-        }
+        }               
 
         public static readonly RoutedEvent LogInEvent = EventManager.RegisterRoutedEvent("LogInAfterPasswordChanging", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoginControlTab));
 
@@ -103,24 +74,14 @@ namespace CommonScheduler.Authentication.Controls
 
         private void passwordBox1_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (passwordStrength() >= PasswordScore.Medium)
+            if (currentUser.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword) >= PasswordScore.Medium)
             {
-                rectanglePasswordStatus.Visibility = Visibility.Visible;
+                imagePasswordStatus.Visibility = Visibility.Visible;
             }
             else
             {
-                rectanglePasswordStatus.Visibility = Visibility.Hidden;
+                imagePasswordStatus.Visibility = Visibility.Hidden;
             }
-        }
-
-        private bool samePassword()
-        {
-            if (PasswordHash.ValidatePassword(passwordBox1.Password, CurrentUser.Instance.UserData.PASSWORD))
-            {
-                return true;
-            }
-
-            return false;
-        }
+        }        
     }
 }

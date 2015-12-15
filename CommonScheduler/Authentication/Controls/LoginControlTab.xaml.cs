@@ -34,17 +34,14 @@ namespace CommonScheduler.Authentication.Controls
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            GlobalUser selectedUser = getUserDataForLoginAttempt(textBoxLoginAdmin.Text);
-
-            if (selectedUser != null && PasswordHash.ValidatePassword(passwordBoxAdmin.Password, selectedUser.PASSWORD))
+            if (new GlobalUser().ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
             {
                 errorMessageControl.Visibility = Visibility.Hidden;
+                GlobalUser currentUser = CurrentUser.Instance.UserData;
 
-                CurrentUser.Instance.UserData = selectedUser;
-
-                if (selectedUser.PASSWORD_TEMPORARY[0] == '1')
+                if (currentUser.PASSWORD_TEMPORARY[0] == '1')
                 {
-                    if (selectedUser.PASSWORD_EXPIRATION < DateTime.Now)
+                    if (currentUser.PASSWORD_EXPIRATION < DateTime.Now)
                     {
                         new Message((String)FindResource("authLabelTemporaryPasswordExpired"), MessageType.ERROR_MESSAGE).showMessage();
                     }
@@ -95,19 +92,7 @@ namespace CommonScheduler.Authentication.Controls
             //        }
             //    }                
             //}
-        }
-
-        private GlobalUser getUserDataForLoginAttempt(string login)
-        {
-            using (var context = new serverDBEntities())
-            {
-                var users = from user in context.GlobalUser
-                            where user.LOGIN == login
-                            select user;
-
-                return users.FirstOrDefault();
-            }
-        }
+        }        
 
         public static readonly RoutedEvent LogInEvent = EventManager.RegisterRoutedEvent("LogIn", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoginControlTab));
 

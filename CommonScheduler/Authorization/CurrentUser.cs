@@ -9,8 +9,7 @@ namespace CommonScheduler.Authorization
 {
     public class CurrentUser
     {       
-        public GlobalUser UserData { get; set; }
-        
+        public GlobalUser UserData { get; set; }        
         
         private static CurrentUser instance;
         private CurrentUser() { }
@@ -21,7 +20,7 @@ namespace CommonScheduler.Authorization
             {
                 if (instance == null)
                 {
-                    instance = new CurrentUser();
+                    instance = new CurrentUser();                    
                 }
                 return instance;
             }

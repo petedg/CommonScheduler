@@ -1,5 +1,6 @@
 ﻿using CommonScheduler.Authentication.Controls;
 using CommonScheduler.Authorization;
+using CommonScheduler.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;

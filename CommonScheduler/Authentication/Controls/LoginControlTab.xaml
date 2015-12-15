@@ -15,40 +15,10 @@
                 <Label Content="{DynamicResource authLabelContentPassword}" Margin="0,57,0,0"/>
                 <PasswordBox Margin="0,77,0,0" Name="passwordBoxAdmin"/>
 
-                <Button Content="{DynamicResource authButtonContentLogin}" Margin="0,115,0,0" Width="75" Click="ButtonLogin_Click"/>
-                <!--Button Content="{DynamicResource authButtonRegisterRedirect}" Margin="0,150,0,0" Width="220" BorderBrush="Transparent" Background="Transparent" Foreground="Blue"
-                        Click="ButtonRegister_Click"/-->
-                <!--Control Margin="0,185,0,0" Name="labelErrorAdminMsg" /-->
+                <Button Content="{DynamicResource authButtonContentLogin}" Margin="0,115,0,0" Width="75" IsDefault="True" Click="ButtonLogin_Click"/>                
                 <myMessageControl:SimpleMessageControl Margin="0,155,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" MessageText="{DynamicResource authLabelWrongUsernamePassword}" 
                                                        MessageImageSource="/Resources/Images/errorIcon.png" Visibility="Hidden" x:Name="errorMessageControl"/>                
             </Grid>
         </TabItem>
-        <!--TabItem Header="{DynamicResource authTabHeaderLoginAsSuperAdmin}">
-            <Grid>
-                <Label Content="{DynamicResource authLabelContentLogin}" Margin="0,10,0,0"/>
-                <TextBox Margin="0,32,0,0" Name="textBoxLoginSuperAdmin" />
-
-                <Label Content="{DynamicResource authLabelContentPassword}" Margin="0,57,0,0"/>
-                <PasswordBox Margin="0,77,0,0" Name="passwordBoxSuperAdmin" />
-                <Button Content="{DynamicResource authButtonContentLogin}" Margin="0,115,0,0" Width="75" Click="ButtonLoginSuperAdmin_Click"/>
-                <Control Margin="0,150,0,0" Name="labelErrorSuperAdminMsg" />                
-            </Grid>
-        </TabItem-->    
-    
-    <!--TabControl Margin="10,10,10,10" Style="{StaticResource loginControlTab}">
-        <TabItem Header="{DynamicResource authTabHeaderLogin}">
-            <Grid Background="#FFE5E5E5">
-                <Label Content="{DynamicResource authLabelContentLogin}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" />
-                <TextBox HorizontalAlignment="Center" Height="23" Margin="0,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="240" MaxLength="30"/>
-
-                <Label Content="{DynamicResource authLabelContentPassword}" HorizontalAlignment="Center" Margin="0,57,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.3,6.1"/>
-                <PasswordBox HorizontalAlignment="Center" Height="23" Margin="0,77,0,0" VerticalAlignment="Top" Width="240" MaxLength="30"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="{DynamicResource authTabHeaderLoginAsSuperAdmin}">
-            <Grid Background="#FFE5E5E5">
-
-            </Grid>
-        </TabItem-->
     </TabControl>
 </UserControl>
