@@ -37,7 +37,7 @@ namespace CommonScheduler.Authentication.Controls
             if (new GlobalUser().ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
             {
                 errorMessageControl.Visibility = Visibility.Hidden;
-                GlobalUser currentUser = CurrentUser.Instance.UserData;
+                GlobalUser currentUser = CurrentUser.Instance.UserData;                
 
                 if (currentUser.PASSWORD_TEMPORARY[0] == '1')
                 {

@@ -32,6 +32,8 @@ namespace CommonScheduler.DAL
             if (selectedUser != null && PasswordHash.ValidatePassword(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(securePassword)), selectedUser.PASSWORD))
             {
                 CurrentUser.Instance.UserData = selectedUser;
+                CurrentUser.Instance.RoleData = new Role().getRoleById(selectedUser.ROLE_ID);
+                CurrentUser.Instance.UserType = new Dictionary().GetDictionaryValue("Typy użytkowników", CurrentUser.Instance.RoleData.USER_TYPE_DV_ID);
                 return true;
             }
 

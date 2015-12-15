@@ -7,6 +7,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/LoginControlTheme.xaml"/>
                 <ResourceDictionary Source="/Themes/SimpleMessageControlTheme.xaml"/>
+                <ResourceDictionary Source="/Themes/MenuMainButtonTheme.xaml"/>
+                <ResourceDictionary Source="/Themes/MenuGridControlTheme.xaml"/>
+                <ResourceDictionary Source="/Themes/LeftMenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="/Themes/TopMenuButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

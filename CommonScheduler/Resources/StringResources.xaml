@@ -21,4 +21,13 @@
     <s:String x:Key="authLabelPasswordsMismatch">Podane hasła różnią się!</s:String>
     <s:String x:Key="authLabelPasswordsConstraint">Hasło musi zawierać co najmniej jeden znak specjalny!</s:String>
     <s:String x:Key="authLabelPasswordsSame">Hasło nie może być tożsame z hasłem tymczasowym!</s:String>
+
+    <s:String x:Key="mainWindowTitle">Scheduler</s:String>
+    <s:String x:Key="mainWindowTitleAdministrator">Scheduler - ADMINISTRATOR</s:String>
+    <s:String x:Key="mainWindowTitleSuperAdministrator">Scheduler - SUPER ADMINISTRATOR</s:String>
+    <s:String x:Key="mainWindowTitleGlobalAdministrator">Scheduler - KONTO ADMINISTRACYJNE</s:String>
+    
+    <s:String x:Key="menuWelcomeMessage">Witaj,</s:String>
+    
+    <s:String x:Key="leftMenuButtonSuperAdminManagement">ZARZĄDZANIE SUPER ADMINISTRATORAMI</s:String>
 </ResourceDictionary>
