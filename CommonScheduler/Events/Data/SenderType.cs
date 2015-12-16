@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonScheduler.Authorization
+namespace CommonScheduler.Events.Data
 {
-    public enum ContentType
+    public enum SenderType
     {
-        DEFAULT,
-        MENU,
-        SUPER_ADMIN_MANAGEMENT
+        SUPER_ADMIN_MANAGEMENT_BUTTON,
+        SAVE_BUTTON
     }
 }

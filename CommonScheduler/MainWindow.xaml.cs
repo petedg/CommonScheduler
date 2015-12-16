@@ -16,6 +16,7 @@ using CommonScheduler.DAL;
 using CommonScheduler.Authentication.Windows;
 using CommonScheduler.Authorization;
 using CommonScheduler.MenuComponents.Controls;
+using CommonScheduler.Events.Data;
 
 namespace CommonScheduler
 {
@@ -24,10 +25,8 @@ namespace CommonScheduler
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool showMenu = false;
+        private bool showMenu = true;
 
-        object previousContent = null;
-        object previousTopContent = null;
         string previousTitle = null;
 
         public MainWindow()
@@ -40,30 +39,10 @@ namespace CommonScheduler
 
             InitializeComponent();
             Multilingual.SetLanguageDictionary(this.Resources);
-            setWindowTitle();
-            menuClickContentReset();
-            
-            setTopMenuContent( new Rectangle { Fill = Brushes.LightGray } );
-            setContent ( new Rectangle { Fill = Brushes.LightGray } );
-        }
+            setWindowTitle(getInitialWindowTitle());
 
-        private void setWindowTitle()
-        {
-            String userType = CurrentUser.Instance.UserType;
-
-            if (userType.Equals("GlobalAdmin"))
-            {
-                this.Title = (String)FindResource("mainWindowTitleGlobalAdministrator");
-            }
-            else if (userType.Equals("SuperAdmin"))
-            {
-                this.Title = (String)FindResource("mainWindowTitleSuperAdministrator");
-            }
-            else if (userType.Equals("Admin"))
-            {
-                this.Title = (String)FindResource("mainWindowTitleAdministrator");
-            }            
-        }
+            setContent(ContentType.DEFAULT, getInitialWindowTitle());        
+        }       
 
         private void ButtonMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -73,78 +52,86 @@ namespace CommonScheduler
         private void menuClickContentReset()
         {
             if (showMenu)
-            {              
-                setContentsAfterMenuClick();
-                menuButton.Background = Brushes.BurlyWood;
-                previousTitle = this.Title;
-                this.Title = (String)FindResource("mainWindowTitleGlobalAdminMenu");
-                
-                setLeftMenuContent(new MenuGridControl());
+            {
+                previousTitle = this.Title;           
+                setMenuContent(ContentType.MENU, (String)FindResource("mainWindowTitleMenu"));
+                menuButton.Background = Brushes.BurlyWood;                
             }
             else
             {
-                setPreviousContent();
+                setMenuContent(ContentType.DEFAULT, previousTitle);
                 menuButton.Background = Brushes.White;
-                if (previousTitle != null)
-                {
-                    this.Title = previousTitle;
-                }
-
-                setLeftMenuContent(new LeftMenuGridControl());
-                ((LeftMenuGridControl)leftMenuContentControl.Content).ButtonSAManagementClick += leftMenuGridControl_ButtonSAManagementClick;                
             }
 
             showMenu = !showMenu;        
         }
 
-        void leftMenuGridControl_ButtonSAManagementClick(object sender, RoutedEventArgs e)
+        void MainWindow_LeftGridButtonClick(object sender, LeftGridButtonClickEventArgs e)
         {
-            this.Title = (String)FindResource("mainWindowTitleSuperAdminManagement");
-            ContentManager.Instance.CurrentContentType = ContentType.SUPER_ADMIN_MANAGEMENT;
-
-            setTopMenuContent(new TopMenuGridControl());
-            //setContent();
-        }
-
-        private void setTopMenuContent(UIElement content)
-        {
-            Grid.SetRow(content, 1);
-            topMenuContentControl.Content = content;
-        }
-
-        private void setLeftMenuContent(UIElement content)
-        {
-            Grid.SetRow(content, 0);
-            this.leftMenuContentControl.Content = content;
-        }
-
-        private void setContent(UIElement content)
-        {
-            Grid.SetRow(content, 1);
-            this.contentControl.Content = content;
-        }
-
-        private void setContentsAfterMenuClick()
-        {
-            previousContent = contentControl.Content;
-            previousTopContent = topMenuContentControl.Content;
-
-            setTopMenuContent ( new Rectangle { Fill = Brushes.LightGray } );
-            setContent ( new Rectangle { Fill = Brushes.LightGray } );
-        }
-
-        private void setPreviousContent()
-        {
-            if (previousContent != null)
+            if (e.SenderType == SenderType.SUPER_ADMIN_MANAGEMENT_BUTTON)
             {
-                contentControl.Content = previousContent;
-                previousContent = null;
-            }
-            if (previousTopContent != null)
+                setContent(ContentType.SUPER_ADMIN_MANAGEMENT, (String)FindResource("mainWindowTitleSuperAdminManagement"));
+            }           
+        }
+
+        private void setContent(ContentType contentType, string windowTitle)
+        {
+            setWindowTitle(windowTitle);
+            ContentManager.Instance.CurrentContentType = contentType;
+
+            topMenuContentControl.Content = ContentManager.Instance.getTopMenuContent();
+            leftMenuContentControl.Content = ContentManager.Instance.getLeftMenuContent();
+            contentControl.Content = ContentManager.Instance.getMainContent();
+
+            setMenuEvents();
+        }
+
+        private void setMenuContent(ContentType contentType, string windowTitle)
+        {
+            setWindowTitle(windowTitle);
+            ContentManager.Instance.CurrentContentType = contentType;
+
+            leftMenuContentControl.Content = ContentManager.Instance.getLeftMenuContent();
+
+            setMenuEvents();
+        }
+
+        private void setMenuEvents()
+        {
+            if (leftMenuContentControl.Content.GetType() == typeof(LeftMenuGridControl))
             {
-                topMenuContentControl.Content = previousTopContent;
-                previousTopContent = null;
+                ((LeftMenuGridControl)leftMenuContentControl.Content).LeftGridButtonClick += MainWindow_LeftGridButtonClick;
             }
+        }
+
+        private void setWindowTitle(String windowTitle)
+        {
+            if (windowTitle != null)
+            {
+                this.Title = windowTitle;
+            }
+        }
+
+        private string getInitialWindowTitle()
+        {
+            String userType = CurrentUser.Instance.UserType;
+
+            string windowTitle = null;
+
+            if (userType.Equals("GlobalAdmin"))
+            {
+                windowTitle = (String)FindResource("mainWindowTitleGlobalAdministrator");
+            }
+            else if (userType.Equals("SuperAdmin"))
+            {
+                windowTitle = (String)FindResource("mainWindowTitleSuperAdministrator");
+            }
+            else if (userType.Equals("Admin"))
+            {
+                windowTitle = (String)FindResource("mainWindowTitleAdministrator");
+            }
+
+            return windowTitle;
         }
     }
 }

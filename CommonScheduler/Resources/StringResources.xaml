@@ -29,8 +29,9 @@
     <s:String x:Key="mainWindowTitleSuperAdminManagement">Scheduler - KONTO ADMINISTRACYJNE - Zarządzanie Super Administratorami</s:String>
     <s:String x:Key="mainWindowTitleGlobalAdminMenu">Scheduler - KONTO ADMINISTRACYJNE - Menu</s:String>
     <s:String x:Key="mainWindowTitleSuperAdminMenu">Scheduler - SUPER ADMINISTRATOR - Menu</s:String>
-    <s:String x:Key="mainWindowTitleAdminMenu">Scheduler - ADMINISTRATOR - Zarządzanie Menu</s:String>    
-    
+    <s:String x:Key="mainWindowTitleAdminMenu">Scheduler - ADMINISTRATOR - Menu</s:String>
+    <s:String x:Key="mainWindowTitleMenu">Scheduler - Menu</s:String>
+
     <s:String x:Key="menuWelcomeMessage">Witaj,</s:String>
     
     <s:String x:Key="leftMenuButtonSuperAdminManagement">ZARZĄDZANIE SUPER ADMINISTRATORAMI</s:String>
