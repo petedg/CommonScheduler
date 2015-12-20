@@ -26,10 +26,11 @@ namespace CommonScheduler.DAL
         public string STREET { get; set; }
         public string STREET_NUMBER { get; set; }
         public string POSTAL_CODE { get; set; }
-        public int DEPARTMENT_ID { get; set; }
+        public int Department_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
+        public Nullable<int> ID_MODIFIED { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

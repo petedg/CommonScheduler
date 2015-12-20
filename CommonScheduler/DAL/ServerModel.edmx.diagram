@@ -4,42 +4,48 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3e220b7dead541fca73325e4ef7541ea" Name="Diagram1">
-        <EntityTypeShape EntityType="serverDBModel.Classes" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Department" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.DepartmentTeacher" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Dictionary" Width="1.5" PointX="11.75" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.DictionaryValue" Width="1.5" PointX="14" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.GlobalUser" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Group" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Holiday" Width="1.5" PointX="12" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Location" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Major" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Role" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Room" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Semester" Width="1.5" PointX="9.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.SpecialLocation" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Subgroup" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Teacher" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="serverDBModel.Week" Width="1.5" PointX="12" PointY="8.875" IsExpanded="true" />
-        <AssociationConnector Association="serverDBModel.CLASSES_ROOM_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.CLASSES_SPECIAL_LOCATION_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.CLASSES_TEACHER_FK" ManuallyRouted="false" />
+      <Diagram DiagramId="1b6f9de9d1114f98974f8055d0fddf8e" Name="Diagram1">
+        <EntityTypeShape EntityType="serverDBModel.Classes" Width="1.5" PointX="7.5" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.ClassesGroup" Width="1.5" PointX="9.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.ClassesWeek" Width="1.5" PointX="9.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Department" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.DepartmentTeacher" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Dictionary" Width="1.5" PointX="9.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.DictionaryValue" Width="1.5" PointX="12" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.GlobalUser" Width="1.5" PointX="3" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Group" Width="1.5" PointX="7.5" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Holiday" Width="1.5" PointX="7.5" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Location" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Major" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Role" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Room" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Semester" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.SpecialLocation" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Subgroup" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Teacher" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.UserRole" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="serverDBModel.Week" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="serverDBModel.Classes_Room_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Classes_SpecialLocation_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Classes_Teacher_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_12" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_3" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_2" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_13" ManuallyRouted="false" />
         <AssociationConnector Association="serverDBModel.FK_ASS_10" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.LOCATION_DEPARTMENT_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.MAJOR_DEPARTMENT_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.ROLE_DEPARTMENT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Location_Department_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Major_Department_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Role_Department_FK" ManuallyRouted="false" />
         <AssociationConnector Association="serverDBModel.FK_ASS_11" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.DICTONARY_VALUE_DICTIONARY_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.GLOBAL_USER_ROLE_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.GROUP_SUBGROUP_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.HOLIDAY_SEMESTER_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.ROOM_LOCATION_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.SUBGROUP_MAJOR_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.WEEK_SEMESTER_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.SUBGROUP_SUBGROUP_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.ClassesGroup" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.ClassesWeek" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.DictionaryValue_Dictionary_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_17" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Group_Subgroup_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Holiday_Semester_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Room_Location_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Subgroup_Major_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.FK_ASS_18" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Week_Semester_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="serverDBModel.Subgroup_Subgroup_FK" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

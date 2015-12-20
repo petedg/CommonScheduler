@@ -26,14 +26,24 @@ namespace CommonScheduler.Authentication.Controls
         private BitmapImage image = new BitmapImage(new Uri("/CommonScheduler;component/Resources/Images/errorIcon.png", UriKind.Relative));
         private GlobalUser currentUser = CurrentUser.Instance.UserData;
 
+        private serverDBEntities context;
+        private GlobalUser globalUserBehavior;
+
         public PasswordExpiredTab()
         {
             InitializeComponent();
+            context = new serverDBEntities();
+            globalUserBehavior = new GlobalUser(context);
+        }
+
+        ~PasswordExpiredTab()
+        {
+            context.Dispose();
         }
         
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            PasswordScore passwordScore = currentUser.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword);
+            PasswordScore passwordScore = globalUserBehavior.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword);
             if (passwordScore < PasswordScore.Medium)
             {
                 if (passwordScore == PasswordScore.DifferentPasswords)
@@ -49,9 +59,9 @@ namespace CommonScheduler.Authentication.Controls
             }
             else
             {
-                if (!currentUser.SamePassword(passwordBox1.SecurePassword))
+                if (!globalUserBehavior.SamePassword(passwordBox1.SecurePassword))
                 {
-                    if (currentUser.ChangePassword(passwordBox1.SecurePassword))
+                    if (globalUserBehavior.ChangePassword(passwordBox1.SecurePassword))
                     {
                         RaiseEvent(new RoutedEventArgs(LogInEvent));
                     }
@@ -74,7 +84,7 @@ namespace CommonScheduler.Authentication.Controls
 
         private void passwordBox1_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (currentUser.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword) >= PasswordScore.Medium)
+            if (globalUserBehavior.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword) >= PasswordScore.Medium)
             {
                 imagePasswordStatus.Visibility = Visibility.Visible;
             }

@@ -17,29 +17,30 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Classes()
         {
-            this.Group = new HashSet<Group>();
-            this.Week = new HashSet<Week>();
+            this.ClassesWeek = new HashSet<ClassesWeek>();
+            this.ClassesGroup = new HashSet<ClassesGroup>();
         }
     
         public int ID { get; set; }
         public System.DateTime START_DATE { get; set; }
         public System.DateTime END_DATE { get; set; }
-        public int CLASSES_TYPE_DV_ID { get; set; }
+        public int CLASSESS_TYPE_DV_ID { get; set; }
         public string SUBJECT_NAME { get; set; }
         public string SUBJECT_SHORT { get; set; }
-        public int ROOM_ID { get; set; }
+        public int Room_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
+        public Nullable<int> ID_MODIFIED { get; set; }
         public int TEACHER_ID { get; set; }
-        public Nullable<int> SPECIAL_LOCATION_ID { get; set; }
+        public Nullable<int> SPECIALLOCATION_ID { get; set; }
     
         public virtual Room Room { get; set; }
         public virtual SpecialLocation SpecialLocation { get; set; }
         public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Group { get; set; }
+        public virtual ICollection<ClassesWeek> ClassesWeek { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Week> Week { get; set; }
+        public virtual ICollection<ClassesGroup> ClassesGroup { get; set; }
     }
 }

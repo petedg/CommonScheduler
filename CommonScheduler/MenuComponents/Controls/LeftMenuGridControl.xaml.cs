@@ -60,21 +60,12 @@ namespace CommonScheduler.MenuComponents.Controls
         }
 
         private void buttonSAManagementEventHandler(object sender, RoutedEventArgs e)
-        {
-            //RaiseEvent(new RoutedEventArgs(ButtonSAManagementClickEvent));            
+        {        
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SUPER_ADMIN_MANAGEMENT_BUTTON));
             }
         }
-
-        //public static readonly RoutedEvent ButtonSAManagementClickEvent = EventManager.RegisterRoutedEvent("ButtonSAManagementClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LeftMenuButtonControl));
-
-        //public event RoutedEventHandler ButtonSAManagementClick
-        //{
-        //    add { AddHandler(ButtonSAManagementClickEvent, value); }
-        //    remove { RemoveHandler(ButtonSAManagementClickEvent, value); }
-        //}
 
         public event LeftGridButtonClickEventHandler LeftGridButtonClick;
 

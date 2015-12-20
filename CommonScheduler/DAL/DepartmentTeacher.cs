@@ -14,8 +14,9 @@ namespace CommonScheduler.DAL
     
     public partial class DepartmentTeacher
     {
-        public int DEPARTMENT_ID { get; set; }
-        public int TEACHER_ID { get; set; }
+        public int ID { get; set; }
+        public int Department_ID { get; set; }
+        public int Teacher_ID { get; set; }
         public int POSITION_DV_ID { get; set; }
     
         public virtual Department Department { get; set; }

@@ -17,19 +17,19 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Role()
         {
-            this.GlobalUser = new HashSet<GlobalUser>();
+            this.UserRole = new HashSet<UserRole>();
         }
     
         public int ID { get; set; }
-        public int USER_TYPE_DV_ID { get; set; }
         public int ROLE_NAME_DV_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<int> ID_CREATED { get; set; }
+        public Nullable<int> ID_MODIFIED { get; set; }
         public Nullable<int> DEPARTMENT_ID { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GlobalUser> GlobalUser { get; set; }
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

@@ -27,19 +27,28 @@ namespace CommonScheduler.Authentication.Controls
     /// </summary>
     public partial class LoginControlTab : UserControl
     {
+        private serverDBEntities context;
+
         public LoginControlTab()
         {
             InitializeComponent();
+
+            context = new serverDBEntities();
+        }
+
+        ~LoginControlTab()
+        {
+            context.Dispose();
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (new GlobalUser().ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
+            if (new GlobalUser(context).ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
             {
                 errorMessageControl.Visibility = Visibility.Hidden;
                 GlobalUser currentUser = CurrentUser.Instance.UserData;                
 
-                if (currentUser.PASSWORD_TEMPORARY[0] == '1')
+                if (currentUser.PASSWORD_TEMPORARY == false)
                 {
                     if (currentUser.PASSWORD_EXPIRATION < DateTime.Now)
                     {

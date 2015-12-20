@@ -38,7 +38,7 @@ namespace CommonScheduler.Authentication.Windows
         {
             CurrentUser.Instance.UserData.PASSWORD = null;
             CurrentUser.Instance.UserData.PASSWORD_EXPIRATION = null;
-            CurrentUser.Instance.UserData.PASSWORD_TEMPORARY = null;
+            CurrentUser.Instance.UserData.PASSWORD_TEMPORARY = false;
 
             MainWindow main = new MainWindow();
             App.Current.MainWindow = main;

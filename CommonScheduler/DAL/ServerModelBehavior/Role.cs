@@ -8,18 +8,29 @@ namespace CommonScheduler.DAL
 {
     public partial class Role
     {
-        public Role getRoleById(int roleId)
+        private serverDBEntities context;
+
+        public Role(serverDBEntities context)
         {
-            using (var context = new serverDBEntities())
-            {
-                var roles = from role in context.Role
-                            where role.ID == roleId
-                            select role;
+            this.context = context;
+        }
 
-                var selectedRole = roles.FirstOrDefault();
+        public void SetContext(serverDBEntities context)
+        {
+            this.context = context;
+        }
 
-                return selectedRole;
-            }
+        public List<Role> GetRolesByUserId(int userId)
+        {
+            var roleIds = from userrole in context.UserRole
+                          where userrole.GlobalUser_ID == userId
+                          select userrole.Role_ID;
+
+            var roles = from role in context.Role
+                        where roleIds.Contains(role.ID)
+                        select role;
+
+            return roles.ToList();            
         }
     }
 }

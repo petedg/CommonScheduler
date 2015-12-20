@@ -29,19 +29,24 @@ namespace CommonScheduler
 
         string previousTitle = null;
 
+        public static SenderType TopMenuButtonType { get; set; }
+
         public MainWindow()
         {
             // TESTING WITHOUT LOGIN, ERASE IN RELEASE
-            CurrentUser.Instance.UserData = new GlobalUser().GetUserDataForLoginAttempt("sa");
-            CurrentUser.Instance.RoleData = new Role().getRoleById(CurrentUser.Instance.UserData.ROLE_ID);
-            CurrentUser.Instance.UserType = new Dictionary().GetDictionaryValue("Typy użytkowników", CurrentUser.Instance.RoleData.USER_TYPE_DV_ID);
+            using (serverDBEntities context = new serverDBEntities())
+            {
+                CurrentUser.Instance.UserData = new GlobalUser(context).GetUserDataForLoginAttempt("sa");
+                CurrentUser.Instance.UserRoles = new Role(context).GetRolesByUserId(CurrentUser.Instance.UserData.ID);
+                CurrentUser.Instance.UserType = new DictionaryValue(context).GetValue("Typy użytkowników", CurrentUser.Instance.UserData.USER_TYPE_DV_ID);
+            }            
             // --
 
             InitializeComponent();
             Multilingual.SetLanguageDictionary(this.Resources);
             setWindowTitle(getInitialWindowTitle());
 
-            setContent(ContentType.DEFAULT, getInitialWindowTitle());        
+            setContent(ContentType.DEFAULT, getInitialWindowTitle());
         }       
 
         private void ButtonMenu_Click(object sender, RoutedEventArgs e)
@@ -74,6 +79,19 @@ namespace CommonScheduler
             }           
         }
 
+        void MainWindow_TopGridButtonClick(object sender, TopGridButtonClickEventArgs e)
+        {
+            if (e.SenderType == SenderType.CLOSE_CONTENT)
+            {
+                setContent(ContentType.DEFAULT, getInitialWindowTitle());
+            }
+            else
+            {
+                TopMenuButtonType = e.SenderType;
+                ((UIElement)contentControl.Content).RaiseEvent(new RoutedEventArgs(TopMenuButtonClickEvent));
+            }
+        }
+
         private void setContent(ContentType contentType, string windowTitle)
         {
             setWindowTitle(windowTitle);
@@ -81,7 +99,7 @@ namespace CommonScheduler
 
             topMenuContentControl.Content = ContentManager.Instance.getTopMenuContent();
             leftMenuContentControl.Content = ContentManager.Instance.getLeftMenuContent();
-            contentControl.Content = ContentManager.Instance.getMainContent();
+            contentControl.Content = ContentManager.Instance.getMainContent();            
 
             setMenuEvents();
         }
@@ -94,6 +112,17 @@ namespace CommonScheduler
             leftMenuContentControl.Content = ContentManager.Instance.getLeftMenuContent();
 
             setMenuEvents();
+
+            if (contentType == ContentType.MENU)
+            {
+                ((UIElement)contentControl.Content).RaiseEvent(new RoutedEventArgs(ShowMenuEvent));
+                ((UIElement)topMenuContentControl.Content).RaiseEvent(new RoutedEventArgs(ShowMenuEvent));
+            }
+            else
+            {
+                ((UIElement)contentControl.Content).RaiseEvent(new RoutedEventArgs(HideMenuEvent));
+                ((UIElement)topMenuContentControl.Content).RaiseEvent(new RoutedEventArgs(HideMenuEvent));
+            }
         }
 
         private void setMenuEvents()
@@ -102,7 +131,13 @@ namespace CommonScheduler
             {
                 ((LeftMenuGridControl)leftMenuContentControl.Content).LeftGridButtonClick += MainWindow_LeftGridButtonClick;
             }
+
+            if (topMenuContentControl.Content.GetType() == typeof(TopMenuGridControl))
+            {
+                ((TopMenuGridControl)topMenuContentControl.Content).TopGridButtonClick += MainWindow_TopGridButtonClick;
+            }
         }
+
 
         private void setWindowTitle(String windowTitle)
         {
@@ -133,5 +168,9 @@ namespace CommonScheduler
 
             return windowTitle;
         }
+
+        public readonly static RoutedEvent ShowMenuEvent = EventManager.RegisterRoutedEvent("ShowMenuEvent", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+        public readonly static RoutedEvent HideMenuEvent = EventManager.RegisterRoutedEvent("HideMenuEvent", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
+        public readonly static RoutedEvent TopMenuButtonClickEvent = EventManager.RegisterRoutedEvent("TopMenuButtonClickEvent", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(MainWindow));
     }
 }

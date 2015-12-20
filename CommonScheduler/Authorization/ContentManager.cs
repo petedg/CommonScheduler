@@ -1,4 +1,5 @@
-﻿using CommonScheduler.MenuComponents.Controls;
+﻿using CommonScheduler.ContentComponents.GlobalAdmin.Controls;
+using CommonScheduler.MenuComponents.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,19 @@ namespace CommonScheduler.Authorization
 
         public UIElement getMainContent()
         {
+            if (CurrentContentType == ContentType.MENU)
+            {
+                return new Rectangle { Fill = Brushes.LightGray };
+            }
+            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            {
+                return new SuperAdminDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.DEFAULT)
+            {
+                return new Rectangle { Fill = Brushes.LightGray };
+            }
+
             return new Rectangle { Fill = Brushes.LightGray };
         }
 

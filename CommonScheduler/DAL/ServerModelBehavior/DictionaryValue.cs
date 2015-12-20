@@ -8,18 +8,45 @@ namespace CommonScheduler.DAL
 {
     public partial class DictionaryValue
     {
-        public string GetValue (Dictionary dictionary, int dictionaryValueId)
+        private serverDBEntities context;
+
+        public DictionaryValue(serverDBEntities context)
         {
-            using (var context = new serverDBEntities())
-            {
-                var dictionaryValues = from dictionaryValue in context.DictionaryValue
-                                       where dictionaryValue.DICTIONARY_ID == dictionary.ID && dictionaryValue.DV_ID == dictionaryValueId
-                                       select dictionaryValue;
+            this.context = context;
+        }
 
-                var selectedDictionaryValue = dictionaryValues.FirstOrDefault();
+        public DictionaryValue()
+        {
+            
+        }
 
-                return selectedDictionaryValue.VALUE;
-            }
+        public void SetContext(serverDBEntities context)
+        {
+            this.context = context;
+        }
+
+        public string GetValue (string dictionaryName, int dictionaryValueId)
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals(dictionaryName) && dictionaryValue.DV_ID == dictionaryValueId
+                                   select dictionaryValue;
+
+            var selectedDictionaryValue = dictionaryValues.FirstOrDefault();            
+
+            return selectedDictionaryValue.VALUE;    
+        }
+
+        public int GetId(string dictionaryName, string value)
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals(dictionaryName) && dictionaryValue.VALUE == value
+                                   select dictionaryValue;
+
+            var selectedDictionaryValue = dictionaryValues.FirstOrDefault();
+
+            return selectedDictionaryValue.DV_ID;    
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Group()
         {
-            this.Classes = new HashSet<Classes>();
+            this.ClassesGroup = new HashSet<ClassesGroup>();
         }
     
         public int ID { get; set; }
@@ -26,10 +26,11 @@ namespace CommonScheduler.DAL
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
+        public Nullable<int> ID_MODIFIED { get; set; }
         public int SUBGROUP_ID { get; set; }
     
-        public virtual Subgroup Subgroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Classes> Classes { get; set; }
+        public virtual ICollection<ClassesGroup> ClassesGroup { get; set; }
+        public virtual Subgroup Subgroup { get; set; }
     }
 }

@@ -62,9 +62,11 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -104,6 +106,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\DataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\GlobalAdmin\Controls\SuperAdminDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -136,7 +146,20 @@
     <Compile Include="CommonComponents\Controls\SimpleMessageControl.xaml.cs">
       <DependentUpon>SimpleMessageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentComponents\DataGridControl.xaml.cs">
+      <DependentUpon>DataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\GlobalAdmin\Controls\SuperAdminDataGridControl.xaml.cs">
+      <DependentUpon>SuperAdminDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\RowToIndexConverter.cs" />
     <Compile Include="DAL\Classes.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ClassesGroup.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ClassesWeek.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Classes_L.cs">
@@ -244,10 +267,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServerModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ServerModelBehavior\Classes.cs" />
+    <Compile Include="DAL\ServerModelBehavior\ClassesWeek.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Department.cs" />
+    <Compile Include="DAL\ServerModelBehavior\DepartmentTeacher.cs" />
     <Compile Include="DAL\ServerModelBehavior\Dictionary.cs" />
     <Compile Include="DAL\ServerModelBehavior\DictionaryValue.cs" />
     <Compile Include="DAL\ServerModelBehavior\GlobalUser.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Group.cs" />
+    <Compile Include="DAL\ServerModelBehavior\GroupClasses.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Holiday.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Location.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Major.cs" />
     <Compile Include="DAL\ServerModelBehavior\Role.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Room.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Semester.cs" />
+    <Compile Include="DAL\ServerModelBehavior\SpecialLocation.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Subgroup.cs" />
+    <Compile Include="DAL\ServerModelBehavior\TeacherWeek.cs" />
+    <Compile Include="DAL\ServerModelBehavior\UserRole.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Week.cs" />
     <Compile Include="DAL\SpecialLocation.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -266,6 +305,9 @@
     <Compile Include="DAL\Teacher_L.cs">
       <DependentUpon>LocalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\UserRole.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Week.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -274,6 +316,7 @@
     </Compile>
     <Compile Include="Events\Data\LeftGridButtonClickEventArgs.cs" />
     <Compile Include="Events\Data\SenderType.cs" />
+    <Compile Include="Events\Data\TopGridButtonClickEventArgs.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

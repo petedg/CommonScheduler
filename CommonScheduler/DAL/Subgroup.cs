@@ -28,6 +28,7 @@ namespace CommonScheduler.DAL
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
+        public Nullable<int> ID_MODIFIED { get; set; }
         public int MAJOR_ID { get; set; }
         public int SUBGROUP_ID { get; set; }
     

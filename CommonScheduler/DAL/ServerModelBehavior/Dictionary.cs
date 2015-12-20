@@ -8,30 +8,36 @@ namespace CommonScheduler.DAL
 {
     public partial class Dictionary
     {
-        public string GetDictionaryValue(string dictionaryName, int dictionaryValueId)
-        {
-            setDictionaryByName(dictionaryName);
-            return new DictionaryValue().GetValue(this, dictionaryValueId);            
-        }
+        //public string GetDictionaryValue(string dictionaryName, int dictionaryValueId)
+        //{
+        //    setDictionaryByName(dictionaryName);
+        //    return new DictionaryValue().GetValue(this, dictionaryValueId);            
+        //}
 
-        public bool setDictionaryByName(string dictionaryName)
-        {
-            using (var context = new serverDBEntities())
-            {
-                var dictionaries = from dictionary in context.Dictionary
-                                   where dictionary.NAME == dictionaryName
-                                   select dictionary;
+        //public int GetDictionaryValueId(string dictionaryName, string value)
+        //{
+        //    setDictionaryByName(dictionaryName);
+        //    return new DictionaryValue().GetId(this, value);
+        //}
 
-                var selectedDictionary = dictionaries.FirstOrDefault();
+        //public bool setDictionaryByName(string dictionaryName)
+        //{
+        //    using (var context = new serverDBEntities())
+        //    {
+        //        var dictionaries = from dictionary in context.Dictionary
+        //                           where dictionary.NAME == dictionaryName
+        //                           select dictionary;
 
-                this.ID = selectedDictionary.ID;
-                this.DATE_CREATED = selectedDictionary.DATE_CREATED;
-                this.DATE_MODIFIED = selectedDictionary.DATE_MODIFIED;
-                this.ID_CREATED = selectedDictionary.ID_CREATED;
-                this.NAME = selectedDictionary.NAME;                        
+        //        var selectedDictionary = dictionaries.FirstOrDefault();
 
-                return true;
-            }
-        }
+        //        this.ID = selectedDictionary.ID;
+        //        this.DATE_CREATED = selectedDictionary.DATE_CREATED;
+        //        this.DATE_MODIFIED = selectedDictionary.DATE_MODIFIED;
+        //        this.ID_CREATED = selectedDictionary.ID_CREATED;
+        //        this.NAME = selectedDictionary.NAME;                        
+
+        //        return true;
+        //    }
+        //}
     }
 }

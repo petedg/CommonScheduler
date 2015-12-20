@@ -2,6 +2,7 @@
 using CommonScheduler.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -13,16 +14,20 @@ namespace CommonScheduler.DAL
 {
     public partial class GlobalUser
     {
+        private serverDBEntities context;
+
+        public GlobalUser(serverDBEntities context)
+        {
+            this.context = context;
+        }
+
         public GlobalUser GetUserDataForLoginAttempt(string login)
         {
-            using (var context = new serverDBEntities())
-            {
-                var users = from user in context.GlobalUser
-                            where user.LOGIN == login
-                            select user;
+            var users = from user in context.GlobalUser
+                        where user.LOGIN == login
+                        select user;
 
-                return users.FirstOrDefault();
-            }
+            return users.FirstOrDefault();        
         }
 
         public bool ValidateCredentials(String login, SecureString securePassword)
@@ -32,8 +37,8 @@ namespace CommonScheduler.DAL
             if (selectedUser != null && PasswordHash.ValidatePassword(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(securePassword)), selectedUser.PASSWORD))
             {
                 CurrentUser.Instance.UserData = selectedUser;
-                CurrentUser.Instance.RoleData = new Role().getRoleById(selectedUser.ROLE_ID);
-                CurrentUser.Instance.UserType = new Dictionary().GetDictionaryValue("Typy użytkowników", CurrentUser.Instance.RoleData.USER_TYPE_DV_ID);
+                CurrentUser.Instance.UserRoles = new Role(context).GetRolesByUserId(selectedUser.ID);
+                CurrentUser.Instance.UserType = new DictionaryValue(context).GetValue("Typy użytkowników", CurrentUser.Instance.UserData.USER_TYPE_DV_ID);
                 return true;
             }
 
@@ -62,30 +67,59 @@ namespace CommonScheduler.DAL
 
         public bool ChangePassword(SecureString securePassword)
         {
-            using (var context = new serverDBEntities())
+            var users = from user in context.GlobalUser
+                        where user.ID == CurrentUser.Instance.UserData.ID
+                        select user;
+
+            var editedUser = users.FirstOrDefault();
+
+            if (editedUser != null)
             {
-                var users = from user in context.GlobalUser
-                            where user.ID == CurrentUser.Instance.UserData.ID
-                            select user;
+                editedUser.DATE_MODIFIED = DateTime.Now;
+                editedUser.PASSWORD = PasswordHash.CreateHash(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(securePassword)));
+                editedUser.PASSWORD_TEMPORARY = false;
+                editedUser.PASSWORD_EXPIRATION = null;
+                editedUser.DATE_MODIFIED = DateTime.Now;
 
-                var editedUser = users.FirstOrDefault();
-
-                if (editedUser != null)
+                if (context.SaveChanges() > 0)
                 {
-                    editedUser.DATE_MODIFIED = DateTime.Now;
-                    editedUser.PASSWORD = PasswordHash.CreateHash(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(securePassword)));
-                    editedUser.PASSWORD_TEMPORARY = '0'.ToString();
-                    editedUser.PASSWORD_EXPIRATION = null;
-                    editedUser.DATE_MODIFIED = DateTime.Now;
-                    
-                    if (context.SaveChanges() > 0)
-                    {
-                        return true;
-                    }                    
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;           
+        }
+
+        public List<GlobalUser> GetSuperAdminList()
+        {
+            var superAdmins = from admin in context.GlobalUser
+                              where admin.USER_TYPE_DV_ID == 2
+                              select admin;
+
+            return superAdmins.ToList();
+        }
+
+        public void SetContext(serverDBEntities context)
+        {
+            this.context = context;
+        }
+
+        public GlobalUser AddUser(GlobalUser newUser)
+        {
+            return context.GlobalUser.Add(newUser);
+        }
+
+        public GlobalUser UpdateUser(GlobalUser user)
+        {
+            context.GlobalUser.Attach(user); 
+            context.Entry(user).State = EntityState.Modified;             
+            return user;            
+        }
+
+        public GlobalUser DeleteUser(GlobalUser user)
+        {
+            context.Entry(user).State = EntityState.Deleted;
+            return user;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Week()
         {
-            this.Classes = new HashSet<Classes>();
+            this.ClassesWeek = new HashSet<ClassesWeek>();
         }
     
         public int ID { get; set; }
@@ -25,8 +25,8 @@ namespace CommonScheduler.DAL
         public System.DateTime END_DATE { get; set; }
         public int SEMESTER_ID { get; set; }
     
-        public virtual Semester Semester { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Classes> Classes { get; set; }
+        public virtual ICollection<ClassesWeek> ClassesWeek { get; set; }
+        public virtual Semester Semester { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace CommonScheduler.Authorization
     public class CurrentUser
     {       
         public GlobalUser UserData { get; set; }
-        public Role RoleData { get; set; }        
+        public List<Role> UserRoles { get; set; }        
         public String UserType { get; set; }        
         
         private static CurrentUser instance;

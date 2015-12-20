@@ -13,7 +13,7 @@ namespace CommonScheduler.Events.Data
 
         public LeftGridButtonClickEventArgs(SenderType senderType)
         {
-            
+            this.SenderType = senderType;
         }
     }
 }
