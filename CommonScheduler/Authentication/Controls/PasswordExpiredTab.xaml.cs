@@ -43,19 +43,26 @@ namespace CommonScheduler.Authentication.Controls
         
         private void ButtonApply_Click(object sender, RoutedEventArgs e)
         {
-            PasswordScore passwordScore = globalUserBehavior.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword);
+            PasswordScore passwordScore = globalUserBehavior.PasswordStrength(passwordBox1.SecurePassword, passwordBox2.SecurePassword);            
             if (passwordScore < PasswordScore.Medium)
             {
-                if (passwordScore == PasswordScore.DifferentPasswords)
+                if (passwordBox1.SecurePassword.Length < 6)
                 {
-                    expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsMismatch");
+                    expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsShort");
                     expiredMessageControl.MessageImageSource = image;
                 }
                 else
                 {
-                    expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsConstraint");
-                    expiredMessageControl.MessageImageSource = image;
-                }
+                    if (passwordScore == PasswordScore.DifferentPasswords)
+                    {
+                        expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsMismatch");
+                    }
+                    else
+                    {
+                        expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsConstraint");
+                        expiredMessageControl.MessageImageSource = image;
+                    }
+                }                
             }
             else
             {

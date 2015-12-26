@@ -21,6 +21,7 @@ namespace CommonScheduler.DAL
             this.Location = new HashSet<Location>();
             this.Major = new HashSet<Major>();
             this.Role = new HashSet<Role>();
+            this.UserDepartment = new HashSet<UserDepartment>();
         }
     
         public int ID { get; set; }
@@ -39,5 +40,7 @@ namespace CommonScheduler.DAL
         public virtual ICollection<Major> Major { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserDepartment> UserDepartment { get; set; }
     }
 }

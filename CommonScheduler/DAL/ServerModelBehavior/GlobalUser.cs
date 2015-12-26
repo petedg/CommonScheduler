@@ -90,6 +90,36 @@ namespace CommonScheduler.DAL
             return false;           
         }
 
+        public SecureString ResetPassword(int userID)
+        {
+            var users = from user in context.GlobalUser
+                        where user.ID == userID
+                        select user;
+
+            var editedUser = users.FirstOrDefault();
+
+            SecureString temporaryPassword = null;
+
+            if (editedUser != null)
+            {
+                editedUser.DATE_MODIFIED = DateTime.Now;
+                temporaryPassword = PasswordHash.RandomPassword();
+                editedUser.PASSWORD = PasswordHash.CreateHash(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(temporaryPassword)));
+                editedUser.PASSWORD_TEMPORARY = true;
+                editedUser.PASSWORD_EXPIRATION = DateTime.Now.AddDays(1);
+
+                context.SaveChanges();
+            }
+
+            return temporaryPassword;
+        }
+
+        public string RandomHashedPassword()
+        {
+            SecureString temporaryPassword = PasswordHash.RandomPassword();
+            return PasswordHash.CreateHash(Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(temporaryPassword)));
+        }
+
         public List<GlobalUser> GetSuperAdminList()
         {
             var superAdmins = from admin in context.GlobalUser
@@ -98,6 +128,23 @@ namespace CommonScheduler.DAL
 
             return superAdmins.ToList();
         }
+
+        public List<GlobalUser> GetAdminList()
+        {
+            var superAdmins = from admin in context.GlobalUser
+                              where admin.USER_TYPE_DV_ID == 3
+                              select admin;
+
+            return superAdmins.ToList();
+        }
+
+        public List<GlobalUser> GetList()
+        {
+            var admins = from admin in context.GlobalUser
+                              select admin;
+
+            return admins.ToList();
+        }        
 
         public void SetContext(serverDBEntities context)
         {

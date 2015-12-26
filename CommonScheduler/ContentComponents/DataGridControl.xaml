@@ -5,10 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" AutoGenerateColumns="False" ItemsSource="{Binding SuperAdminsList}"
-           Name="dataGrid" CanUserAddRows="True" CanUserDeleteRows="True" CanUserSortColumns="True"
+           Name="dataGrid" CanUserAddRows="True" CanUserDeleteRows="True" CanUserSortColumns="True" CanUserReorderColumns="False"
+          CanUserResizeColumns="False"
           InitializingNewItem="dataGrid_InitializingNewItem" BeginningEdit="dataGrid_BeginningEdit"
           xmlns:sys="clr-namespace:System;assembly=mscorlib"
           xmlns:local="clr-namespace:CommonScheduler.ContentComponents"
+          Style="{StaticResource dataGridTheme}"
           >
    
     <DataGrid.Columns>

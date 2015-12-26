@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classes">
           <Key>
             <PropertyRef Name="ID" />
@@ -243,6 +243,14 @@
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
         </EntityType>
+        <EntityType Name="UserDepartment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GlobalUser_ID" Type="int" Nullable="false" />
+          <Property Name="Department_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserRole">
           <Key>
             <PropertyRef Name="ID" />
@@ -305,6 +313,30 @@
             </Principal>
             <Dependent Role="DictionaryValue">
               <PropertyRef Name="DICTIONARY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserDepar__Depar__4F7CD00D">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="UserDepartment" Type="Self.UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserDepar__Globa__4E88ABD4">
+          <End Role="GlobalUser" Type="Self.GlobalUser" Multiplicity="1" />
+          <End Role="UserDepartment" Type="Self.UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="GlobalUser_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -531,6 +563,7 @@
           <EntitySet Name="SpecialLocation" EntityType="Self.SpecialLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subgroup" EntityType="Self.Subgroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDepartment" EntityType="Self.UserDepartment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Week" EntityType="Self.Week" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="Classes_Room_FK" Association="Self.Classes_Room_FK">
@@ -548,6 +581,14 @@
           <AssociationSet Name="DictionaryValue_Dictionary_FK" Association="Self.DictionaryValue_Dictionary_FK">
             <End Role="Dictionary" EntitySet="Dictionary" />
             <End Role="DictionaryValue" EntitySet="DictionaryValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserDepar__Depar__4F7CD00D" Association="Self.FK__UserDepar__Depar__4F7CD00D">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserDepar__Globa__4E88ABD4" Association="Self.FK__UserDepar__Globa__4E88ABD4">
+            <End Role="GlobalUser" EntitySet="GlobalUser" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
           </AssociationSet>
           <AssociationSet Name="FK_ASS_10" Association="Self.FK_ASS_10">
             <End Role="Department" EntitySet="Department" />
@@ -618,8 +659,7 @@
             <End Role="Week" EntitySet="Week" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="serverDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -681,6 +721,7 @@
           <NavigationProperty Name="Location" Relationship="Self.Location_Department_FK" FromRole="Department" ToRole="Location" />
           <NavigationProperty Name="Major" Relationship="Self.Major_Department_FK" FromRole="Department" ToRole="Major" />
           <NavigationProperty Name="Role" Relationship="Self.Role_Department_FK" FromRole="Department" ToRole="Role" />
+          <NavigationProperty Name="UserDepartment" Relationship="serverDBModel.FK__UserDepar__Depar__4BAC3F29" FromRole="Department" ToRole="UserDepartment" />
         </EntityType>
         <EntityType Name="DepartmentTeacher">
           <Key>
@@ -737,6 +778,7 @@
           <Property Name="ID_CREATED" Type="Int32" />
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_ASS_17" FromRole="GlobalUser" ToRole="UserRole" />
+          <NavigationProperty Name="UserDepartment" Relationship="serverDBModel.FK__UserDepar__Globa__4AB81AF0" FromRole="GlobalUser" ToRole="UserDepartment" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -1277,7 +1319,50 @@
             <End Role="Subgroup" EntitySet="Subgroup" />
             <End Role="Subgroup1" EntitySet="Subgroup" />
           </AssociationSet>
+          <EntitySet Name="UserDepartment" EntityType="serverDBModel.UserDepartment" />
+          <AssociationSet Name="FK__UserDepar__Depar__4BAC3F29" Association="serverDBModel.FK__UserDepar__Depar__4BAC3F29">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserDepar__Globa__4AB81AF0" Association="serverDBModel.FK__UserDepar__Globa__4AB81AF0">
+            <End Role="GlobalUser" EntitySet="GlobalUser" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="UserDepartment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="GlobalUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="Department_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="serverDBModel.FK__UserDepar__Depar__4BAC3F29" FromRole="UserDepartment" ToRole="Department" />
+          <NavigationProperty Name="GlobalUser" Relationship="serverDBModel.FK__UserDepar__Globa__4AB81AF0" FromRole="UserDepartment" ToRole="GlobalUser" />
+        </EntityType>
+        <Association Name="FK__UserDepar__Depar__4BAC3F29">
+          <End Type="serverDBModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="serverDBModel.UserDepartment" Role="UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="Department_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserDepar__Globa__4AB81AF0">
+          <End Type="serverDBModel.GlobalUser" Role="GlobalUser" Multiplicity="1" />
+          <End Type="serverDBModel.UserDepartment" Role="UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="GlobalUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1555,6 +1640,15 @@
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
                 <ScalarProperty Name="SEMESTER_ID" ColumnName="SEMESTER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDepartment">
+            <EntityTypeMapping TypeName="serverDBModel.UserDepartment">
+              <MappingFragment StoreEntitySet="UserDepartment">
+                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+                <ScalarProperty Name="GlobalUser_ID" ColumnName="GlobalUser_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

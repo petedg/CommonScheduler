@@ -8,7 +8,7 @@
              xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents">
     <Grid Name="grid">
         <mycomp:DataGridControl x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single">
+                                SelectionMode="Single" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
             <!--DataGridTextColumn Header="NAME" Width="Auto" IsReadOnly="False" Binding="{Binding NAME}"/>
         <DataGridTextColumn Header="SURNAME" Width="Auto" IsReadOnly="False" Binding="{Binding SURNAME}"/>
         <DataGridTextColumn Header="LOGIN" Width="Auto" IsReadOnly="True" Binding="{Binding LOGIN}" /-->

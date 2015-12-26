@@ -25,7 +25,7 @@ namespace CommonScheduler.Authorization
             {
                 return new MenuGridControl();
             }
-            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT || CurrentContentType == ContentType.ADMIN_MANAGEMENT)
             {
                 return new LeftMenuGridControl();
             }
@@ -43,7 +43,7 @@ namespace CommonScheduler.Authorization
             {
                 return new Rectangle { Fill = Brushes.LightGray };
             }
-            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT || CurrentContentType == ContentType.ADMIN_MANAGEMENT)
             {
                 return new TopMenuGridControl();
             }
@@ -65,6 +65,10 @@ namespace CommonScheduler.Authorization
             else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
             {
                 return new SuperAdminDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.ADMIN_MANAGEMENT)
+            {
+                return new AdminDataGridControl();
             }
             else if (CurrentContentType == ContentType.DEFAULT)
             {

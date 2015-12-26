@@ -1,5 +1,6 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
+using CommonScheduler.Events.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,5 +61,21 @@ namespace CommonScheduler.MenuComponents.Controls
                 imageUserType.Source = imageAdmin;
             } 
         }
+
+        private void LeftMenuButtonControl_LeftMenuButtonClick(object sender, RoutedEventArgs e)
+        {
+            CurrentUser.Instance.UserData = null;
+            CurrentUser.Instance.UserRoles = null;
+            CurrentUser.Instance.UserType = null;
+
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.LOGOUT));
+            }
+        }
+
+        public event LeftGridButtonClickEventHandler LeftGridButtonClick;
+
+        public delegate void LeftGridButtonClickEventHandler(object source, LeftGridButtonClickEventArgs e);
     }
 }

@@ -43,17 +43,20 @@ namespace CommonScheduler.MenuComponents.Controls
             {
                 addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
                 addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Wyjscie", imageSuper, new Thickness(280, 0, 0, 0), exitEventHandler);
+            }
+            else if (currentContentType == ContentType.ADMIN_MANAGEMENT)
+            {
+                addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Uprawnienia", imageSuper, new Thickness(280, 0, 0, 0), editRoleEventHandler);
+                addButtonToList("Wyjscie", imageSuper, new Thickness(420, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
             {
-
+                
             }
-            else if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
-            {
-
-            }
-
-            addButtonToList("Wyjscie", imageSuper, new Thickness(280, 0, 0, 0), exitEventHandler);
+            
         }        
 
         public void addButtonToList(string text, BitmapImage imageSource, Thickness margin, RoutedEventHandler eventHandler)        
@@ -74,6 +77,11 @@ namespace CommonScheduler.MenuComponents.Controls
         private void cancelEventHandler(object sender, RoutedEventArgs e)
         {
             raiseButtonClickEvent(SenderType.CANCEL_BUTTON);
+        }
+
+        private void editRoleEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.EDIT_ROLE_BUTTON);
         }
 
         private void exitEventHandler(object sender, RoutedEventArgs e)

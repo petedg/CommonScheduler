@@ -10,6 +10,7 @@ namespace CommonScheduler.Authorization
     {
         DEFAULT,
         MENU,
-        SUPER_ADMIN_MANAGEMENT
+        SUPER_ADMIN_MANAGEMENT,
+        ADMIN_MANAGEMENT
     }
 }

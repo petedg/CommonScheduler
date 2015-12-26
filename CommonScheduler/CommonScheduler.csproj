@@ -80,6 +80,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -110,7 +128,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\SuperAdmin\Controls\AdminDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContentComponents\GlobalAdmin\Controls\SuperAdminDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\SuperAdmin\Windows\UserDepartmentsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,10 +175,16 @@
     <Compile Include="ContentComponents\DataGridControl.xaml.cs">
       <DependentUpon>DataGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentComponents\SuperAdmin\Controls\AdminDataGridControl.xaml.cs">
+      <DependentUpon>AdminDataGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentComponents\GlobalAdmin\Controls\SuperAdminDataGridControl.xaml.cs">
       <DependentUpon>SuperAdminDataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\RowToIndexConverter.cs" />
+    <Compile Include="ContentComponents\SuperAdmin\Windows\UserDepartmentsWindow.xaml.cs">
+      <DependentUpon>UserDepartmentsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Classes.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -285,6 +317,7 @@
     <Compile Include="DAL\ServerModelBehavior\SpecialLocation.cs" />
     <Compile Include="DAL\ServerModelBehavior\Subgroup.cs" />
     <Compile Include="DAL\ServerModelBehavior\TeacherWeek.cs" />
+    <Compile Include="DAL\ServerModelBehavior\UserDepartment.cs" />
     <Compile Include="DAL\ServerModelBehavior\UserRole.cs" />
     <Compile Include="DAL\ServerModelBehavior\Week.cs" />
     <Compile Include="DAL\SpecialLocation.cs">
@@ -304,6 +337,9 @@
     </Compile>
     <Compile Include="DAL\Teacher_L.cs">
       <DependentUpon>LocalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\UserDepartment.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\UserRole.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
@@ -345,6 +381,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\DataGridTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\LeftMenuButtonTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,6 +392,10 @@
     <Page Include="Themes\LoginControlTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\MenuButtonTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\MenuGridControlTheme.xaml">
       <SubType>Designer</SubType>

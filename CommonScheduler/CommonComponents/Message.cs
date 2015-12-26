@@ -20,7 +20,7 @@ namespace CommonScheduler.CommonComponents
 
         public void showMessage()
         {
-            MessageBox.Show(MessageText);
+            MessageBox.Show(MessageText);            
         }
     }
 }

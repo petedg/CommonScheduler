@@ -48,7 +48,7 @@ namespace CommonScheduler.Authentication.Controls
                 errorMessageControl.Visibility = Visibility.Hidden;
                 GlobalUser currentUser = CurrentUser.Instance.UserData;                
 
-                if (currentUser.PASSWORD_TEMPORARY == false)
+                if (currentUser.PASSWORD_TEMPORARY == true)
                 {
                     if (currentUser.PASSWORD_EXPIRATION < DateTime.Now)
                     {
@@ -68,39 +68,6 @@ namespace CommonScheduler.Authentication.Controls
             {
                 errorMessageControl.Visibility = Visibility.Visible;
             }            
-
-            //using (var context = new serverDBEntities())
-            //{
-            //    try
-            //    {
-            //        context.GlobalUser.Add(new GlobalUser
-            //        {
-            //            ID = 1,
-            //            NAME = "Konto administracyjne",
-            //            SURNAME = "",
-            //            LOGIN = "sa",
-            //            PASSWORD = PasswordHash.CreateHash("sa"),
-            //            DATE_CREATED = DateTime.Now,
-            //            DATE_MODIFIED = null,
-            //            ID_CREATED = 0,
-            //            ROLE_ID = 1
-            //        });
-
-            //        context.SaveChanges();
-            //    }
-            //    catch (DbEntityValidationException dbEx)
-            //    {
-            //        foreach (var validationErrors in dbEx.EntityValidationErrors)
-            //        {
-            //            foreach (var validationError in validationErrors.ValidationErrors)
-            //            {
-            //                Trace.TraceInformation("Property: {0} Error: {1}",
-            //                                        validationError.PropertyName,
-            //                                        validationError.ErrorMessage);
-            //            }
-            //        }
-            //    }                
-            //}
         }        
 
         public static readonly RoutedEvent LogInEvent = EventManager.RegisterRoutedEvent("LogIn", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoginControlTab));

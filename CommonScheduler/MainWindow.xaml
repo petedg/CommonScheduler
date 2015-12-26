@@ -21,7 +21,7 @@
         <ContentControl x:Name="leftMenuContentControl" Grid.Column="0" Grid.Row="1"/>
         <ContentControl x:Name="topMenuContentControl" Grid.Column="1" Grid.Row="0" />
 
-        <Button Padding="20" Background="White" Click="ButtonMenu_Click" x:Name="menuButton" >
+        <Button Padding="20" Background="White" Click="ButtonMenu_Click" x:Name="menuButton" Style="{StaticResource menuButton}" >
             <Image Source="/Resources/Images/iconMenu.png"/>
         </Button>       
 

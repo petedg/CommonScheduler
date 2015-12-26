@@ -41,7 +41,7 @@ namespace CommonScheduler.MenuComponents.Controls
             }
             else if (userType.Equals("SuperAdmin"))
             {
-
+                addButtonToList("ZARZĄDZANIE ADMINISTRATORAMI", imageSuper, new Thickness(0, 0, 0, 0), buttonAdminManagementEventHandler);
             }
             else if (userType.Equals("Admin"))
             {
@@ -64,6 +64,14 @@ namespace CommonScheduler.MenuComponents.Controls
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SUPER_ADMIN_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.ADMIN_MANAGEMENT_BUTTON));
             }
         }
 

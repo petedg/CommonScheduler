@@ -21,6 +21,7 @@
     <s:String x:Key="authLabelPasswordsMismatch">Podane hasła różnią się!</s:String>
     <s:String x:Key="authLabelPasswordsConstraint">Hasło musi zawierać co najmniej jeden znak specjalny!</s:String>
     <s:String x:Key="authLabelPasswordsSame">Hasło nie może być tożsame z hasłem tymczasowym!</s:String>
+    <s:String x:Key="authLabelPasswordsShort">Hasło musi mieć co najmniej 6 znaków!</s:String>
 
     <s:String x:Key="mainWindowTitle">Scheduler</s:String>
     <s:String x:Key="mainWindowTitleAdministrator">Scheduler - ADMINISTRATOR</s:String>
@@ -31,6 +32,7 @@
     <s:String x:Key="mainWindowTitleSuperAdminMenu">Scheduler - SUPER ADMINISTRATOR - Menu</s:String>
     <s:String x:Key="mainWindowTitleAdminMenu">Scheduler - ADMINISTRATOR - Menu</s:String>
     <s:String x:Key="mainWindowTitleMenu">Scheduler - Menu</s:String>
+    <s:String x:Key="mainWindowTitleAdminManagement">Scheduler - SUPER ADMINISTRATOR - Zarządzanie Administratorami</s:String>
 
     <s:String x:Key="menuWelcomeMessage">Witaj,</s:String>
     
