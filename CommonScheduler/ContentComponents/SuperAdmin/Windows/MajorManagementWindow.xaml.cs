@@ -3,7 +3,6 @@ using CommonScheduler.DAL;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,45 +14,54 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit;
 
 namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 {
     /// <summary>
-    /// Logika interakcji dla klasy HolidayEditionWindow.xaml
+    /// Logika interakcji dla klasy MajorManagementWindow.xaml
     /// </summary>
-    public partial class HolidayEditionWindow : MetroWindow
+    public partial class MajorManagementWindow : MetroWindow
     {
         private serverDBEntities context;
 
-        private Holiday holidayBehavior;
-        public List<Holiday> HolidaysSource { get; set; }
-        private Semester semester;      
+        private Major majorBehavior;
+        public List<Major> MajorSource { get; set; }
+        private Department department;
 
-        public HolidayEditionWindow(Semester semester)
+        private DictionaryValue dictionaryValueBehavior;
+        public List<DictionaryValue> MajorDegrees { get; set; }
+        public List<DictionaryValue> MajorTypes { get; set; }
+
+        public MajorManagementWindow(Department department)
         {
             InitializeComponent();           
 
             context = new serverDBEntities();
-            holidayBehavior = new Holiday(context);
+            majorBehavior = new Major(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
 
-            string semesterType = new DictionaryValue(context).GetValue("Typy semestrów", (int)semester.SEMESTER_TYPE_DV_ID);
-            textBlock.Content += "\t" + semesterType + " (" + semester.START_DATE.ToShortDateString() + " - " + semester.END_DATE.ToShortDateString() + ")";
+            this.department = department;
+            this.MajorSource = majorBehavior.GetMajorsForDepartment(department);
 
-            this.semester = semester;
-            this.HolidaysSource = holidayBehavior.GetHolidaysForSemester(semester);
+            this.MajorDegrees = dictionaryValueBehavior.GetMajorDegrees();
+            this.MajorTypes = dictionaryValueBehavior.GetMajorTypes();
 
-            dataGrid.ItemsSource = HolidaysSource;
+            textBlock.Content += "\t" + department.NAME;
+
+            dataGrid.ItemsSource = MajorSource;
             setColumns();
         }
 
         private void setColumns()
-        {            
+        {
             dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addDatePickerWithBoundsColumn("DATE", "DATE", semester.START_DATE, semester.END_DATE);
+            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
+            dataGrid.addTextColumn("WWW_HOME_PAGE", "WWW_HOME_PAGE", false);
+            dataGrid.addSemesterComboBoxColumn("MAJOR_DEGREE", "MAJOR_DEGREE_DV_ID", MajorDegrees, "DV_ID", "VALUE");
+            dataGrid.addSemesterComboBoxColumn("MAJOR_TYPE", "MAJOR_TYPE_DV_ID", MajorTypes, "DV_ID", "VALUE");
         }
 
-        ~HolidayEditionWindow()
+        ~MajorManagementWindow()
         {
             if (context != null)
                 context.Dispose();
@@ -61,15 +69,14 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void refreshList()
         {
-            this.HolidaysSource = holidayBehavior.GetHolidaysForSemester(semester);
+            this.MajorSource = majorBehavior.GetMajorsForDepartment(department);
             dataGrid.ItemsSource = null;
-            dataGrid.ItemsSource = HolidaysSource;
+            dataGrid.ItemsSource = MajorSource;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            //dataGrid.CommitEdit();
             context.SaveChanges();
             refreshList();
         }
@@ -78,7 +85,8 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         {
             context.Dispose();
             context = new serverDBEntities();
-            holidayBehavior = new Holiday(context);
+            majorBehavior = new Major(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
 
             refreshList();
         }
@@ -92,24 +100,24 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                if (((Holiday)e.Row.Item).ID == 0)
+                if (((Major)e.Row.Item).ID == 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        Holiday newRow = ((Holiday)e.Row.DataContext);
+                        Major newRow = ((Major)e.Row.DataContext);
                         newRow.DATE_CREATED = DateTime.Now;
                         newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.SEMESTER_ID = this.semester.ID;
+                        newRow.DEPARTMENT_ID = department.ID;
 
-                        newRow = holidayBehavior.AddHoliday(newRow);
+                        newRow = majorBehavior.AddMajor(newRow);
                     }), System.Windows.Threading.DispatcherPriority.Normal);
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        Holiday row = ((Holiday)e.Row.DataContext);
-                        holidayBehavior.UpdateHoliday(row);
+                        Major row = ((Major)e.Row.DataContext);
+                        majorBehavior.UpdateMajor(row);
                     }), System.Windows.Threading.DispatcherPriority.Normal);
                 }
             }
@@ -117,16 +125,17 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Holiday) || dataGrid.SelectedItem.GetType() == typeof(Holiday)))
+            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Major) || dataGrid.SelectedItem.GetType() == typeof(Major)))
             {
                 //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                holidayBehavior.DeleteHoliday((Holiday)dataGrid.SelectedItem);
+                majorBehavior.DeleteMajor((Major)dataGrid.SelectedItem);
             }
         }
 
         void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
         {
-            ((Holiday)e.NewItem).DATE = semester.START_DATE;
+            ((Major)e.NewItem).MAJOR_DEGREE_DV_ID = 13;
+            ((Major)e.NewItem).MAJOR_TYPE_DV_ID = 19;
         }
     }
 }

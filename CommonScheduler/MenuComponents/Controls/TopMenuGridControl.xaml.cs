@@ -41,32 +41,40 @@ namespace CommonScheduler.MenuComponents.Controls
 
             if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
             {
-                addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
-                addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
-                addButtonToList("Wyjscie", imageSuper, new Thickness(280, 0, 0, 0), exitEventHandler);
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.ADMIN_MANAGEMENT)
             {
-                addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
-                addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
-                addButtonToList("Uprawnienia", imageSuper, new Thickness(280, 0, 0, 0), editRoleEventHandler);
-                addButtonToList("Wyjscie", imageSuper, new Thickness(420, 0, 0, 0), exitEventHandler);
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Uprawnienia", (Canvas)this.FindResource("appbar_key"), new Thickness(280, 0, 0, 0), editRoleEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.SEMESTER_MANAGEMENT)
             {
-                addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
-                addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
-                addButtonToList("Dni wolne", imageSuper, new Thickness(280, 0, 0, 0), editHolidaysEventHandler);
-                addButtonToList("Wyjscie", imageSuper, new Thickness(420, 0, 0, 0), exitEventHandler);
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Dni wolne", (Canvas)this.FindResource("appbar_man_suitcase"), new Thickness(280, 0, 0, 0), editHolidaysEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+            }
+            else if (currentContentType == ContentType.DEPARTMENT_MANAGEMENT)
+            {
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Lokalizacje", (Canvas)this.FindResource("appbar_globe"), new Thickness(280, 0, 0, 0), editLocationsEventHandler);
+                addButtonToList("Kierunki", (Canvas)this.FindResource("appbar_draw_pen"), new Thickness(420, 0, 0, 0), editMajorsEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(560, 0, 0, 0), exitEventHandler);
             }
             
         }        
 
-        public void addButtonToList(string text, BitmapImage imageSource, Thickness margin, RoutedEventHandler eventHandler)        
+        public void addButtonToList(string text, Canvas icon, Thickness margin, RoutedEventHandler eventHandler)        
         {
             TopMenuButtonControl button1 = new TopMenuButtonControl();
             button1.TopMenuButtonText = text;
-            button1.TopMenuButtonImageSource = imageSource;
+            button1.TopMenuButtonIconResource = icon;
             button1.Margin = margin;
             button1.TopMenuButtonClick += eventHandler;
             topMenuGrid.Children.Add(button1);
@@ -90,6 +98,16 @@ namespace CommonScheduler.MenuComponents.Controls
         private void editHolidaysEventHandler(object sender, RoutedEventArgs e)
         {
             raiseButtonClickEvent(SenderType.EDIT_HOLIDAYS_BUTTON);
+        }
+
+        private void editLocationsEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.LOCATION_MANAGEMENT_BUTTON);
+        }
+
+        private void editMajorsEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.MAJOR_MANAGEMENT_BUTTON);
         }
 
         private void exitEventHandler(object sender, RoutedEventArgs e)

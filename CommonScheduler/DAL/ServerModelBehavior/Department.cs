@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,24 @@ namespace CommonScheduler.DAL
                               select department;
 
             return departments.ToList();
+        }
+
+        public Department AddDepartment(Department department)
+        {
+            return context.Department.Add(department);
+        }
+
+        public Department UpdateDepartment(Department department)
+        {
+            context.Department.Attach(department);
+            context.Entry(department).State = EntityState.Modified;
+            return department;
+        }
+
+        public Department DeleteDepartment(Department department)
+        {
+            context.Entry(department).State = EntityState.Deleted;
+            return department;
         }
     }
 }

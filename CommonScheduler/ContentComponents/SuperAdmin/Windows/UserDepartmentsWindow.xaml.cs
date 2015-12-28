@@ -1,4 +1,5 @@
 ﻿using CommonScheduler.DAL;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
     /// <summary>
     /// Logika interakcji dla klasy UserDepartmentsWindow.xaml
     /// </summary>
-    public partial class UserDepartmentsWindow : Window
+    public partial class UserDepartmentsWindow : MetroWindow
     {
         private serverDBEntities context;
         private Department departmentBehavior;
@@ -97,5 +98,15 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         {
             this.Close();
         }
+
+        void assignedListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            removeButton_Click(sender, new RoutedEventArgs());
+        }
+
+        void availableListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            addButton_Click(sender, new RoutedEventArgs());
+        }        
     }
 }

@@ -27,6 +27,7 @@ namespace CommonScheduler.MenuComponents.Controls
 
         public static readonly DependencyProperty TopMenuButtonTextProperty = DependencyProperty.Register("TopMenuButtonText", typeof(String), typeof(TopMenuButtonControl), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty TopMenuButtonImageSourceProperty = DependencyProperty.Register("TopMenuButtonImageSource", typeof(ImageSource), typeof(TopMenuButtonControl), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty TopMenuButtonIconResourceProperty = DependencyProperty.Register("TopMenuButtonIconResource", typeof(Canvas), typeof(TopMenuButtonControl), new FrameworkPropertyMetadata(null));
 
 
         public String TopMenuButtonText
@@ -39,6 +40,12 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             get { return GetValue(TopMenuButtonImageSourceProperty) as ImageSource; }
             set { SetValue(TopMenuButtonImageSourceProperty, value); }
+        }
+
+        public Canvas TopMenuButtonIconResource
+        {
+            get { return GetValue(TopMenuButtonIconResourceProperty) as Canvas; }
+            set { SetValue(TopMenuButtonIconResourceProperty, value); }
         }
 
         public static readonly RoutedEvent TopMenuButtonClickEvent = EventManager.RegisterRoutedEvent("TopMenuButtonClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LeftMenuButtonControl));

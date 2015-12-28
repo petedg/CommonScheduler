@@ -1,6 +1,7 @@
 ﻿using CommonScheduler.Authentication.Controls;
 using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace CommonScheduler.Authentication.Windows
     /// <summary>
     /// Logika interakcji dla klasy AuthWindow.xaml
     /// </summary>
-    public partial class AuthWindow : Window
+    public partial class AuthWindow : MetroWindow
     {
         public AuthWindow()
         {

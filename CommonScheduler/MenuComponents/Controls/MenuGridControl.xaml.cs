@@ -1,6 +1,8 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
 using CommonScheduler.Events.Data;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,10 +66,6 @@ namespace CommonScheduler.MenuComponents.Controls
 
         private void LeftMenuButtonControl_LeftMenuButtonClick(object sender, RoutedEventArgs e)
         {
-            CurrentUser.Instance.UserData = null;
-            CurrentUser.Instance.UserRoles = null;
-            CurrentUser.Instance.UserType = null;
-
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.LOGOUT));
@@ -78,11 +76,25 @@ namespace CommonScheduler.MenuComponents.Controls
 
         public delegate void LeftGridButtonClickEventHandler(object source, LeftGridButtonClickEventArgs e);
 
-        private void LeftMenuButtonControl_ExitButtonClick(object sender, RoutedEventArgs e)
+        private async void LeftMenuButtonControl_ExitButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy chcesz zakończyć działanie aplikacji?", "Potwierdzenie", System.Windows.MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
-                Application.Current.Shutdown();
+            MessageDialogResult result = await ShowMessage("Czy na pewno chcesz opuścić aplikację?", MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(false);
+
+            if (result == MessageDialogResult.Affirmative)
+            {
+                await Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Application.Current.Shutdown();
+                }), System.Windows.Threading.DispatcherPriority.Background);                
+            }
+        }
+
+        public async Task<MessageDialogResult> ShowMessage(string message, MessageDialogStyle dialogStyle)
+        {
+            var metroWindow = (Application.Current.MainWindow as MetroWindow);
+            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+
+            return await metroWindow.ShowMessageAsync("WYJŚCIE", message, dialogStyle, metroWindow.MetroDialogOptions);
         }
     }
 }

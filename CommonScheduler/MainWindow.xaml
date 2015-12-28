@@ -1,4 +1,6 @@
-﻿<Window xmlns:Controls1="clr-namespace:CommonScheduler.ContentComponents.GlobalAdmin.Controls"  xmlns:Controls="clr-namespace:CommonScheduler.CommonComponents.Controls"
+﻿<Metro:MetroWindow xmlns:Controls="clr-namespace:CommonScheduler.CommonComponents.Controls"
+        xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"       
         xmlns:myAuthControl="clr-namespace:CommonScheduler.MenuComponents.Controls"           
@@ -21,12 +23,12 @@
         <ContentControl x:Name="leftMenuContentControl" Grid.Column="0" Grid.Row="1"/>
         <ContentControl x:Name="topMenuContentControl" Grid.Column="1" Grid.Row="0" />
 
-        <Button Padding="20" Background="White" Click="ButtonMenu_Click" x:Name="menuButton" Style="{StaticResource menuButton}" >
+        <ToggleButton Padding="20" Click="ButtonMenu_Click" x:Name="menuButton">
             <Image Source="/Resources/Images/iconMenu.png"/>
-        </Button>       
+        </ToggleButton>       
 
         <!--myAuthControl:MenuGridControl Grid.Row="1" Margin="2" /-->
         <!--myAuthControl:LeftMenuGridControl Grid.Row="1" Margin="2" /-->
         <!--DataGrid Grid.Row="1" Grid.Column="1" Name="gridControl" /-->
     </Grid>
-</Window>
+</Metro:MetroWindow>

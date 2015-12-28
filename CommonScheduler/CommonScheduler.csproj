@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -142,11 +143,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\SuperAdmin\Controls\DepartmentDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\SuperAdmin\Controls\DepartmentsLocationDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContentComponents\SuperAdmin\Controls\SemesterDataGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ContentComponents\SuperAdmin\Windows\HolidayEditionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\SuperAdmin\Windows\LocationEditionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\SuperAdmin\Windows\MajorManagementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,11 +213,23 @@
       <DependentUpon>SuperAdminDataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\RowToIndexConverter.cs" />
+    <Compile Include="ContentComponents\SuperAdmin\Controls\DepartmentDataGridControl.xaml.cs">
+      <DependentUpon>DepartmentDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\SuperAdmin\Controls\DepartmentsLocationDataGridControl.xaml.cs">
+      <DependentUpon>DepartmentsLocationDataGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentComponents\SuperAdmin\Controls\SemesterDataGridControl.xaml.cs">
       <DependentUpon>SemesterDataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\SuperAdmin\Windows\HolidayEditionWindow.xaml.cs">
       <DependentUpon>HolidayEditionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\SuperAdmin\Windows\LocationEditionWindow.xaml.cs">
+      <DependentUpon>LocationEditionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\SuperAdmin\Windows\MajorManagementWindow.xaml.cs">
+      <DependentUpon>MajorManagementWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\SuperAdmin\Windows\UserDepartmentsWindow.xaml.cs">
       <DependentUpon>UserDepartmentsWindow.xaml</DependentUpon>

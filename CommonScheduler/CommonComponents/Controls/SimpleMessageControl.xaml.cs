@@ -22,7 +22,9 @@ namespace CommonScheduler.CommonComponents.Controls
     public partial class SimpleMessageControl : UserControl
     {
         public static readonly DependencyProperty MessageTextProperty = DependencyProperty.Register("MessageText", typeof(String), typeof(SimpleMessageControl), new FrameworkPropertyMetadata(string.Empty));
-        public static readonly DependencyProperty MessageImageSourceProperty = DependencyProperty.Register("MessageImageSource", typeof(ImageSource), typeof(SimpleMessageControl), new FrameworkPropertyMetadata(null));                
+        public static readonly DependencyProperty MessageImageSourceProperty = DependencyProperty.Register("MessageImageSource", typeof(ImageSource), typeof(SimpleMessageControl), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty MessageIconResourceProperty = DependencyProperty.Register("MessageIconResource", typeof(Canvas), typeof(SimpleMessageControl), new FrameworkPropertyMetadata(null));
+
         public String MessageText
         {
             get { return GetValue(MessageTextProperty).ToString(); }
@@ -33,6 +35,12 @@ namespace CommonScheduler.CommonComponents.Controls
         {
             get { return GetValue(MessageImageSourceProperty) as ImageSource; }
             set { SetValue(MessageImageSourceProperty, value); }
+        }
+
+        public Canvas MessageIconResource
+        {
+            get { return GetValue(MessageIconResourceProperty) as Canvas; }
+            set { SetValue(MessageIconResourceProperty, value); }
         }
 
         public SimpleMessageControl()

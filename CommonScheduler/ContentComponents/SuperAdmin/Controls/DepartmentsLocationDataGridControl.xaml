@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="CommonScheduler.ContentComponents.SuperAdmin.Controls.DepartmentsLocationDataGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Name="grid">
+        <Grid.Resources>
+            <xcdg:DataGridCollectionViewSource x:Key="itemSource" x:Name="collectionItemSource">
+                <xcdg:DataGridCollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="DEP_NAME" />                    
+                </xcdg:DataGridCollectionViewSource.GroupDescriptions>
+            </xcdg:DataGridCollectionViewSource>
+        </Grid.Resources>
+
+        <xcdg:DataGridControl Name="dataGrid" AutoCreateColumns="False" ItemsSource="{Binding Source={StaticResource itemSource}}"
+                              >           
+            <xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="DEP_NAME" Title="NAZWA_WYDZIAŁU"/>
+                <xcdg:Column FieldName="LOC_NAME" Title="NAZWA_LOKALIZACJI"/>
+                <xcdg:Column FieldName="LOC_POSTAL_CODE" Title="KOD_POCZTOWY"/>
+            </xcdg:DataGridControl.Columns>            
+        </xcdg:DataGridControl>      
+    </Grid>
+</UserControl>

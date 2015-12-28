@@ -150,6 +150,7 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                 {
                     UserDepartmentsWindow userDepartmentWindow = new UserDepartmentsWindow(((GlobalUser)dataGrid.SelectedItem));
                     //userDepartmentWindow.Title = "Lista przyporządkowanych wydziałów dla administratora" + ((GlobalUser)dataGrid.SelectedItem).LOGIN;
+                    userDepartmentWindow.Owner = Application.Current.MainWindow;
                     userDepartmentWindow.Title = "Edycja wydziałów";                    
                     userDepartmentWindow.ShowDialog();
                 }

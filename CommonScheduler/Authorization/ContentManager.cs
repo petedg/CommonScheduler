@@ -70,6 +70,10 @@ namespace CommonScheduler.Authorization
             {
                 return new SemesterDataGridControl();
             }
+            else if (CurrentContentType == ContentType.DEPARTMENT_MANAGEMENT)
+            {
+                return new DepartmentDataGridControl();
+            }
             else if (CurrentContentType == ContentType.DEFAULT)
             {
                 return new Rectangle { Fill = Brushes.LightGray };

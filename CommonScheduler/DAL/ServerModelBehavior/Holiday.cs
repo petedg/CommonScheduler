@@ -42,5 +42,17 @@ namespace CommonScheduler.DAL
             context.Entry(holiday).State = EntityState.Deleted;
             return holiday;
         }
+
+        public void removeHolidaysForSemester(Semester semester)
+        {
+            var holidays = from holiday in context.Holiday
+                           where holiday.SEMESTER_ID == semester.ID
+                           select holiday;
+
+            foreach (Holiday h in holidays)
+            {
+                context.Holiday.Remove(h);
+            }            
+        }
     }
 }

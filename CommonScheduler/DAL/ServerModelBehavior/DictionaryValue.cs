@@ -58,5 +58,25 @@ namespace CommonScheduler.DAL
 
             return dictionaryValues.ToList();
         }
+
+        public List<DictionaryValue> GetMajorDegrees()
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals("Poziomy studiów")
+                                   select dictionaryValue;
+
+            return dictionaryValues.ToList();
+        }
+
+        public List<DictionaryValue> GetMajorTypes()
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals("Typy studiów")
+                                   select dictionaryValue;
+
+            return dictionaryValues.ToList();
+        }
     }
 }

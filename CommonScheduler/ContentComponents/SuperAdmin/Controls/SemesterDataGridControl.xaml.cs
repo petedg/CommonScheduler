@@ -117,6 +117,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(Semester))
             {
                 //semesterBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
+                holidayBehavior.removeHolidaysForSemester((Semester)dataGrid.SelectedItem);
                 weekBehavior.RemoveWeeksListOnSemesterDelete((Semester)dataGrid.SelectedItem);
                 semesterBehavior.DeleteSemester((Semester)dataGrid.SelectedItem);               
             }
@@ -157,6 +158,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
                 {
                     HolidayEditionWindow userDepartmentWindow = new HolidayEditionWindow(((Semester)dataGrid.SelectedItem));
                     userDepartmentWindow.Title = "Edycja dni wolnych";
+                    userDepartmentWindow.Owner = Application.Current.MainWindow;
                     userDepartmentWindow.ShowDialog();
                 }
             }

@@ -14,7 +14,9 @@
         <TextBlock Name="labelLogin" Margin="2, 130, 2, 0" Width="160" TextAlignment="Center" TextWrapping="Wrap"/>
         <Line Stroke="DarkGray" X1="0" X2="170"  Y1="170" Y2="170" StrokeThickness="1"/>
 
-        <myMenuControl:LeftMenuButtonControl Margin="0,0,0,60" VerticalAlignment="Bottom" LeftMenuButtonText="Wyloguj" LeftMenuButtonClick="LeftMenuButtonControl_LeftMenuButtonClick"/>
-        <myMenuControl:LeftMenuButtonControl VerticalAlignment="Bottom" LeftMenuButtonText="Wyjście" LeftMenuButtonClick="LeftMenuButtonControl_ExitButtonClick"/>
+        <myMenuControl:LeftMenuButtonControl Margin="0,0,0,60" VerticalAlignment="Bottom" LeftMenuButtonText="Wyloguj" LeftMenuButtonClick="LeftMenuButtonControl_LeftMenuButtonClick"
+                                             LeftMenuButtonIconResource="{StaticResource appbar_door_leave}"/>
+        <myMenuControl:LeftMenuButtonControl VerticalAlignment="Bottom" LeftMenuButtonText="Wyjście" LeftMenuButtonClick="LeftMenuButtonControl_ExitButtonClick" 
+                                             LeftMenuButtonIconResource="{StaticResource appbar_power}"/>
     </Grid>
 </UserControl>

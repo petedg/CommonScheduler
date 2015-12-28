@@ -37,12 +37,13 @@ namespace CommonScheduler.MenuComponents.Controls
 
             if (userType.Equals("GlobalAdmin"))
             {
-                addButtonToList("ZARZĄDZANIE SUPER ADMINISTRATORAMI", imageSuper, new Thickness(0, 0, 0, 0), buttonSAManagementEventHandler);
+                addButtonToList("ZARZĄDZANIE SUPER ADMINISTRATORAMI", (Canvas)this.FindResource("appbar_people_multiple"), new Thickness(0, 0, 0, 0), buttonSAManagementEventHandler);
             }
             else if (userType.Equals("SuperAdmin"))
             {
-                addButtonToList("ZARZĄDZANIE ADMINISTRATORAMI", imageSuper, new Thickness(0, 0, 0, 0), buttonAdminManagementEventHandler);
-                addButtonToList("ORGANIZACJA ROKU AKADEMICKIEGO", imageSuper, new Thickness(0, 60, 0, 0), buttonSemesterManagementEventHandler);
+                addButtonToList("ZARZĄDZANIE ADMINISTRATORAMI", (Canvas)this.FindResource("appbar_people_multiple"), new Thickness(0, 0, 0, 0), buttonAdminManagementEventHandler);
+                addButtonToList("ORGANIZACJA ROKU AKADEMICKIEGO", (Canvas)this.FindResource("appbar_calendar"), new Thickness(0, 60, 0, 0), buttonSemesterManagementEventHandler);
+                addButtonToList("WYDZIAŁY, LOKALIZACJE I KIERUNKI", (Canvas)this.FindResource("appbar_home"), new Thickness(0, 120, 0, 0), buttonDepartmentManagementEventHandler);
             }
             else if (userType.Equals("Admin"))
             {
@@ -50,11 +51,12 @@ namespace CommonScheduler.MenuComponents.Controls
             }
         }
 
-        public void addButtonToList(string text, BitmapImage imageSource, Thickness margin, RoutedEventHandler eventHandler)        
+        public void addButtonToList(string text, Canvas icon, Thickness margin, RoutedEventHandler eventHandler)        
         {
             LeftMenuButtonControl button1 = new LeftMenuButtonControl();
             button1.LeftMenuButtonText = text;
-            button1.LeftMenuButtonImageSource = imageSource;
+            //button1.LeftMenuButtonImageSource = imageSource;
+            button1.LeftMenuButtonIconResource = icon;
             button1.Margin = margin;
             button1.LeftMenuButtonClick += eventHandler;
             leftMenuGrid.Children.Add(button1);
@@ -81,6 +83,14 @@ namespace CommonScheduler.MenuComponents.Controls
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SEMESTER_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonDepartmentManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.DEPARTMENT_MANAGEMENT_BUTTON));
             }
         }
 

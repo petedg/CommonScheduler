@@ -17,13 +17,15 @@ using CommonScheduler.Authentication.Windows;
 using CommonScheduler.Authorization;
 using CommonScheduler.MenuComponents.Controls;
 using CommonScheduler.Events.Data;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace CommonScheduler
 {
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private bool showMenu = true;
 
@@ -161,7 +163,7 @@ namespace CommonScheduler
             menuClickContentReset();
         }
 
-        void MainWindow_LeftGridButtonClick(object sender, LeftGridButtonClickEventArgs e)
+        async void MainWindow_LeftGridButtonClick(object sender, LeftGridButtonClickEventArgs e)
         {
             if (e.SenderType == SenderType.SUPER_ADMIN_MANAGEMENT_BUTTON)
             {
@@ -175,15 +177,27 @@ namespace CommonScheduler
             {
                 setContent(ContentType.SEMESTER_MANAGEMENT, (String)FindResource("mainWindowTitleSemesterManagement"));
             }
+            else if (e.SenderType == SenderType.DEPARTMENT_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.DEPARTMENT_MANAGEMENT, (String)FindResource("mainWindowTitleDepartmentManagement"));
+            }
             else if (e.SenderType == SenderType.LOGOUT)
             {
-                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz się wylogować?", "Potwierdzenie", System.Windows.MessageBoxButton.YesNo);
-                if (messageBoxResult == MessageBoxResult.Yes)
+                MessageDialogResult result = await ShowMessage("Czy na pewno chcesz się wylogować?", MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(false);
+
+                if (result == MessageDialogResult.Affirmative)
                 {
-                    AuthWindow auth = new AuthWindow();
-                    App.Current.MainWindow = auth;
-                    this.Close();
-                    auth.Show();
+                    await Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        CurrentUser.Instance.UserData = null;
+                        CurrentUser.Instance.UserRoles = null;
+                        CurrentUser.Instance.UserType = null;
+
+                        AuthWindow auth = new AuthWindow();
+                        App.Current.MainWindow = auth;
+                        this.Close();
+                        auth.Show();
+                    }), System.Windows.Threading.DispatcherPriority.Background);                    
                 }
             }
         }
@@ -199,6 +213,14 @@ namespace CommonScheduler
                 TopMenuButtonType = e.SenderType;
                 ((UIElement)contentControl.Content).RaiseEvent(new RoutedEventArgs(TopMenuButtonClickEvent));
             }
+        }
+
+        public async Task<MessageDialogResult> ShowMessage(string message, MessageDialogStyle dialogStyle)
+        {
+            var metroWindow = (Application.Current.MainWindow as MetroWindow);
+            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+
+            return await metroWindow.ShowMessageAsync("WYLOGOWANIE", message, dialogStyle, metroWindow.MetroDialogOptions);
         }
         #endregion
     }

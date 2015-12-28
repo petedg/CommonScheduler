@@ -22,6 +22,7 @@ namespace CommonScheduler.MenuComponents.Controls
     {
         public static readonly DependencyProperty LeftMenuButtonTextProperty = DependencyProperty.Register("LeftMenuButtonText", typeof(String), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty LeftMenuButtonImageSourceProperty = DependencyProperty.Register("LeftMenuButtonImageSource", typeof(ImageSource), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty LeftMenuButtonIconResourceProperty = DependencyProperty.Register("LeftMenuButtonIconResource", typeof(Canvas), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));
         //public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("LeftMenuButtonMargin", typeof(ImageSource), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));                
 
         public LeftMenuButtonControl()
@@ -32,13 +33,19 @@ namespace CommonScheduler.MenuComponents.Controls
         public String LeftMenuButtonText
         {
             get { return GetValue(LeftMenuButtonTextProperty).ToString(); }
-            set { SetValue(LeftMenuButtonTextProperty, value); }
+            set { SetValue(LeftMenuButtonTextProperty, value); }            
         }
 
         public ImageSource LeftMenuButtonImageSource
         {
             get { return GetValue(LeftMenuButtonImageSourceProperty) as ImageSource; }
             set { SetValue(LeftMenuButtonImageSourceProperty, value); }
+        }
+
+        public Canvas LeftMenuButtonIconResource
+        {
+            get { return GetValue(LeftMenuButtonIconResourceProperty) as Canvas; }
+            set { SetValue(LeftMenuButtonIconResourceProperty, value); }
         }
 
         //public ImageSource ButtonMargin

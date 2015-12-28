@@ -10,7 +10,7 @@
           InitializingNewItem="dataGrid_InitializingNewItem" BeginningEdit="dataGrid_BeginningEdit"
           xmlns:sys="clr-namespace:System;assembly=mscorlib"
           xmlns:local="clr-namespace:CommonScheduler.ContentComponents"
-          Style="{StaticResource dataGridTheme}"
+          Style="{StaticResource dataGridTheme}"     
           >
    
     <DataGrid.Columns>

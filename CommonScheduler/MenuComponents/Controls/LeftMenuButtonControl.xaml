@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="170" Name="leftMenuButtonControl">
-    <Button Style="{StaticResource leftMenuButton}" Click="Button_Click">
+    <Button Padding="4" Height="60" VerticalAlignment="Top" Click="Button_Click" Margin="1">
         <WrapPanel>
-            <Image Source="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonImageSource}"/>
+            <Rectangle Height="24" Width="24" HorizontalAlignment="Left" Margin="0,0,8,0">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonIconResource}" />
+                </Rectangle.Fill>
+            </Rectangle>
             <TextBlock Text="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonText}" TextWrapping="Wrap"/>
         </WrapPanel>
     </Button>

@@ -5,14 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="140" Name="topMenuButtonControl">
-    <Button Style="{StaticResource topMenuButton}" Click="Button_Click">
+    <Button Padding="4" Click="Button_Click" Width="140" VerticalAlignment="Stretch" HorizontalAlignment="Left">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <Image Source="{Binding ElementName=topMenuButtonControl, Path=TopMenuButtonImageSource}" Grid.Row="0" />
-            <TextBlock Text="{Binding ElementName=topMenuButtonControl, Path=TopMenuButtonText}" Grid.Row="1" TextWrapping="Wrap" />
+            <Rectangle Grid.Row="0" Width="24" Height="24" HorizontalAlignment="Center">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{Binding ElementName=topMenuButtonControl, Path=TopMenuButtonIconResource}" />
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Text="{Binding ElementName=topMenuButtonControl, Path=TopMenuButtonText}" Grid.Row="1" TextWrapping="Wrap" Margin="0,5,0,0" 
+                       HorizontalAlignment="Center"/>
         </Grid>
     </Button>
 </UserControl>

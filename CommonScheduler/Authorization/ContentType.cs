@@ -12,6 +12,7 @@ namespace CommonScheduler.Authorization
         MENU,
         SUPER_ADMIN_MANAGEMENT,
         ADMIN_MANAGEMENT,
-        SEMESTER_MANAGEMENT
+        SEMESTER_MANAGEMENT,
+        DEPARTMENT_MANAGEMENT
     }
 }
