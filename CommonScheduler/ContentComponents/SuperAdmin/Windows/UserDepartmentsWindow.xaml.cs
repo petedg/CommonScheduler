@@ -51,7 +51,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
             availableListBox.ItemsSource = AvailableDepartments;
             assignedListBox.ItemsSource = AssignedDepartments;
 
-            textBlock.Content += " " + user.LOGIN;
+            textBlock.Content += "\t" + user.LOGIN;
         }
 
         ~UserDepartmentsWindow()
@@ -91,6 +91,11 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
                 context.SaveChanges();
                 refreshList();
             }
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

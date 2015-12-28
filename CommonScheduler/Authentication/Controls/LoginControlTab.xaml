@@ -8,7 +8,7 @@
              d:DesignHeight="320" d:DesignWidth="420" Name="loginControlTab">
     <TabControl Style="{StaticResource loginControlTab}">
         <TabItem Header="{DynamicResource authTabHeaderLogin}">
-            <Grid>
+            <Grid FocusManager.FocusedElement="{Binding ElementName=textBoxLoginAdmin}">
                 <Label Content="{DynamicResource authLabelContentLogin}" Margin="0,10,0,0"/>
                 <TextBox Margin="0,32,0,0" Name="textBoxLoginAdmin"/>
 

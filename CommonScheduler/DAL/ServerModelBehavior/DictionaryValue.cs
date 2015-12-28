@@ -48,5 +48,15 @@ namespace CommonScheduler.DAL
 
             return selectedDictionaryValue.DV_ID;    
         }
+
+        public List<DictionaryValue> GetSemesterTypes()
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals("Typy semestrów")
+                                   select dictionaryValue;            
+
+            return dictionaryValues.ToList();
+        }
     }
 }

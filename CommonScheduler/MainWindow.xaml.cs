@@ -171,12 +171,20 @@ namespace CommonScheduler
             {
                 setContent(ContentType.ADMIN_MANAGEMENT, (String)FindResource("mainWindowTitleAdminManagement"));
             }
+            else if (e.SenderType == SenderType.SEMESTER_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.SEMESTER_MANAGEMENT, (String)FindResource("mainWindowTitleSemesterManagement"));
+            }
             else if (e.SenderType == SenderType.LOGOUT)
             {
-                AuthWindow auth = new AuthWindow();
-                App.Current.MainWindow = auth;
-                this.Close();
-                auth.Show();
+                MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy na pewno chcesz się wylogować?", "Potwierdzenie", System.Windows.MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    AuthWindow auth = new AuthWindow();
+                    App.Current.MainWindow = auth;
+                    this.Close();
+                    auth.Show();
+                }
             }
         }
 

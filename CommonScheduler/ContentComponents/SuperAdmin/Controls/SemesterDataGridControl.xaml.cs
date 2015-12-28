@@ -21,30 +21,34 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
+namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminDataGridControl.xaml
+    /// Logika interakcji dla klasy SemesterDataGridControl.xaml
     /// </summary>
-    public partial class AdminDataGridControl : UserControl
+    public partial class SemesterDataGridControl : UserControl
     {
         private serverDBEntities context;
-        private GlobalUser globalUserBehavior;
-        private Role roleBehavior;
-        private UserDepartment userDepartmentBehavior;
+        private Semester semesterBehavior;
+        private Week weekBehavior;
+        private DictionaryValue dictionaryValueBehavior;
+        private Holiday holidayBehavior;
 
-        public List<GlobalUser> ItemsSource { get; set; }        
+        public List<Semester> ItemsSource { get; set; }
+        public List<DictionaryValue> SemesterTypes { get; set; }
+        public List<Holiday> HolidaysSource { get; set; }
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
-        public AdminDataGridControl()
+        public SemesterDataGridControl()
         {
             InitializeComponent();
 
             context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
-            roleBehavior = new Role(context);
-            userDepartmentBehavior = new UserDepartment(context);
+            semesterBehavior = new Semester(context);
+            weekBehavior = new Week(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
+            holidayBehavior = new Holiday(context);
             
             initializeList();
             setColumns();            
@@ -54,7 +58,7 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
             AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
         }
 
-        ~AdminDataGridControl()
+        ~SemesterDataGridControl()
         {
             if (context != null)
                 context.Dispose();
@@ -62,22 +66,22 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
 
         private void initializeList()
         {
-            this.ItemsSource = globalUserBehavior.GetAdminList();
-            dataGrid.ItemsSource = ItemsSource;                    
+            this.SemesterTypes = dictionaryValueBehavior.GetSemesterTypes();                        
+            this.ItemsSource = semesterBehavior.GetList();
+            dataGrid.Items.Clear();
+            dataGrid.ItemsSource = ItemsSource;
         }
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SURNAME", "SURNAME", false);
-            //dataGrid.addComboBoxColumn("LOGIN", "LOGIN", ItemsSource3, "LOGIN", "LOGIN");
-            dataGrid.addTextColumn("LOGIN", "LOGIN", true);
-            dataGrid.addButtonColumn("PASSWORD", "Zresetuj hasło", dataGridButton_Click);
+            dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE");
+            dataGrid.addDatePickerColumn("START_DATE", "START_DATE");
+            dataGrid.addDatePickerColumn("END_DATE", "END_DATE");        
         }
 
         private void refreshList()
         {
-            ItemsSource = globalUserBehavior.GetAdminList();
+            this.ItemsSource = semesterBehavior.GetList();
             dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = ItemsSource;
         }
@@ -86,27 +90,23 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                if (((GlobalUser)e.Row.Item).ID == 0)
+                if (((Semester)e.Row.Item).ID == 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        GlobalUser newRow = ((GlobalUser)e.Row.DataContext);
+                        Semester newRow = ((Semester)e.Row.DataContext);
                         newRow.DATE_CREATED = DateTime.Now;
-                        newRow.DATE_MODIFIED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.USER_TYPE_DV_ID = 3;
-                        newRow.PASSWORD = globalUserBehavior.RandomHashedPassword();
-                        newRow.PASSWORD_TEMPORARY = false;
+                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;                        
 
-                        newRow = globalUserBehavior.AddUser(newRow);
+                        newRow = semesterBehavior.AddSemester(newRow);
                     }), System.Windows.Threading.DispatcherPriority.Background);
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        GlobalUser row = ((GlobalUser)e.Row.DataContext);
-                        globalUserBehavior.UpdateUser(row);
+                        Semester row = ((Semester)e.Row.DataContext);
+                        semesterBehavior.UpdateSemester(row);
                     }), System.Windows.Threading.DispatcherPriority.Background);
                 }
             }            
@@ -114,12 +114,19 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
 
         private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser))
+            if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(Semester))
             {
-                //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                userDepartmentBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
-                globalUserBehavior.DeleteUser((GlobalUser)dataGrid.SelectedItem);                
+                //semesterBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
+                weekBehavior.RemoveWeeksListOnSemesterDelete((Semester)dataGrid.SelectedItem);
+                semesterBehavior.DeleteSemester((Semester)dataGrid.SelectedItem);               
             }
+        }
+
+        void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
+        {
+            ((Semester)e.NewItem).START_DATE = DateTime.Now;
+            ((Semester)e.NewItem).END_DATE = DateTime.Now;
+            ((Semester)e.NewItem).SEMESTER_TYPE_DV_ID = 23;
         }
 
         void disableContent(object sender, RoutedEventArgs e)
@@ -144,13 +151,12 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                 discardChanges();
                 refreshList();
             }
-            else if (MainWindow.TopMenuButtonType == SenderType.EDIT_ROLE_BUTTON)
+            else if (MainWindow.TopMenuButtonType == SenderType.EDIT_HOLIDAYS_BUTTON)
             {
-                if (dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)))
+                if (dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(Semester) || dataGrid.SelectedItem.GetType().BaseType == typeof(Semester)))
                 {
-                    UserDepartmentsWindow userDepartmentWindow = new UserDepartmentsWindow(((GlobalUser)dataGrid.SelectedItem));
-                    //userDepartmentWindow.Title = "Lista przyporządkowanych wydziałów dla administratora" + ((GlobalUser)dataGrid.SelectedItem).LOGIN;
-                    userDepartmentWindow.Title = "Edycja wydziałów";                    
+                    HolidayEditionWindow userDepartmentWindow = new HolidayEditionWindow(((Semester)dataGrid.SelectedItem));
+                    userDepartmentWindow.Title = "Edycja dni wolnych";
                     userDepartmentWindow.ShowDialog();
                 }
             }
@@ -160,18 +166,20 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
         {
             context.Dispose();
             context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
+            semesterBehavior = new Semester(context);
+            weekBehavior = new Week(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
         }
 
         private bool saveChanges()
-        {
+        {            
             dataGrid.CancelEdit();
 
             try
             {
                 context.SaveChanges();
                 //roleBehavior.UpdateRolesForUsers();
-
+                weekBehavior.InitializeWeeksForNewSemesters();
                 return true;
             }
             catch (DbEntityValidationException dbEx)
@@ -198,42 +206,25 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                     MessageBox.Show(ex.InnerException.InnerException.Message);
 
                 return false;
-            }
-            
+            }            
         }
 
         private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             if (dataGrid.SelectedItem != null)
             {
-                if (dataGrid.SelectedItem.GetType() != typeof(GlobalUser) && dataGrid.SelectedItem.GetType().BaseType != typeof(GlobalUser))
+                if (dataGrid.SelectedItem.GetType() != typeof(Semester) && dataGrid.SelectedItem.GetType().BaseType != typeof(Semester))
                 {
+                    dataGrid.Columns[1].IsReadOnly = false;
+                    dataGrid.Columns[2].IsReadOnly = false;
                     dataGrid.Columns[3].IsReadOnly = false;
                 }
                 else
                 {
+                    dataGrid.Columns[1].IsReadOnly = true;
+                    dataGrid.Columns[2].IsReadOnly = true;
                     dataGrid.Columns[3].IsReadOnly = true;
                 }
-            }                      
-        }
-
-        void dataGridButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (saveChanges() && dataGrid.SelectedItem != null)
-            {
-                if ((dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)) 
-                        && ((GlobalUser)dataGrid.SelectedItem).ID != 0)
-                {
-                    GlobalUser user = (GlobalUser)dataGrid.SelectedItem;
-                    SecureString temporaryPassword = globalUserBehavior.ResetPassword(user.ID);
-                    new Message("Nowe hasło tymczasowe dla użytkownika " + user.LOGIN + ": " 
-                        + Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(temporaryPassword))
-                        + ".\r\nWażne 24h od tej chwili.", MessageType.SUCCESS_MESSAGE).showMessage();
-                }                
-            }
-            else
-            {
-                refreshList();
             }
         }
     }

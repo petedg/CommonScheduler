@@ -33,6 +33,7 @@
     <s:String x:Key="mainWindowTitleAdminMenu">Scheduler - ADMINISTRATOR - Menu</s:String>
     <s:String x:Key="mainWindowTitleMenu">Scheduler - Menu</s:String>
     <s:String x:Key="mainWindowTitleAdminManagement">Scheduler - SUPER ADMINISTRATOR - Zarządzanie Administratorami</s:String>
+    <s:String x:Key="mainWindowTitleSemesterManagement">Scheduler - SUPER ADMINISTRATOR - Organizacja roku akademickiego</s:String>
 
     <s:String x:Key="menuWelcomeMessage">Witaj,</s:String>
     

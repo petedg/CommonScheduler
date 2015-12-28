@@ -77,5 +77,12 @@ namespace CommonScheduler.MenuComponents.Controls
         public event LeftGridButtonClickEventHandler LeftGridButtonClick;
 
         public delegate void LeftGridButtonClickEventHandler(object source, LeftGridButtonClickEventArgs e);
+
+        private void LeftMenuButtonControl_ExitButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Czy chcesz zakończyć działanie aplikacji?", "Potwierdzenie", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+                Application.Current.Shutdown();
+        }
     }
 }

@@ -28,8 +28,8 @@ namespace CommonScheduler.MenuComponents.Controls
         public LeftMenuGridControl()
         {
             InitializeComponent();
-            setLeftMenuButtons();
-        }        
+            setLeftMenuButtons();          
+        }
 
         public void setLeftMenuButtons()
         {
@@ -42,6 +42,7 @@ namespace CommonScheduler.MenuComponents.Controls
             else if (userType.Equals("SuperAdmin"))
             {
                 addButtonToList("ZARZĄDZANIE ADMINISTRATORAMI", imageSuper, new Thickness(0, 0, 0, 0), buttonAdminManagementEventHandler);
+                addButtonToList("ORGANIZACJA ROKU AKADEMICKIEGO", imageSuper, new Thickness(0, 60, 0, 0), buttonSemesterManagementEventHandler);
             }
             else if (userType.Equals("Admin"))
             {
@@ -72,6 +73,14 @@ namespace CommonScheduler.MenuComponents.Controls
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.ADMIN_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonSemesterManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SEMESTER_MANAGEMENT_BUTTON));
             }
         }
 

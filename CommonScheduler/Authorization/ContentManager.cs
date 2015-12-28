@@ -1,4 +1,5 @@
 ﻿using CommonScheduler.ContentComponents.GlobalAdmin.Controls;
+using CommonScheduler.ContentComponents.SuperAdmin.Controls;
 using CommonScheduler.MenuComponents.Controls;
 using System;
 using System.Collections.Generic;
@@ -25,16 +26,12 @@ namespace CommonScheduler.Authorization
             {
                 return new MenuGridControl();
             }
-            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT || CurrentContentType == ContentType.ADMIN_MANAGEMENT)
-            {
-                return new LeftMenuGridControl();
-            }
-            else if (CurrentContentType == ContentType.DEFAULT)
+            else
             {
                 return new LeftMenuGridControl();
             }
 
-            return new Rectangle { Fill = Brushes.LightGray };
+            //return new Rectangle { Fill = Brushes.LightGray };
         }
 
         public UIElement getTopMenuContent()
@@ -42,18 +39,17 @@ namespace CommonScheduler.Authorization
             if (CurrentContentType == ContentType.MENU)
             {
                 return new Rectangle { Fill = Brushes.LightGray };
-            }
-            else if (CurrentContentType == ContentType.SUPER_ADMIN_MANAGEMENT || CurrentContentType == ContentType.ADMIN_MANAGEMENT)
-            {
-                return new TopMenuGridControl();
-            }
+            }            
             else if (CurrentContentType == ContentType.DEFAULT)
             {
                 return new Rectangle { Fill = Brushes.LightGray };
             }
+            else
+            {
+                return new TopMenuGridControl();
+            }
 
-
-            return new Rectangle { Fill = Brushes.LightGray };
+            //return new Rectangle { Fill = Brushes.LightGray };
         }
 
         public UIElement getMainContent()
@@ -69,6 +65,10 @@ namespace CommonScheduler.Authorization
             else if (CurrentContentType == ContentType.ADMIN_MANAGEMENT)
             {
                 return new AdminDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.SEMESTER_MANAGEMENT)
+            {
+                return new SemesterDataGridControl();
             }
             else if (CurrentContentType == ContentType.DEFAULT)
             {

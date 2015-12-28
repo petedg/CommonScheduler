@@ -14,6 +14,11 @@ namespace CommonScheduler.DAL
     
     public partial class Holiday
     {
+        public Holiday()
+        {
+
+        }
+
         public int ID { get; set; }
         public System.DateTime DATE { get; set; }
         public string NAME { get; set; }

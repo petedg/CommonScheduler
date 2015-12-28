@@ -15,9 +15,6 @@
    
     <DataGrid.Columns>
         <DataGridTextColumn Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={local:RowToIndexConverter}}" IsReadOnly="true" />
-        <!--DataGridTextColumn Header="NAME" Width="Auto" IsReadOnly="False" Binding="{Binding NAME}"/>
-        <DataGridTextColumn Header="SURNAME" Width="Auto" IsReadOnly="False" Binding="{Binding SURNAME}"/>
-        <DataGridTextColumn Header="LOGIN" Width="Auto" IsReadOnly="True" Binding="{Binding LOGIN}" /-->
     </DataGrid.Columns>
     
 </DataGrid>

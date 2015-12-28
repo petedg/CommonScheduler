@@ -52,9 +52,12 @@ namespace CommonScheduler.MenuComponents.Controls
                 addButtonToList("Uprawnienia", imageSuper, new Thickness(280, 0, 0, 0), editRoleEventHandler);
                 addButtonToList("Wyjscie", imageSuper, new Thickness(420, 0, 0, 0), exitEventHandler);
             }
-            else if (currentContentType == ContentType.SUPER_ADMIN_MANAGEMENT)
+            else if (currentContentType == ContentType.SEMESTER_MANAGEMENT)
             {
-                
+                addButtonToList("Zapisz zmiany", imageSuper, new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", imageSuper, new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Dni wolne", imageSuper, new Thickness(280, 0, 0, 0), editHolidaysEventHandler);
+                addButtonToList("Wyjscie", imageSuper, new Thickness(420, 0, 0, 0), exitEventHandler);
             }
             
         }        
@@ -82,6 +85,11 @@ namespace CommonScheduler.MenuComponents.Controls
         private void editRoleEventHandler(object sender, RoutedEventArgs e)
         {
             raiseButtonClickEvent(SenderType.EDIT_ROLE_BUTTON);
+        }
+
+        private void editHolidaysEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.EDIT_HOLIDAYS_BUTTON);
         }
 
         private void exitEventHandler(object sender, RoutedEventArgs e)

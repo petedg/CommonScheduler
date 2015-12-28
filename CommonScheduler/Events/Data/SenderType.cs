@@ -10,10 +10,12 @@ namespace CommonScheduler.Events.Data
     {
         SUPER_ADMIN_MANAGEMENT_BUTTON,
         ADMIN_MANAGEMENT_BUTTON,
+        SEMESTER_MANAGEMENT_BUTTON,
 
         SAVE_BUTTON,
         CANCEL_BUTTON,
         EDIT_ROLE_BUTTON,
+        EDIT_HOLIDAYS_BUTTON,
 
         CLOSE_CONTENT,
         LOGOUT

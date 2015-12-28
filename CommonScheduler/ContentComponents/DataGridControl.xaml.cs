@@ -41,16 +41,15 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(textColumn); 
         }
 
-        public void addComboBoxColumn(string header, List<GlobalUser> itemsSource, string selectedValuePath, string displayMemberPath)
+        public void addSemesterComboBoxColumn(string header, string binding, List<DictionaryValue> itemsSource, string selectedValuePath, string displayMemberPath)
         {
-            //dataGrid.addComboBoxColumn("LOGIN", "LOGIN", ItemsSource3, "LOGIN", "LOGIN");
             DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
             comboBoxColumn.ItemsSource = itemsSource;
-            comboBoxColumn.Header = header;
-            comboBoxColumn.TextBinding = new Binding(displayMemberPath);
+            comboBoxColumn.Header = header;            
+            comboBoxColumn.SelectedValueBinding = new Binding(binding);            
             comboBoxColumn.SelectedValuePath = selectedValuePath;
-            comboBoxColumn.DisplayMemberPath = displayMemberPath;            
-            comboBoxColumn.Width = DataGridLength.Auto;
+            comboBoxColumn.DisplayMemberPath = displayMemberPath;
+            comboBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
 
             dataGrid.Columns.Add(comboBoxColumn);
         }
@@ -74,34 +73,51 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(buttonColumn);
         }
 
-        //public void addCheckComboBoxColumn(string header, List<Department> itemsSource, string selectedValuePath, string displayMemberPath)
-        //{
-        //    DataGridTemplateColumn checkComboBoxColumn = new DataGridTemplateColumn();
-        //    checkComboBoxColumn.Header = header;
-            
-        //    FrameworkElementFactory checkComboBoxFactory = new FrameworkElementFactory(typeof(Xceed.Wpf.Toolkit.CheckComboBox));
+        public void addDatePickerColumn(string header, string binding)
+        {
+            DataGridTemplateColumn datePickerColumn = new DataGridTemplateColumn();
+            datePickerColumn.Header = header;
 
-        //    checkComboBoxFactory.SetValue(Xceed.Wpf.Toolkit.CheckComboBox.SelectedValueProperty, selectedValuePath);
-        //    checkComboBoxFactory.SetValue(Xceed.Wpf.Toolkit.CheckComboBox.DisplayMemberPathProperty, displayMemberPath);
-        //    checkComboBoxColumn.SetValue(Xceed.Wpf.Toolkit.CheckComboBox.ItemsSourceProperty, itemsSource);
+            FrameworkElementFactory textFactory = new FrameworkElementFactory(typeof(TextBlock));
+            textFactory.SetBinding(TextBlock.TextProperty, new Binding(binding));            
+            DataTemplate textTemplate = new DataTemplate();
+            textTemplate.VisualTree = textFactory;
 
-        //    //checkComboBoxFactory.AddHandler(Xceed.Wpf.Toolkit.CheckComboBox.MouseLeftButtonDownEvent, new MouseButtonEventHandler(CheckComboBox_OnKeyDown));
+            FrameworkElementFactory datePickerFactory = new FrameworkElementFactory(typeof(DatePicker));
+            datePickerFactory.SetBinding(DatePicker.SelectedDateProperty, new Binding(binding));
+            DataTemplate datePickerTemplate = new DataTemplate();
+            datePickerTemplate.VisualTree = datePickerFactory;
 
-        //    DataTemplate dataTemplate = new DataTemplate();
-        //    dataTemplate.VisualTree = checkComboBoxFactory;
+            datePickerColumn.CellTemplate = textTemplate;
+            datePickerColumn.CellEditingTemplate = datePickerTemplate;
 
-        //    // Set the Templates to the Column
-        //    checkComboBoxColumn.CellTemplate = dataTemplate;
+            datePickerColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            dataGrid.Columns.Add(datePickerColumn);
+        }
 
-        //    checkComboBoxColumn.Width = DataGridLength.Auto;
-        //    dataGrid.Columns.Add(checkComboBoxColumn);
-        //}        
+        public void addDatePickerWithBoundsColumn(string header, string binding, DateTime displayDateStart, DateTime displayDateEnd)
+        {
+            DataGridTemplateColumn datePickerColumn = new DataGridTemplateColumn();
+            datePickerColumn.Header = header;
 
-        //void CheckComboBox_OnKeyDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    var obj = (Xceed.Wpf.Toolkit.CheckComboBox)sender;
-        //    obj.IsDropDownOpen = !obj.IsDropDownOpen;            
-        //}
+            FrameworkElementFactory textFactory = new FrameworkElementFactory(typeof(TextBlock));
+            textFactory.SetBinding(TextBlock.TextProperty, new Binding(binding));            
+            DataTemplate textTemplate = new DataTemplate();
+            textTemplate.VisualTree = textFactory;
+
+            FrameworkElementFactory datePickerFactory = new FrameworkElementFactory(typeof(DatePicker));
+            datePickerFactory.SetBinding(DatePicker.SelectedDateProperty, new Binding(binding));
+            datePickerFactory.SetValue(DatePicker.DisplayDateStartProperty, displayDateStart);
+            datePickerFactory.SetValue(DatePicker.DisplayDateEndProperty, displayDateEnd);
+            DataTemplate datePickerTemplate = new DataTemplate();
+            datePickerTemplate.VisualTree = datePickerFactory;
+
+            datePickerColumn.CellTemplate = textTemplate;
+            datePickerColumn.CellEditingTemplate = datePickerTemplate;
+
+            datePickerColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            dataGrid.Columns.Add(datePickerColumn);
+        }
 
         private void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
         {            
