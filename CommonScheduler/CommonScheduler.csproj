@@ -131,6 +131,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\Admin\Controls\LocationDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Controls\MajorDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Controls\NestedSubgroupDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Windows\RoomEditionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentComponents\Admin\Windows\SubgroupEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContentComponents\DataGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,6 +222,21 @@
     <Compile Include="CommonComponents\MessageType.cs" />
     <Compile Include="CommonComponents\Controls\SimpleMessageControl.xaml.cs">
       <DependentUpon>SimpleMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\LocationDataGridControl.xaml.cs">
+      <DependentUpon>LocationDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\MajorDataGridControl.xaml.cs">
+      <DependentUpon>MajorDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\NestedSubgroupDataGridControl.xaml.cs">
+      <DependentUpon>NestedSubgroupDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Windows\RoomEditionWindow.xaml.cs">
+      <DependentUpon>RoomEditionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Windows\SubgroupEditWindow.xaml.cs">
+      <DependentUpon>SubgroupEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\DataGridControl.xaml.cs">
       <DependentUpon>DataGridControl.xaml</DependentUpon>
@@ -568,6 +603,7 @@
     <Resource Include="Resources\Images\logoSuper.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ContentComponents\GlobalAdmin\Windows\" />
     <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>

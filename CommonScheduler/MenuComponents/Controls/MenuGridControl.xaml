@@ -14,6 +14,10 @@
         <TextBlock Name="labelLogin" Margin="2, 130, 2, 0" Width="160" TextAlignment="Center" TextWrapping="Wrap"/>
         <Line Stroke="DarkGray" X1="0" X2="170"  Y1="170" Y2="170" StrokeThickness="1"/>
 
+        <TextBlock Visibility="Hidden" Name="departmentComboBoxLabel" Margin="0,0,0,190" VerticalAlignment="Bottom" HorizontalAlignment="Center">BIEŻĄCY WYDZIAŁ</TextBlock>
+        <ComboBox Visibility="Hidden" Name="departmentComboBox" Margin="0,0,0,160" VerticalAlignment="Bottom" SelectionChanged="departmentComboBox_SelectionChanged">
+            
+        </ComboBox>
         <myMenuControl:LeftMenuButtonControl Margin="0,0,0,60" VerticalAlignment="Bottom" LeftMenuButtonText="Wyloguj" LeftMenuButtonClick="LeftMenuButtonControl_LeftMenuButtonClick"
                                              LeftMenuButtonIconResource="{StaticResource appbar_door_leave}"/>
         <myMenuControl:LeftMenuButtonControl VerticalAlignment="Bottom" LeftMenuButtonText="Wyjście" LeftMenuButtonClick="LeftMenuButtonControl_ExitButtonClick" 

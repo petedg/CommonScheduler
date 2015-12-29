@@ -18,7 +18,6 @@ namespace CommonScheduler.DAL
         public Subgroup()
         {
             this.Group = new HashSet<Group>();
-            this.Subgroup1 = new HashSet<Subgroup>();
         }
     
         public int ID { get; set; }
@@ -30,13 +29,12 @@ namespace CommonScheduler.DAL
         public int ID_CREATED { get; set; }
         public Nullable<int> ID_MODIFIED { get; set; }
         public int MAJOR_ID { get; set; }
-        public int SUBGROUP_ID { get; set; }
+        public Nullable<int> SUBGROUP_ID { get; set; }
+        public Nullable<int> SEMESTER_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Group> Group { get; set; }
         public virtual Major Major { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Subgroup> Subgroup1 { get; set; }
-        public virtual Subgroup Subgroup2 { get; set; }
+        public virtual Semester Semester { get; set; }
     }
 }

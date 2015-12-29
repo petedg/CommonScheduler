@@ -33,7 +33,7 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             InitializeComponent();
             initializeUserData();
-            setUserTypeLogo();
+            setContentByUserType();
         }
 
         private void initializeUserData()
@@ -46,7 +46,7 @@ namespace CommonScheduler.MenuComponents.Controls
             //labelNameSurname.Text = "QWERTYUIOPASDFGHJKLZXCVBNMASDF";
         }
 
-        private void setUserTypeLogo()
+        private void setContentByUserType()
         {
             String userType = CurrentUser.Instance.UserType;
 
@@ -60,6 +60,20 @@ namespace CommonScheduler.MenuComponents.Controls
             }
             else if (userType.Equals("Admin"))
             {
+                departmentComboBox.Visibility = Visibility.Visible;
+                departmentComboBoxLabel.Visibility = Visibility.Visible;
+
+                using (serverDBEntities context = new serverDBEntities())
+                {
+                    Department departmentBehavior = new Department(context);
+                    List<Department> departmentList = departmentBehavior.GetAssignedDepartmentsByUserId(CurrentUser.Instance.UserData.ID);
+
+                    departmentComboBox.ItemsSource = departmentList;
+                    departmentComboBox.SelectedValuePath = "ID";
+                    departmentComboBox.DisplayMemberPath = "NAME";
+                    departmentComboBox.SelectedValue = CurrentUser.Instance.AdminCurrentDepartment.ID;
+                }
+
                 imageUserType.Source = imageAdmin;
             } 
         }
@@ -95,6 +109,16 @@ namespace CommonScheduler.MenuComponents.Controls
             metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
 
             return await metroWindow.ShowMessageAsync("WYJŚCIE", message, dialogStyle, metroWindow.MetroDialogOptions);
+        }
+
+        private void departmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentUser.Instance.AdminCurrentDepartment = ((Department)e.AddedItems[0]);
+
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.CLOSE_CONTENT));
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommonScheduler.Authentication.Controls;
 using CommonScheduler.Authorization;
+using CommonScheduler.CommonComponents;
 using CommonScheduler.DAL;
 using MahApps.Metro.Controls;
 using System;
@@ -40,6 +41,33 @@ namespace CommonScheduler.Authentication.Windows
             CurrentUser.Instance.UserData.PASSWORD = null;
             CurrentUser.Instance.UserData.PASSWORD_EXPIRATION = null;
             CurrentUser.Instance.UserData.PASSWORD_TEMPORARY = false;
+
+            if (CurrentUser.Instance.UserType.Equals("Admin"))
+            {
+                using (serverDBEntities context = new serverDBEntities())
+                {
+                    Department departmentBehavior = new Department(context);
+                    List<Department> departmentList = departmentBehavior.GetAssignedDepartmentsByUserId(CurrentUser.Instance.UserData.ID);
+
+                    if (new Semester(context).GetActiveSemester() != null)
+                    {
+                        if (departmentList.Count != 0)
+                        {
+                            CurrentUser.Instance.AdminCurrentDepartment = departmentList.FirstOrDefault();
+                        }
+                        else
+                        {
+                            MessageBoxResult result = MessageBox.Show("Nie masz uprawnień do wprowadzania zmian na żadnym z wydziałów. Skontaktuj się z administratorem.");
+                            Application.Current.Shutdown();
+                        }
+                    }
+                    else
+                    {
+                        MessageBoxResult result = MessageBox.Show("Aktualnie w systemie nie ma aktywowanego żadnego semestru. Skontaktuj się z administratorem.");
+                        Application.Current.Shutdown();
+                    }
+                }
+            }            
 
             MainWindow main = new MainWindow();
             App.Current.MainWindow = main;

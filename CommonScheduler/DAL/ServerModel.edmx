@@ -197,6 +197,7 @@
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="IS_ACTIVE" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SpecialLocation">
           <Key>
@@ -226,7 +227,8 @@
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
           <Property Name="MAJOR_ID" Type="int" Nullable="false" />
-          <Property Name="SUBGROUP_ID" Type="int" Nullable="false" />
+          <Property Name="SUBGROUP_ID" Type="int" />
+          <Property Name="SEMESTER_ID" Type="int" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -313,6 +315,18 @@
             </Principal>
             <Dependent Role="DictionaryValue">
               <PropertyRef Name="DICTIONARY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subgroup__SEMEST__5AEE82B9">
+          <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+          <End Role="Subgroup" Type="Self.Subgroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Subgroup">
+              <PropertyRef Name="SEMESTER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -520,18 +534,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Subgroup_Subgroup_FK">
-          <End Role="Subgroup" Type="Self.Subgroup" Multiplicity="1" />
-          <End Role="Subgroup1" Type="Self.Subgroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subgroup">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Subgroup1">
-              <PropertyRef Name="SUBGROUP_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Week_Semester_FK">
           <End Role="Semester" Type="Self.Semester" Multiplicity="1" />
           <End Role="Week" Type="Self.Week" Multiplicity="*" />
@@ -581,6 +583,10 @@
           <AssociationSet Name="DictionaryValue_Dictionary_FK" Association="Self.DictionaryValue_Dictionary_FK">
             <End Role="Dictionary" EntitySet="Dictionary" />
             <End Role="DictionaryValue" EntitySet="DictionaryValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="Self.FK__Subgroup__SEMEST__5AEE82B9">
+            <End Role="Semester" EntitySet="Semester" />
+            <End Role="Subgroup" EntitySet="Subgroup" />
           </AssociationSet>
           <AssociationSet Name="FK__UserDepar__Depar__4F7CD00D" Association="Self.FK__UserDepar__Depar__4F7CD00D">
             <End Role="Department" EntitySet="Department" />
@@ -649,10 +655,6 @@
           <AssociationSet Name="Subgroup_Major_FK" Association="Self.Subgroup_Major_FK">
             <End Role="Major" EntitySet="Major" />
             <End Role="Subgroup" EntitySet="Subgroup" />
-          </AssociationSet>
-          <AssociationSet Name="Subgroup_Subgroup_FK" Association="Self.Subgroup_Subgroup_FK">
-            <End Role="Subgroup" EntitySet="Subgroup" />
-            <End Role="Subgroup1" EntitySet="Subgroup" />
           </AssociationSet>
           <AssociationSet Name="Week_Semester_FK" Association="Self.Week_Semester_FK">
             <End Role="Semester" EntitySet="Semester" />
@@ -888,6 +890,8 @@
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="Holiday" Relationship="Self.Holiday_Semester_FK" FromRole="Semester" ToRole="Holiday" />
           <NavigationProperty Name="Week" Relationship="Self.Week_Semester_FK" FromRole="Semester" ToRole="Week" />
+          <Property Name="IS_ACTIVE" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Subgroup" Relationship="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Semester" ToRole="Subgroup" />
         </EntityType>
         <EntityType Name="SpecialLocation">
           <Key>
@@ -918,11 +922,11 @@
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
           <Property Name="MAJOR_ID" Type="Int32" Nullable="false" />
-          <Property Name="SUBGROUP_ID" Type="Int32" Nullable="false" />
+          <Property Name="SUBGROUP_ID" Type="Int32" />
           <NavigationProperty Name="Group" Relationship="Self.Group_Subgroup_FK" FromRole="Subgroup" ToRole="Group" />
           <NavigationProperty Name="Major" Relationship="Self.Subgroup_Major_FK" FromRole="Subgroup" ToRole="Major" />
-          <NavigationProperty Name="Subgroup1" Relationship="Self.Subgroup_Subgroup_FK" FromRole="Subgroup" ToRole="Subgroup1" />
-          <NavigationProperty Name="Subgroup2" Relationship="Self.Subgroup_Subgroup_FK" FromRole="Subgroup1" ToRole="Subgroup" />
+          <Property Name="SEMESTER_ID" Type="Int32" />
+          <NavigationProperty Name="Semester" Relationship="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Subgroup" ToRole="Semester" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -1202,18 +1206,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Subgroup_Subgroup_FK">
-          <End Role="Subgroup" Type="Self.Subgroup" Multiplicity="1" />
-          <End Role="Subgroup1" Type="Self.Subgroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subgroup">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Subgroup1">
-              <PropertyRef Name="SUBGROUP_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="serverDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Classes" EntityType="Self.Classes" />
           <EntitySet Name="ClassesGroup" EntityType="Self.ClassesGroup" />
@@ -1315,10 +1307,6 @@
             <End Role="Semester" EntitySet="Semester" />
             <End Role="Week" EntitySet="Week" />
           </AssociationSet>
-          <AssociationSet Name="Subgroup_Subgroup_FK" Association="Self.Subgroup_Subgroup_FK">
-            <End Role="Subgroup" EntitySet="Subgroup" />
-            <End Role="Subgroup1" EntitySet="Subgroup" />
-          </AssociationSet>
           <EntitySet Name="UserDepartment" EntityType="serverDBModel.UserDepartment" />
           <AssociationSet Name="FK__UserDepar__Depar__4BAC3F29" Association="serverDBModel.FK__UserDepar__Depar__4BAC3F29">
             <End Role="Department" EntitySet="Department" />
@@ -1327,6 +1315,10 @@
           <AssociationSet Name="FK__UserDepar__Globa__4AB81AF0" Association="serverDBModel.FK__UserDepar__Globa__4AB81AF0">
             <End Role="GlobalUser" EntitySet="GlobalUser" />
             <End Role="UserDepartment" EntitySet="UserDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9">
+            <End Role="Semester" EntitySet="Semester" />
+            <End Role="Subgroup" EntitySet="Subgroup" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserDepartment">
@@ -1360,6 +1352,18 @@
             </Principal>
             <Dependent Role="UserDepartment">
               <PropertyRef Name="GlobalUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subgroup__SEMEST__5AEE82B9">
+          <End Type="serverDBModel.Semester" Role="Semester" Multiplicity="0..1" />
+          <End Type="serverDBModel.Subgroup" Role="Subgroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Subgroup">
+              <PropertyRef Name="SEMESTER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1565,6 +1569,7 @@
           <EntitySetMapping Name="Semester">
             <EntityTypeMapping TypeName="serverDBModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
@@ -1595,6 +1600,7 @@
           <EntitySetMapping Name="Subgroup">
             <EntityTypeMapping TypeName="serverDBModel.Subgroup">
               <MappingFragment StoreEntitySet="Subgroup">
+                <ScalarProperty Name="SEMESTER_ID" ColumnName="SEMESTER_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="SHORT_NAME" ColumnName="SHORT_NAME" />

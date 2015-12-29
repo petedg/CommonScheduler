@@ -43,5 +43,17 @@ namespace CommonScheduler.DAL
                 context.UserDepartment.Remove(u);
             }            
         }
+
+        public void RemoveDepartmentsAssociations(Department department)
+        {
+            var userDepartments = from ud in context.UserDepartment
+                                  where ud.Department_ID == department.ID
+                                  select ud;
+
+            foreach (UserDepartment u in userDepartments)
+            {
+                context.UserDepartment.Remove(u);
+            }
+        }
     }
 }

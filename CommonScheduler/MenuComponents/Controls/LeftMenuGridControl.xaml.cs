@@ -47,7 +47,11 @@ namespace CommonScheduler.MenuComponents.Controls
             }
             else if (userType.Equals("Admin"))
             {
-
+                addButtonToList("LOKALIZACJE", (Canvas)this.FindResource("appbar_globe"), new Thickness(0, 0, 0, 0), buttonAdminRoomManagementEventHandler);
+                addButtonToList("KIERUNKI", (Canvas)this.FindResource("appbar_draw_pen"), new Thickness(0, 60, 0, 0), buttonAdminSubgroupManagementEventHandler);
+                addButtonToList("GRUPY", (Canvas)this.FindResource("appbar_tiles_sixteen"), new Thickness(0, 120, 0, 0), buttonAdminGroupManagementEventHandler);
+                addButtonToList("NAUCZYCIELE", (Canvas)this.FindResource("appbar_people"), new Thickness(0, 180, 0, 0), buttonAdminTeacherManagementEventHandler);
+                addButtonToList("PLANY ZAJĘĆ", (Canvas)this.FindResource("appbar_clipboard_variant"), new Thickness(0, 240, 0, 0), buttonAdminScheduleManagementEventHandler);
             }
         }
 
@@ -91,6 +95,46 @@ namespace CommonScheduler.MenuComponents.Controls
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.DEPARTMENT_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminSubgroupManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SUBGROUP_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminGroupManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.GROUP_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminRoomManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.ROOM_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminTeacherManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.TEACHER_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonAdminScheduleManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SCHEDULE_MANAGEMENT_BUTTON));
             }
         }
 

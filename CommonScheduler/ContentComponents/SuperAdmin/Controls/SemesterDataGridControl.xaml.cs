@@ -74,9 +74,10 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
 
         private void setColumns()
         {
-            dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE");
+            dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false);
             dataGrid.addDatePickerColumn("START_DATE", "START_DATE");
-            dataGrid.addDatePickerColumn("END_DATE", "END_DATE");        
+            dataGrid.addDatePickerColumn("END_DATE", "END_DATE");
+            dataGrid.addCheckBoxColumn("IS_ACTIVE", "IS_ACTIVE", false);
         }
 
         private void refreshList()
@@ -175,7 +176,8 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
 
         private bool saveChanges()
         {            
-            dataGrid.CancelEdit();
+            //dataGrid.CancelEdit();
+            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
 
             try
             {

@@ -10,10 +10,12 @@ namespace CommonScheduler.DAL
     public partial class Location
     {
         private serverDBEntities context;
+        private Room roomBehavior;
 
         public Location(serverDBEntities context)
         {
             this.context = context;
+            roomBehavior = new Room(context);
         }
 
         public dynamic GetLocationsWithDepartments()
@@ -53,6 +55,19 @@ namespace CommonScheduler.DAL
         {
             context.Entry(location).State = EntityState.Deleted;
             return location;
+        }
+
+        public void RemoveLocationsForDepartment(Department department)
+        {
+            var locations = from location in context.Location
+                            where location.Department_ID == department.ID
+                            select location;
+
+            foreach (Location l in locations)
+            {
+                roomBehavior.RemoveRoomsForLocation(l);
+                DeleteLocation(l);
+            }
         }
 
                                            

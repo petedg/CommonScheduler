@@ -5,14 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="170" Name="leftMenuButtonControl">
-    <Button Padding="4" Height="60" VerticalAlignment="Top" Click="Button_Click" Margin="1">
-        <WrapPanel>
-            <Rectangle Height="24" Width="24" HorizontalAlignment="Left" Margin="0,0,8,0">
+    <Button Padding="4" Height="60" VerticalAlignment="Top" HorizontalContentAlignment="Left" Click="Button_Click" Margin="1">
+        <Grid HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="44"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="0" Height="24" Width="24">
                 <Rectangle.Fill>
                     <VisualBrush Visual="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonIconResource}" />
                 </Rectangle.Fill>
             </Rectangle>
-            <TextBlock Text="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonText}" TextWrapping="Wrap"/>
-        </WrapPanel>
+            <TextBlock Margin="8,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Text="{Binding ElementName=leftMenuButtonControl, Path=LeftMenuButtonText}" TextWrapping="Wrap"/>
+        </Grid>
     </Button>
 </UserControl>

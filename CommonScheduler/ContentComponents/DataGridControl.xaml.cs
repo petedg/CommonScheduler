@@ -41,7 +41,39 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(textColumn); 
         }
 
-        public void addSemesterComboBoxColumn(string header, string binding, List<DictionaryValue> itemsSource, string selectedValuePath, string displayMemberPath)
+        public void addCheckBoxColumn(string header, string binding, bool isReadOnly)
+        {
+            DataGridCheckBoxColumn checkBoxColumn = new DataGridCheckBoxColumn();
+            checkBoxColumn.Header = header;
+            checkBoxColumn.Binding = new Binding(binding);
+            checkBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            checkBoxColumn.IsReadOnly = isReadOnly;
+            dataGrid.Columns.Add(checkBoxColumn);
+        }
+
+        //public void addRadioButtonColumn(string header, string binding, bool isReadOnly)
+        //{
+        //    DataGridTemplateColumn buttonColumn = new DataGridTemplateColumn();
+        //    buttonColumn.Header = header;
+
+        //    // Create the TextBlock
+        //    FrameworkElementFactory textFactory = new FrameworkElementFactory(typeof(RadioButton));
+        //    Binding checkBinding = new Binding(binding);
+        //    checkBinding.Mode = BindingMode.TwoWay;
+        //    textFactory.SetBinding(RadioButton.IsCheckedProperty, checkBinding);
+        //    textFactory.SetValue(RadioButton.GroupNameProperty, "GROUP");
+        //    //textFactory.AddHandler(RadioButton.CheckedEvent, );
+        //    DataTemplate textTemplate = new DataTemplate();
+        //    textTemplate.VisualTree = textFactory;
+
+        //    // Set the Templates to the Column
+        //    buttonColumn.CellTemplate = textTemplate;
+
+        //    buttonColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+        //    dataGrid.Columns.Add(buttonColumn);
+        //}
+
+        public void addSemesterComboBoxColumn(string header, string binding, List<DictionaryValue> itemsSource, string selectedValuePath, string displayMemberPath, bool isReadOnly)
         {
             DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
             comboBoxColumn.ItemsSource = itemsSource;
@@ -49,6 +81,7 @@ namespace CommonScheduler.ContentComponents
             comboBoxColumn.SelectedValueBinding = new Binding(binding);            
             comboBoxColumn.SelectedValuePath = selectedValuePath;
             comboBoxColumn.DisplayMemberPath = displayMemberPath;
+            comboBoxColumn.IsReadOnly = isReadOnly;
             comboBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
 
             dataGrid.Columns.Add(comboBoxColumn);

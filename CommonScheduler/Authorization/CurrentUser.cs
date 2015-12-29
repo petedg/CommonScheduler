@@ -11,7 +11,8 @@ namespace CommonScheduler.Authorization
     {       
         public GlobalUser UserData { get; set; }
         public List<Role> UserRoles { get; set; }        
-        public String UserType { get; set; }        
+        public String UserType { get; set; }
+        public Department AdminCurrentDepartment { get; set; }
         
         private static CurrentUser instance;
         private CurrentUser() { }

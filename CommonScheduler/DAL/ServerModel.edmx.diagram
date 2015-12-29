@@ -45,10 +45,10 @@
         <AssociationConnector Association="serverDBModel.Subgroup_Major_FK" ManuallyRouted="false" />
         <AssociationConnector Association="serverDBModel.FK_ASS_18" ManuallyRouted="false" />
         <AssociationConnector Association="serverDBModel.Week_Semester_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="serverDBModel.Subgroup_Subgroup_FK" ManuallyRouted="false" />
         <EntityTypeShape EntityType="serverDBModel.UserDepartment" Width="1.5" PointX="5.25" PointY="20.875" />
         <AssociationConnector Association="serverDBModel.FK__UserDepar__Depar__4BAC3F29" />
         <AssociationConnector Association="serverDBModel.FK__UserDepar__Globa__4AB81AF0" />
+        <AssociationConnector Association="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

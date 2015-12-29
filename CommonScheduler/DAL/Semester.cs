@@ -19,6 +19,7 @@ namespace CommonScheduler.DAL
         {
             this.Holiday = new HashSet<Holiday>();
             this.Week = new HashSet<Week>();
+            this.Subgroup = new HashSet<Subgroup>();
         }
     
         public int ID { get; set; }
@@ -29,10 +30,13 @@ namespace CommonScheduler.DAL
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
         public Nullable<int> ID_MODIFIED { get; set; }
+        public bool IS_ACTIVE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Holiday> Holiday { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Week> Week { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subgroup> Subgroup { get; set; }
     }
 }

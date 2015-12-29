@@ -18,50 +18,38 @@ using System.Windows.Shapes;
 namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 {
     /// <summary>
-    /// Logika interakcji dla klasy MajorManagementWindow.xaml
+    /// Logika interakcji dla klasy LocationEditionWindow.xaml
     /// </summary>
-    public partial class MajorManagementWindow : MetroWindow
+    public partial class RoomEditionWindow : MetroWindow
     {
         private serverDBEntities context;
+        private Room roomBehavior;
+        public List<Room> RoomSource { get; set; }
+        private Location location;
 
-        private Major majorBehavior;
-        public List<Major> MajorSource { get; set; }
-        private Department department;
-
-        private DictionaryValue dictionaryValueBehavior;
-        public List<DictionaryValue> MajorDegrees { get; set; }
-        public List<DictionaryValue> MajorTypes { get; set; }
-
-        public MajorManagementWindow(Department department)
+        public RoomEditionWindow(Location location)
         {
             InitializeComponent();           
 
             context = new serverDBEntities();
-            majorBehavior = new Major(context);
-            dictionaryValueBehavior = new DictionaryValue(context);
+            roomBehavior = new Room(context);
 
-            this.department = department;
-            this.MajorSource = majorBehavior.GetMajorsForDepartment(department);
+            this.location = location;
+            this.RoomSource = roomBehavior.GetListForLocation(location);
 
-            this.MajorDegrees = dictionaryValueBehavior.GetMajorDegrees();
-            this.MajorTypes = dictionaryValueBehavior.GetMajorTypes();
+            textBlock.Content += "\t" + location.NAME;
 
-            textBlock.Content += "\t" + department.NAME;
-
-            dataGrid.ItemsSource = MajorSource;
+            dataGrid.ItemsSource = RoomSource;
             setColumns();
         }
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
-            dataGrid.addTextColumn("WWW_HOME_PAGE", "WWW_HOME_PAGE", false);
-            dataGrid.addSemesterComboBoxColumn("MAJOR_DEGREE", "MAJOR_DEGREE_DV_ID", MajorDegrees, "DV_ID", "VALUE", false);
-            dataGrid.addSemesterComboBoxColumn("MAJOR_TYPE", "MAJOR_TYPE_DV_ID", MajorTypes, "DV_ID", "VALUE", false);
+            dataGrid.addTextColumn("NUMBER", "NUMBER", false);
+            dataGrid.addTextColumn("NUMBER_OF_PLACES", "NUMBER_OF_PLACES", false);            
         }
 
-        ~MajorManagementWindow()
+        ~RoomEditionWindow()
         {
             if (context != null)
                 context.Dispose();
@@ -69,9 +57,9 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void refreshList()
         {
-            this.MajorSource = majorBehavior.GetMajorsForDepartment(department);
+            this.RoomSource = roomBehavior.GetListForLocation(location);
             dataGrid.ItemsSource = null;
-            dataGrid.ItemsSource = MajorSource;
+            dataGrid.ItemsSource = RoomSource;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
@@ -85,8 +73,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         {
             context.Dispose();
             context = new serverDBEntities();
-            majorBehavior = new Major(context);
-            dictionaryValueBehavior = new DictionaryValue(context);
+            roomBehavior = new Room(context);
 
             refreshList();
         }
@@ -100,24 +87,24 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         {
             if (e.EditAction == DataGridEditAction.Commit)
             {
-                if (((Major)e.Row.Item).ID == 0)
+                if (((Room)e.Row.Item).ID == 0)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        Major newRow = ((Major)e.Row.DataContext);
+                        Room newRow = ((Room)e.Row.DataContext);
                         newRow.DATE_CREATED = DateTime.Now;
                         newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.DEPARTMENT_ID = department.ID;
+                        newRow.Location_ID = location.ID;
 
-                        newRow = majorBehavior.AddMajor(newRow);
+                        newRow = roomBehavior.AddRoom(newRow);
                     }), System.Windows.Threading.DispatcherPriority.Normal);
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        Major row = ((Major)e.Row.DataContext);
-                        majorBehavior.UpdateMajor(row);
+                        Room row = ((Room)e.Row.DataContext);
+                        roomBehavior.UpdateRoom(row);
                     }), System.Windows.Threading.DispatcherPriority.Normal);
                 }
             }
@@ -125,17 +112,16 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Major) || dataGrid.SelectedItem.GetType() == typeof(Major)))
+            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Room) || dataGrid.SelectedItem.GetType() == typeof(Room)))
             {
                 //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                majorBehavior.DeleteMajor((Major)dataGrid.SelectedItem);
+                roomBehavior.DeleteRoom((Room)dataGrid.SelectedItem);
             }
         }
 
         void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
         {
-            ((Major)e.NewItem).MAJOR_DEGREE_DV_ID = 13;
-            ((Major)e.NewItem).MAJOR_TYPE_DV_ID = 19;
+
         }
     }
 }

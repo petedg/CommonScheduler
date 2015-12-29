@@ -181,6 +181,26 @@ namespace CommonScheduler
             {
                 setContent(ContentType.DEPARTMENT_MANAGEMENT, (String)FindResource("mainWindowTitleDepartmentManagement"));
             }
+            else if (e.SenderType == SenderType.SUBGROUP_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.SUBGROUP_MANAGEMENT, (String)FindResource("mainWindowTitleSubgroupManagement"));
+            }
+            else if (e.SenderType == SenderType.GROUP_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.GROUP_MANAGEMENT, (String)FindResource("mainWindowTitleGroupManagement"));
+            }
+            else if (e.SenderType == SenderType.ROOM_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.ROOM_MANAGEMENT, (String)FindResource("mainWindowTitleRoomManagement"));
+            }
+            else if (e.SenderType == SenderType.TEACHER_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.TEACHER_MANAGEMENT, (String)FindResource("mainWindowTitleTeacherManagement"));
+            }
+            else if (e.SenderType == SenderType.SCHEDULE_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.SCHEDULE_MANAGEMENT, (String)FindResource("mainWindowTitleScheduleManagement"));
+            }
             else if (e.SenderType == SenderType.LOGOUT)
             {
                 MessageDialogResult result = await ShowMessage("Czy na pewno chcesz się wylogować?", MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(false);
@@ -199,6 +219,11 @@ namespace CommonScheduler
                         auth.Show();
                     }), System.Windows.Threading.DispatcherPriority.Background);                    
                 }
+            }
+            else if (e.SenderType == SenderType.CLOSE_CONTENT)
+            {
+                this.previousTitle = getInitialWindowTitle();
+                setContent(ContentType.MENU, (String)FindResource("mainWindowTitleMenu"));                
             }
         }
 

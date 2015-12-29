@@ -19,10 +19,19 @@ namespace CommonScheduler.DAL
         public List<Semester> GetList()
         {
             var semesters = from semester in context.Semester
-                            where semester.END_DATE > DateTime.Now
+                            //where semester.END_DATE > DateTime.Now
                             select semester;
 
             return semesters.ToList();
+        }
+
+        public Semester GetActiveSemester()
+        {
+            var semesters = from semester in context.Semester
+                            where semester.IS_ACTIVE == true
+                            select semester;
+
+            return semesters.FirstOrDefault();
         }
 
         public Semester AddSemester(Semester semester)

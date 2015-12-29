@@ -10,10 +10,12 @@ namespace CommonScheduler.DAL
     public partial class Department
     {
         private serverDBEntities context;
+        private Location locationBehavior;
 
         public Department(serverDBEntities context)
         {
             this.context = context;
+            locationBehavior = new Location(context);
         }
 
         public List<Department> GetList()
@@ -22,6 +24,15 @@ namespace CommonScheduler.DAL
                               select department;
 
             return departments.ToList();
+        }
+
+        public Department GetDepartmentById(int departmentID)
+        {
+            var departments = from department in context.Department
+                              where department.ID == departmentID
+                              select department;
+
+            return departments.FirstOrDefault();
         }
 
         public List<Department> GetAssignedDepartmentsByUserId(int userId)
@@ -51,6 +62,8 @@ namespace CommonScheduler.DAL
 
         public Department DeleteDepartment(Department department)
         {
+            new UserDepartment(context).RemoveDepartmentsAssociations(department);
+            locationBehavior.RemoveLocationsForDepartment(department);
             context.Entry(department).State = EntityState.Deleted;
             return department;
         }

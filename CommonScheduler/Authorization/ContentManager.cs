@@ -1,4 +1,5 @@
-﻿using CommonScheduler.ContentComponents.GlobalAdmin.Controls;
+﻿using CommonScheduler.ContentComponents.Admin.Controls;
+using CommonScheduler.ContentComponents.GlobalAdmin.Controls;
 using CommonScheduler.ContentComponents.SuperAdmin.Controls;
 using CommonScheduler.MenuComponents.Controls;
 using System;
@@ -73,6 +74,14 @@ namespace CommonScheduler.Authorization
             else if (CurrentContentType == ContentType.DEPARTMENT_MANAGEMENT)
             {
                 return new DepartmentDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.ROOM_MANAGEMENT)
+            {
+                return new LocationDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.SUBGROUP_MANAGEMENT)
+            {
+                return new MajorDataGridControl();
             }
             else if (CurrentContentType == ContentType.DEFAULT)
             {

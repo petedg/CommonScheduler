@@ -25,5 +25,6 @@ namespace CommonScheduler.DAL
 
             return context.UserRole.Add(userRole);            
         }
+        
     }
 }
