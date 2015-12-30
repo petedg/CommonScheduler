@@ -131,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\Admin\Controls\GroupDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContentComponents\Admin\Controls\LocationDataGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,7 +143,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ContentComponents\Admin\Controls\NestedGroupDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContentComponents\Admin\Controls\NestedSubgroupDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Controls\TeacherDataGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +160,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ContentComponents\Admin\Windows\SubgroupEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Windows\TeacherDepartmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,20 +239,32 @@
     <Compile Include="CommonComponents\Controls\SimpleMessageControl.xaml.cs">
       <DependentUpon>SimpleMessageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\GroupDataGridControl.xaml.cs">
+      <DependentUpon>GroupDataGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentComponents\Admin\Controls\LocationDataGridControl.xaml.cs">
       <DependentUpon>LocationDataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\Admin\Controls\MajorDataGridControl.xaml.cs">
       <DependentUpon>MajorDataGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\NestedGroupDataGridControl.xaml.cs">
+      <DependentUpon>NestedGroupDataGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentComponents\Admin\Controls\NestedSubgroupDataGridControl.xaml.cs">
       <DependentUpon>NestedSubgroupDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\TeacherDataGridControl.xaml.cs">
+      <DependentUpon>TeacherDataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\Admin\Windows\RoomEditionWindow.xaml.cs">
       <DependentUpon>RoomEditionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\Admin\Windows\SubgroupEditWindow.xaml.cs">
       <DependentUpon>SubgroupEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Windows\TeacherDepartmentWindow.xaml.cs">
+      <DependentUpon>TeacherDepartmentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\DataGridControl.xaml.cs">
       <DependentUpon>DataGridControl.xaml</DependentUpon>
@@ -395,11 +423,13 @@
     <Compile Include="DAL\ServerModelBehavior\Holiday.cs" />
     <Compile Include="DAL\ServerModelBehavior\Location.cs" />
     <Compile Include="DAL\ServerModelBehavior\Major.cs" />
+    <Compile Include="ContentComponents\Admin\TreeViewData.cs" />
     <Compile Include="DAL\ServerModelBehavior\Role.cs" />
     <Compile Include="DAL\ServerModelBehavior\Room.cs" />
     <Compile Include="DAL\ServerModelBehavior\Semester.cs" />
     <Compile Include="DAL\ServerModelBehavior\SpecialLocation.cs" />
     <Compile Include="DAL\ServerModelBehavior\Subgroup.cs" />
+    <Compile Include="DAL\ServerModelBehavior\Teacher.cs" />
     <Compile Include="DAL\ServerModelBehavior\TeacherWeek.cs" />
     <Compile Include="DAL\ServerModelBehavior\UserDepartment.cs" />
     <Compile Include="DAL\ServerModelBehavior\UserRole.cs" />

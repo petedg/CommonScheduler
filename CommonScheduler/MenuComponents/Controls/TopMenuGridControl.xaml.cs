@@ -74,9 +74,22 @@ namespace CommonScheduler.MenuComponents.Controls
             }
             else if (currentContentType == ContentType.SUBGROUP_MANAGEMENT)
             {
-                addButtonToList("Podgrupy", (Canvas)this.FindResource("appbar_layout"), new Thickness(0, 0, 0, 0), editSubgroupEventHandler);
+                addButtonToList("Podgrupy", (Canvas)this.FindResource("appbar_tiles_nine"), new Thickness(0, 0, 0, 0), editSubgroupEventHandler);
                 addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(140, 0, 0, 0), exitEventHandler);
-            }            
+            }
+            else if (currentContentType == ContentType.GROUP_MANAGEMENT)
+            {
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(0, 0, 0, 0), exitEventHandler);
+            }   
+            else if (currentContentType == ContentType.TEACHER_MANAGEMENT)
+            {
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Przyporządkowane wydziały", (Canvas)this.FindResource("appbar_home"), new Thickness(280, 0, 0, 0), departmentTeacherEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+            }   
+
+            
         }        
 
         public void addButtonToList(string text, Canvas icon, Thickness margin, RoutedEventHandler eventHandler)        
@@ -127,7 +140,12 @@ namespace CommonScheduler.MenuComponents.Controls
         private void editRoomEventHandler(object sender, RoutedEventArgs e)
         {
             raiseButtonClickEvent(SenderType.ROOM_MANAGEMENT_BUTTON);
-        }        
+        }
+
+        private void departmentTeacherEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.DEPARTMENT_TEACHER_MANAGEMENT_BUTTON);
+        } 
 
         private void exitEventHandler(object sender, RoutedEventArgs e)
         {

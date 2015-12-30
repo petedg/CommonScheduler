@@ -39,8 +39,23 @@ namespace CommonScheduler.DAL
 
         public Major DeleteMajor(Major major)
         {
+            new Subgroup(context).RemoveSubgroupsForMajor(major);
             context.Entry(major).State = EntityState.Deleted;
             return major;
         }
+
+        public void RemoveMajorsForDepartment(Department department)
+        {
+            var majors = from major in context.Major
+                         where major.DEPARTMENT_ID == department.ID
+                         select major;
+
+            foreach (Major m in majors)
+            {                
+                DeleteMajor(m);
+            }
+        }
+
+        public List<Subgroup> SubgroupsList { get; set; }
     }
 }

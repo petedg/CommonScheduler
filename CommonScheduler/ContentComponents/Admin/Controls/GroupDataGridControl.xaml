@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="CommonScheduler.ContentComponents.Admin.Controls.GroupDataGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents"
+             xmlns:self="clr-namespace:CommonScheduler.DAL"
+             d:DesignHeight="480" d:DesignWidth="640">
+    <Grid Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" MinWidth="300" MaxWidth="450"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+                
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <GridSplitter Grid.Column="0" Grid.RowSpan="1" Grid.Row="1" Width="10"  HorizontalAlignment="Right" VerticalAlignment="Stretch"></GridSplitter>
+        
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">WYBÓR PODGRUPY</TextBlock>
+        <!--TextBlock Name="textBlockEdition" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">EDYCJA GRUP DLA</TextBlock-->
+
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="0" Grid.Row="0"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="0" Grid.Row="1"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="1" Grid.Row="0"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Column="1" Grid.Row="1"/>
+                
+        <TreeView Name="trvSubgroups" Grid.Column="0" Grid.Row="1" Margin="0,10,10,0" SelectedItemChanged="trvSubgroups_SelectedItemChanged">
+            <TreeView.Resources>                          
+                <HierarchicalDataTemplate  ItemsSource="{Binding SubgroupsList}" DataType="{x:Type self:Major}">                   
+                    
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <Rectangle Width="15" Height="15" Margin="2">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_draw_pen}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Margin="2" Text="{Binding Path=NAME}"
+                               VerticalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+                    
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding NestedSubgroupsList}" DataType="{x:Type self:Subgroup}">
+                            <StackPanel Orientation="Horizontal" Margin="4" >
+                                <Rectangle Width="15" Height="15"  Margin="2">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Visual="{StaticResource appbar_tiles_nine}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Margin="2" Text="{Binding Path=NAME}"
+                               VerticalAlignment="Center" />
+                            </StackPanel>
+                            
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type self:Subgroup}">
+                                    <StackPanel Orientation="Horizontal" Margin="4">
+                                        <Rectangle Width="15" Height="15"  Margin="2">
+                                            <Rectangle.Fill>
+                                                <VisualBrush Visual="{StaticResource appbar_tiles_sixteen}"/>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <TextBlock Margin="2" Text="{Binding Path=NAME}"
+                               VerticalAlignment="Center" />
+                                    </StackPanel>
+
+                                </HierarchicalDataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                            
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                    
+                </HierarchicalDataTemplate>               
+            </TreeView.Resources>
+        </TreeView>
+
+
+        <!--mycomp:DataGridControl Grid.Column="1" Margin="0,0,0,0" x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
+                                SelectionMode="Single" CanUserAddRows="true">
+
+        </mycomp:DataGridControl-->
+
+        <ContentPresenter Name="groupPresenter" Grid.Column="1" Grid.Row="1" />
+    </Grid>
+</UserControl>

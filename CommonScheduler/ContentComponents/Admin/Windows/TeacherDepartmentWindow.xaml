@@ -1,0 +1,84 @@
+﻿<Metro:MetroWindow x:Class="CommonScheduler.ContentComponents.Admin.Windows.TeacherDepartmentWindow"
+        xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TeacherDepartmentWindow" Height="480" Width="640"
+        xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Grid>
+        <ToolBarTray>
+            <ToolBar Margin="0,2,0,0">
+                <Button ToolTip="Zapisz zmiany i opuść edytor." Click="saveButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Margin="0,0,3,0" Height="24" Width="24">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_save}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Margin="3,0,0,0" VerticalAlignment="Center">Zapisz i wyjdź</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <Label Name="textBlock" Background="AliceBlue" Margin="0,40,0,0" Padding="10,5,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Height="30" 
+               VerticalAlignment="Top">
+            LISTA PRZYPORZĄDKOWANYCH WYDZIAŁÓW DLA NAUCZYCIELA
+        </Label>
+
+        <Label Margin="70" Padding="10,5,0,0" Width="200" Height="30" VerticalAlignment="Top"
+                 HorizontalAlignment="Left">
+            Przyporządkowane wydziały
+        </Label>
+
+        <Label Margin="70" Padding="10,5,0,0" Width="150" Height="30" VerticalAlignment="Top"
+                 HorizontalAlignment="Right">
+            Dostępne wydziały
+        </Label>
+
+        <Grid Margin="0, 100, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Click="addButton_Click" Grid.Column="1" Height="50" Margin="0, 0, 0, 100">
+                <StackPanel>
+                    <Rectangle Margin="0,0,3,0" Height="24" Width="24">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource appbar_arrow_left}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock>Dodaj</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Click="removeButton_Click" Grid.Column="1" Height="50" Margin="0, 100, 0, 0">
+                <StackPanel>
+                    <Rectangle Margin="0,0,3,0" Height="24" Width="24">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource appbar_arrow_right}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock>Usuń</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <ListBox Grid.Column="0" BorderBrush="Gray" BorderThickness="2" Name="assignedListBox" DisplayMemberPath="NAME" SelectedValuePath="ID">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseDoubleClick" Handler="assignedListBoxItem_MouseDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+
+            <ListBox Grid.Column="2" BorderBrush="Gray" BorderThickness="2" Name="availableListBox"  DisplayMemberPath="NAME" SelectedValuePath="ID">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseDoubleClick" Handler="availableListBoxItem_MouseDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Metro:MetroWindow>

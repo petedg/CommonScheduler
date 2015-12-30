@@ -83,6 +83,14 @@ namespace CommonScheduler.Authorization
             {
                 return new MajorDataGridControl();
             }
+            else if (CurrentContentType == ContentType.GROUP_MANAGEMENT)
+            {
+                return new GroupDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.TEACHER_MANAGEMENT)
+            {
+                return new TeacherDataGridControl();
+            }
             else if (CurrentContentType == ContentType.DEFAULT)
             {
                 return new Rectangle { Fill = Brushes.LightGray };

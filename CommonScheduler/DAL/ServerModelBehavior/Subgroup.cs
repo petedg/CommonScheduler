@@ -52,10 +52,23 @@ namespace CommonScheduler.DAL
 
         public Subgroup DeleteSubgroup(Subgroup subgroup)
         {
+            new Group(context).RemoveGroupsForSubgroup(subgroup);
             context.Entry(subgroup).State = EntityState.Deleted;
             return subgroup;
         }
 
+        public void RemoveSubgroupsForMajor(Major major)
+        {
+            var subgroups = from subgroup in context.Subgroup
+                            where subgroup.MAJOR_ID == major.ID
+                            select subgroup;
 
+            foreach (Subgroup m in subgroups)
+            {
+                DeleteSubgroup(m);
+            }
+        }
+
+        public List<Subgroup> NestedSubgroupsList { get; set; }
     }
 }

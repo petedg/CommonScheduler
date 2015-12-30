@@ -48,6 +48,19 @@ namespace CommonScheduler.DAL
             return departments.ToList();
         }
 
+        public List<Department> GetAssignedDepartmentsByTeacherId(int teacherID)
+        {
+            var departmentIds = from departmentTeacher in context.DepartmentTeacher
+                                where departmentTeacher.Teacher_ID == teacherID
+                                select departmentTeacher.Department_ID;
+
+            var departments = from department in context.Department
+                              where departmentIds.Contains(department.ID)
+                              select department;
+
+            return departments.ToList();
+        }        
+
         public Department AddDepartment(Department department)
         {
             return context.Department.Add(department);
@@ -62,6 +75,7 @@ namespace CommonScheduler.DAL
 
         public Department DeleteDepartment(Department department)
         {
+            new Major(context).RemoveMajorsForDepartment(department);
             new UserDepartment(context).RemoveDepartmentsAssociations(department);
             locationBehavior.RemoveLocationsForDepartment(department);
             context.Entry(department).State = EntityState.Deleted;
