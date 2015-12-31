@@ -1,0 +1,11 @@
+﻿<Window x:Class="CommonScheduler.SchedulerControl.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TestWindow" MinHeight="540" MinWidth="854" Width="854" Height="540"
+        xmlns:mycomp="clr-namespace:CommonScheduler.SchedulerControl">
+        
+    <Grid>
+        <mycomp:SchedulerGrid />
+    
+    </Grid>
+</Window>

@@ -111,6 +111,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SchedulerControl\Scheduler.xaml.cs">
+      <DependentUpon>Scheduler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\SchedulerGrid.xaml.cs">
+      <DependentUpon>SchedulerGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\SchedulerLeftBar.xaml.cs">
+      <DependentUpon>SchedulerLeftBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\SchedulerTopBar.xaml.cs">
+      <DependentUpon>SchedulerTopBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Authentication\Controls\LoginControlTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -496,6 +511,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\StringResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\Scheduler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerLeftBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerTopBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
