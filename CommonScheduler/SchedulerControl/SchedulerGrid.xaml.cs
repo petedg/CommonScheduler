@@ -32,7 +32,7 @@ namespace CommonScheduler.SchedulerControl
 
         private int timePortion;
 
-        private int numberOfRows;
+        private double numberOfRows;
         private int numberOfColumns;
 
         private double rowHeight;
@@ -64,6 +64,7 @@ namespace CommonScheduler.SchedulerControl
             addActivity(ActivityStatus.NONE, "ćwiczenia", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 6, 0, 0), new DateTime(1, 1, 1, 8, 30, 0), 1);
             addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 45, 0), new DateTime(1, 1, 1, 11, 15, 0), 1);
             addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 30, 0), new DateTime(1, 1, 1, 8, 45, 0), 1);
+            addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Wednesday, new DateTime(1, 1, 1, 12, 30, 0), new DateTime(1, 1, 1, 14, 45, 0), 1);
         }
 
         private void repaintGrid()
@@ -261,18 +262,6 @@ namespace CommonScheduler.SchedulerControl
 
         void adorner_Click(object sender, RoutedEventArgs e)
         {
-            //SchedulerActivity stretchedActivity = ((SchedulerActivity)(((Button)sender).Parent));
-
-            //stretchedActivity.Status = ActivityStatus.UPDATED;
-            //stretchedActivity.ClassesStartHour = stretchedActivity.ClassesStartHour.AddHours(-(timePortion / 60d));
-
-            //stretchedActivity.Classes.DATE_MODIFIED = DateTime.Now;
-            //stretchedActivity.Classes.ID_MODIFIED = -1;
-            //stretchedActivity.Classes.START_DATE = stretchedActivity.ClassesStartHour;
-
-            //removeActivities();
-            //repaintActivities();
-
             stretchedActivity = ((SchedulerActivity)(((Button)sender).Parent));
             toggleMouseOver();
         }
@@ -289,7 +278,20 @@ namespace CommonScheduler.SchedulerControl
                 int secondTempGridRowProperty = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
                 int secondTempGridColumnProperty = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
 
-                //tu ma być sprawdzenie, czy kolumny równe, czy w takich godzinach nie ma innych zajęć i jeśli tak to dodawanie zajęć
+                if (tempGridColumnProperty == secondTempGridColumnProperty)
+                {
+                    if (secondTempGridRowProperty < tempGridRowProperty)
+                    {
+                        int temp_tempGridRowProperty = tempGridRowProperty;
+                        tempGridRowProperty = secondTempGridRowProperty;
+                        secondTempGridRowProperty = temp_tempGridRowProperty;
+                    }
+
+                    if (!activityConflictOccurrence(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty))
+                    {
+                        stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty);
+                    }
+                }
 
                 tempGridRowProperty = -1;
                 tempGridColumnProperty = -1;
@@ -297,6 +299,22 @@ namespace CommonScheduler.SchedulerControl
                 stretchedActivity = null;
                 toggleMouseOver();
             }            
+        }
+
+        private bool activityConflictOccurrence(int gridColumn, int startGridRow, int endGridRow)
+        {
+            foreach (UIElement element in mainGrid.Children)
+            {
+                if ((int)element.GetValue(Grid.ColumnProperty) == gridColumn && (int)element.GetValue(Grid.RowProperty) >= startGridRow  && (int)element.GetValue(Grid.RowProperty) <= endGridRow)
+                {
+                    if (element.GetType() != typeof(Rectangle) && element.GetType() != typeof(Border))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;    
         }
 
         private void toggleMouseOver()
@@ -324,6 +342,7 @@ namespace CommonScheduler.SchedulerControl
                 if (o.GetType() == typeof(Rectangle))
                 {                   
                     ((Rectangle)o).PreviewMouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
+                    ((Rectangle)o).Cursor = Cursors.Hand;
                 }
             }
         }
@@ -335,6 +354,7 @@ namespace CommonScheduler.SchedulerControl
                 if (o.GetType() == typeof(Rectangle))
                 {
                     ((Rectangle)o).PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(content_MouseClick);
+                    ((Rectangle)o).Cursor = Cursors.Arrow;
                 }
             }
         }

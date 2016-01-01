@@ -2,6 +2,7 @@
 using CommonScheduler.ContentComponents.GlobalAdmin.Controls;
 using CommonScheduler.ContentComponents.SuperAdmin.Controls;
 using CommonScheduler.MenuComponents.Controls;
+using CommonScheduler.SchedulerControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,10 @@ namespace CommonScheduler.Authorization
             else if (CurrentContentType == ContentType.TEACHER_MANAGEMENT)
             {
                 return new TeacherDataGridControl();
+            }
+            else if (CurrentContentType == ContentType.SCHEDULE_MANAGEMENT)
+            {
+                return new Scheduler();
             }
             else if (CurrentContentType == ContentType.DEFAULT)
             {

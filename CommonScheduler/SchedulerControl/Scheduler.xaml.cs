@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonScheduler.Events.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,37 @@ namespace CommonScheduler.SchedulerControl
     /// </summary>
     public partial class Scheduler : UserControl
     {
+        private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
+
         public Scheduler()
         {
             InitializeComponent();
+
+            AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
+            AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
+            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
+        }
+
+        void disableContent(object sender, RoutedEventArgs e)
+        {
+            grid.Children.Add(rect);
+        }
+
+        void enableContent(object sender, RoutedEventArgs e)
+        {
+            grid.Children.Remove(rect);
+        }
+
+        void topButtonClickHandler(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
+            {
+
+            }
+            else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
+            {
+
+            }            
         }
     }
 }

@@ -37,7 +37,7 @@ namespace CommonScheduler.SchedulerControl
 
         public void repaintLeftGrid()
         {
-            double rowHeight = currentHeight / numberOfRows > 48 ? (currentHeight / numberOfRows) - 0.01 : 48;
+            double rowHeight = currentHeight / numberOfRows > 48 ? (currentHeight / numberOfRows) - 0.04 : 48;
 
             for (int t = 0; t < numberOfRows; t++)
             {

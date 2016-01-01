@@ -110,12 +110,6 @@ namespace CommonScheduler.SchedulerControl
             }
         }
 
-        //public void setAdorner()
-        //{
-        //    this.Children.Add(topAdorner);
-        //    this.Children.Add(bottomAdorner);
-        //}
-
         public void toggleAdornerVisibility()
         {
             if (bottomRightAdorner.Visibility == Visibility.Hidden)
@@ -128,9 +122,25 @@ namespace CommonScheduler.SchedulerControl
             }
         }
 
-        //private void activityBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    this.Focus();
-        //}
+        public void SetActivityTimeSpan(int gridColumnNumber, int gridStartRow, int gridEndRow)
+        {
+            //this.ColumnNumber = gridColumnNumber;
+            //this.RowNumber = gridStartRow;
+            //this.RowSpan = gridEndRow - gridStartRow + 1;
+
+            int divider = 60 / timePortion;
+
+            gridEndRow++;
+
+            this.Day = (DayOfWeek)(((int)weekStartDay + gridColumnNumber) % 7);
+            this.ClassesStartHour = dayStartHour.Add(new TimeSpan(gridStartRow / divider, (gridStartRow % divider) * timePortion, 0));
+            this.ClassesEndHour = dayStartHour.Add(new TimeSpan(gridEndRow / divider, (gridEndRow % divider) * timePortion, 0));
+
+            Classes.DAY_OF_WEEK = (int)Day;
+            Classes.START_DATE = ClassesStartHour;            
+            Classes.END_DATE = ClassesEndHour;
+            Classes.DATE_MODIFIED = DateTime.Now;
+            Classes.ID_MODIFIED = -1;
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using CommonScheduler.Authorization;
+using CommonScheduler.ContentComponents.Admin.Windows;
 using CommonScheduler.Events;
 using CommonScheduler.Events.Data;
+using CommonScheduler.SchedulerControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,10 +134,13 @@ namespace CommonScheduler.MenuComponents.Controls
 
         private void buttonAdminScheduleManagementEventHandler(object sender, RoutedEventArgs e)
         {
-            if (LeftGridButtonClick != null)
-            {
-                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SCHEDULE_MANAGEMENT_BUTTON));
-            }
+            //if (LeftGridButtonClick != null)
+            //{
+            //    LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SCHEDULE_MANAGEMENT_BUTTON));
+            //}
+
+            SchedulerWindow scheduler = new SchedulerWindow();
+            scheduler.ShowDialog();
         }
 
         public event LeftGridButtonClickEventHandler LeftGridButtonClick;

@@ -87,6 +87,12 @@ namespace CommonScheduler.MenuComponents.Controls
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
                 addButtonToList("Przyporządkowane wydziały", (Canvas)this.FindResource("appbar_home"), new Thickness(280, 0, 0, 0), departmentTeacherEventHandler);
                 addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+            }
+            else if (currentContentType == ContentType.SCHEDULE_MANAGEMENT)
+            {
+                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
             }   
 
             
@@ -100,6 +106,13 @@ namespace CommonScheduler.MenuComponents.Controls
             button1.Margin = margin;
             button1.TopMenuButtonClick += eventHandler;
             topMenuGrid.Children.Add(button1);
+        }
+
+        public void SetSchedulerButtons()
+        {
+            addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
+            addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
+            addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
         }
 
         private void saveEventHandler(object sender, RoutedEventArgs e)
