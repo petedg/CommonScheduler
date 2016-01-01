@@ -6,6 +6,5 @@
         
     <Grid>
         <mycomp:SchedulerGrid />
-    
     </Grid>
 </Window>

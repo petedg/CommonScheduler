@@ -22,6 +22,7 @@
           <Property Name="ID_MODIFIED" Type="int" />
           <Property Name="TEACHER_ID" Type="int" Nullable="false" />
           <Property Name="SPECIALLOCATION_ID" Type="int" />
+          <Property Name="DAY_OF_WEEK" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -687,6 +688,7 @@
           <NavigationProperty Name="Teacher" Relationship="Self.Classes_Teacher_FK" FromRole="Classes" ToRole="Teacher" />
           <NavigationProperty Name="ClassesWeek" Relationship="Self.FK_ASS_12" FromRole="Classes" ToRole="ClassesWeek" />
           <NavigationProperty Name="ClassesGroup" Relationship="Self.FK_ASS_3" FromRole="Classes" ToRole="ClassesGroup" />
+          <Property Name="DAY_OF_WEEK" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -1376,6 +1378,7 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="serverDBModel.Classes">
               <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="DAY_OF_WEEK" ColumnName="DAY_OF_WEEK" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />

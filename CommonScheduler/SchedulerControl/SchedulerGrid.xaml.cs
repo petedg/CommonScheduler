@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonScheduler.Authorization;
+using CommonScheduler.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +41,8 @@ namespace CommonScheduler.SchedulerControl
         private double currentWidth;
         private double currentHeight;
 
+        private List<SchedulerActivity> activities;
+
         public SchedulerGrid()
         {
             InitializeComponent();
@@ -54,6 +58,12 @@ namespace CommonScheduler.SchedulerControl
             
             numberOfRows = hoursBetween * 60 / timePortion;
             numberOfColumns = (int)endDay < (int)startDay ? (int)endDay + 7 - (int)startDay + 1 : (int)endDay - (int)startDay + 1;
+
+            activities = new List<SchedulerActivity>();
+            addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Friday, new DateTime(1, 1, 1, 20, 0, 0), new DateTime(1, 1, 1, 21, 0, 0), 1);
+            addActivity(ActivityStatus.NONE, "ćwiczenia", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 6, 0, 0), new DateTime(1, 1, 1, 8, 30, 0), 1);
+            addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 45, 0), new DateTime(1, 1, 1, 11, 15, 0), 1);
+            addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 30, 0), new DateTime(1, 1, 1, 8, 45, 0), 1);
         }
 
         private void repaintGrid()
@@ -73,12 +83,44 @@ namespace CommonScheduler.SchedulerControl
                 mainGrid.ColumnDefinitions.Add(column);
             }
 
-            addBorders();
+            addBorders();            
 
             //Rectangle rect = new Rectangle { Fill = Brushes.Black };
             //rect.SetValue(Grid.RowProperty, 8);
             //rect.SetValue(Grid.RowSpanProperty, 4);
             //mainGrid.Children.Add(rect);
+        }
+
+        public void repaintActivities()
+        {
+            removeActivities();
+
+            foreach (SchedulerActivity activity in activities)
+            {
+                if (activity.Status != ActivityStatus.DELETED && !activity.isBeingStreched)
+                {
+                    mainGrid.Children.Add(activity);
+                    activity.repaintActivity();
+                }
+            }
+        }
+
+        public void removeActivities()
+        {
+            List<UIElement> elementsToRemove = new List<UIElement>();
+
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if(o.GetType() == typeof(SchedulerActivity))
+                {
+                    elementsToRemove.Add(o);
+                }
+            }
+
+            foreach (UIElement o in elementsToRemove)
+            {
+                mainGrid.Children.Remove(o);
+            }            
         }
 
         private void addBorders()
@@ -102,6 +144,7 @@ namespace CommonScheduler.SchedulerControl
             mainGrid.ColumnDefinitions.Clear();
             mainGrid.RowDefinitions.Clear();
             repaintGrid();
+            repaintActivities();
 
             bool verticalScrollbarVisible = currentHeight / numberOfRows < 12;
 
@@ -153,7 +196,7 @@ namespace CommonScheduler.SchedulerControl
         {
             Rectangle content = new Rectangle();
             content.Stretch = Stretch.Fill;
-            content.Margin = new Thickness(1);
+            content.Margin = new Thickness(2);
             content.Fill = Brushes.Transparent;
             content.MouseLeftButtonDown += contentPresenter_MouseLeftButtonDown;
             content.SetValue(Grid.RowProperty, rowNumber);
@@ -162,13 +205,149 @@ namespace CommonScheduler.SchedulerControl
             return content;
         }
 
+        private void addActivity(ActivityStatus activityStatus, string activityTypeName, string subjectName, string subjectShort, DayOfWeek dayOfWeek,
+            DateTime startHour, DateTime endHour, int teacherID)
+        {
+            Classes c = new Classes
+            {
+                ID_CREATED = -1,
+                DATE_CREATED = DateTime.Now,
+                CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
+                DAY_OF_WEEK = (int)dayOfWeek,
+                START_DATE = startHour,
+                END_DATE = endHour,
+                SUBJECT_NAME = subjectName,
+                SUBJECT_SHORT = subjectShort,
+                TEACHER_ID = teacherID
+            };
+
+            SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, activityStatus, c,
+                adorner_Click);
+            activities.Add(nextActivity);
+            mainGrid.Children.Add(nextActivity);
+            nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
+            nextActivity.repaintActivity();
+        }
+
+        private int getActivityTypeId(string activityTypeValue)
+        {
+            using (serverDBEntities context = new serverDBEntities())
+            {
+                return new DictionaryValue(context).GetId("Typy zajęć", activityTypeValue);
+            }
+        }    
+
         void contentPresenter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
+            if (e.ClickCount == 2 && stretchedActivity == null)
             {
                 int rowNumber = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
                 int columnNumber = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
             }
         }
+
+        void nextActivity_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2 && stretchedActivity == null)
+            {
+                int rowNumber = (int)((Grid)sender).GetValue(Grid.RowProperty);
+                int columnNumber = (int)((Grid)sender).GetValue(Grid.ColumnProperty);
+            }
+        }
+
+        private SchedulerActivity stretchedActivity;
+        private int tempGridRowProperty = -1;
+        private int tempGridColumnProperty = -1;
+
+        void adorner_Click(object sender, RoutedEventArgs e)
+        {
+            //SchedulerActivity stretchedActivity = ((SchedulerActivity)(((Button)sender).Parent));
+
+            //stretchedActivity.Status = ActivityStatus.UPDATED;
+            //stretchedActivity.ClassesStartHour = stretchedActivity.ClassesStartHour.AddHours(-(timePortion / 60d));
+
+            //stretchedActivity.Classes.DATE_MODIFIED = DateTime.Now;
+            //stretchedActivity.Classes.ID_MODIFIED = -1;
+            //stretchedActivity.Classes.START_DATE = stretchedActivity.ClassesStartHour;
+
+            //removeActivities();
+            //repaintActivities();
+
+            stretchedActivity = ((SchedulerActivity)(((Button)sender).Parent));
+            toggleMouseOver();
+        }
+
+        void content_MouseClick(object sender, MouseButtonEventArgs e)
+        {
+            if (tempGridRowProperty == -1)
+            {
+                tempGridRowProperty = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
+                tempGridColumnProperty = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
+            }
+            else
+            {
+                int secondTempGridRowProperty = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
+                int secondTempGridColumnProperty = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
+
+                //tu ma być sprawdzenie, czy kolumny równe, czy w takich godzinach nie ma innych zajęć i jeśli tak to dodawanie zajęć
+
+                tempGridRowProperty = -1;
+                tempGridColumnProperty = -1;
+                stretchedActivity.isBeingStreched = false;
+                stretchedActivity = null;
+                toggleMouseOver();
+            }            
+        }
+
+        private void toggleMouseOver()
+        {
+            if (stretchedActivity != null)
+            {
+                stretchedActivity.isBeingStreched = true;
+                stretchedActivity.toggleAdornerVisibility();
+                repaintActivities();
+                setMouseOver(stretchedActivity);                          
+            }
+            else
+            {
+                repaintActivities();
+                removeMouseOver();
+            }
+
+            toggleAdorners();
+        }
+
+        private void setMouseOver(SchedulerActivity stretchedActivity)
+        {
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if (o.GetType() == typeof(Rectangle))
+                {                   
+                    ((Rectangle)o).PreviewMouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
+                }
+            }
+        }
+
+        private void removeMouseOver()
+        {
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if (o.GetType() == typeof(Rectangle))
+                {
+                    ((Rectangle)o).PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(content_MouseClick);
+                }
+            }
+        }
+
+        private void toggleAdorners()
+        {
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if (o.GetType() == typeof(SchedulerActivity))
+                {
+                    ((SchedulerActivity)o).toggleAdornerVisibility();
+                }
+            }
+        }            
     }
 }

@@ -111,8 +111,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SchedulerControl\ActivityStatus.cs" />
+    <Compile Include="SchedulerControl\AdornerButton.xaml.cs">
+      <DependentUpon>AdornerButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SchedulerControl\Scheduler.xaml.cs">
       <DependentUpon>Scheduler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\SchedulerActivity.xaml.cs">
+      <DependentUpon>SchedulerActivity.xaml</DependentUpon>
     </Compile>
     <Compile Include="SchedulerControl\SchedulerGrid.xaml.cs">
       <DependentUpon>SchedulerGrid.xaml</DependentUpon>
@@ -514,7 +521,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SchedulerControl\AdornerButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SchedulerControl\Scheduler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
