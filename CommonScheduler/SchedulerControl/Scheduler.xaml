@@ -7,6 +7,6 @@
              xmlns:mycomp="clr-namespace:CommonScheduler.SchedulerControl"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Name="grid">
-        <mycomp:SchedulerGrid />      
+        <!--mycomp:SchedulerGrid /-->      
     </Grid>
 </UserControl>

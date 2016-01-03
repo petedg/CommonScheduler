@@ -56,6 +56,7 @@ namespace CommonScheduler.DAL
             }
         }
 
-        public List<Subgroup> SubgroupsList { get; set; }
+        public List<object> SubgroupsList { get; set; }
+        public List<CompositeCollectionSubgroupsAndGroups> CompositeSubgroupsList { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace CommonScheduler.DAL
             this.context = context;
         }
 
-        public List<Subgroup> GetSubgroupsForMajor(Major major)
+        public List<object> GetSubgroupsForMajor(Major major)
         {
             int activeSemesterID = new Semester(context).GetActiveSemester().ID;
 
@@ -24,10 +24,10 @@ namespace CommonScheduler.DAL
                             where subgroup.MAJOR_ID == major.ID && subgroup.SEMESTER_ID == activeSemesterID && subgroup.SUBGROUP_ID == null
                             select subgroup;
 
-            return subgroups.ToList();
+            return subgroups.ToList<object>();
         }
 
-        public List<Subgroup> GetSubgroupsForParentSubgroup(Subgroup parentSubgroup)
+        public List<object> GetSubgroupsForParentSubgroup(Subgroup parentSubgroup)
         {
             int activeSemesterID = new Semester(context).GetActiveSemester().ID;
 
@@ -35,7 +35,7 @@ namespace CommonScheduler.DAL
                             where subgroup.MAJOR_ID == parentSubgroup.MAJOR_ID && subgroup.SEMESTER_ID == activeSemesterID && subgroup.SUBGROUP_ID == parentSubgroup.ID
                             select subgroup;
 
-            return subgroups.ToList();
+            return subgroups.ToList<object>();
         }
 
         public Subgroup AddSubgroup(Subgroup subgroup)
@@ -69,6 +69,8 @@ namespace CommonScheduler.DAL
             }
         }
 
-        public List<Subgroup> NestedSubgroupsList { get; set; }
+        public List<object> NestedSubgroupsList { get; set; }
+        public List<object> GroupsList { get; set; }
+        public CompositeCollectionSubgroupsAndGroups NestedSubgroupsAndGroups { get; set; }
     }
 }

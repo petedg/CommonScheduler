@@ -41,11 +41,14 @@ namespace CommonScheduler.SchedulerControl
         private double currentWidth;
         private double currentHeight;
 
-        private List<SchedulerActivity> activities;
+        public SchedulerGroupType SchedulerGroupType { get; set; }
+        public List<SchedulerActivity> Activities { get; set; }
 
-        public SchedulerGrid()
+        public SchedulerGrid(SchedulerGroupType schedulerGroupType, List<Classes> classesList)
         {
             InitializeComponent();
+
+            this.SchedulerGroupType = schedulerGroupType;
 
             scheduleTimeLineStart = new DateTime(1,1,1, 6, 0, 0);
             scheduleTimeLineEnd = new DateTime(1, 1, 1, 21, 0, 0);
@@ -59,12 +62,14 @@ namespace CommonScheduler.SchedulerControl
             numberOfRows = hoursBetween * 60 / timePortion;
             numberOfColumns = (int)endDay < (int)startDay ? (int)endDay + 7 - (int)startDay + 1 : (int)endDay - (int)startDay + 1;
 
-            activities = new List<SchedulerActivity>();
-            addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Friday, new DateTime(1, 1, 1, 20, 0, 0), new DateTime(1, 1, 1, 21, 0, 0), 1);
-            addActivity(ActivityStatus.NONE, "ćwiczenia", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 6, 0, 0), new DateTime(1, 1, 1, 8, 30, 0), 1);
-            addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 45, 0), new DateTime(1, 1, 1, 11, 15, 0), 1);
-            addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 30, 0), new DateTime(1, 1, 1, 8, 45, 0), 1);
-            addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Wednesday, new DateTime(1, 1, 1, 12, 30, 0), new DateTime(1, 1, 1, 14, 45, 0), 1);
+            Activities = new List<SchedulerActivity>();
+            initializeActivities(classesList);
+
+            //addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Friday, new DateTime(1, 1, 1, 20, 0, 0), new DateTime(1, 1, 1, 21, 0, 0), 1);
+            //addActivity(ActivityStatus.NONE, "ćwiczenia", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 6, 0, 0), new DateTime(1, 1, 1, 8, 30, 0), 1);
+            //addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 45, 0), new DateTime(1, 1, 1, 11, 15, 0), 1);
+            //addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 30, 0), new DateTime(1, 1, 1, 8, 45, 0), 1);
+            //addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Wednesday, new DateTime(1, 1, 1, 12, 30, 0), new DateTime(1, 1, 1, 14, 45, 0), 1);
         }
 
         private void repaintGrid()
@@ -96,9 +101,9 @@ namespace CommonScheduler.SchedulerControl
         {
             removeActivities();
 
-            foreach (SchedulerActivity activity in activities)
+            foreach (SchedulerActivity activity in Activities)
             {
-                if (activity.Status != ActivityStatus.DELETED && !activity.isBeingStreched)
+                if (activity.Status != ActivityStatus.DELETED && !activity.IsBeingStreched)
                 {
                     mainGrid.Children.Add(activity);
                     activity.repaintActivity();
@@ -112,7 +117,7 @@ namespace CommonScheduler.SchedulerControl
 
             foreach (UIElement o in mainGrid.Children)
             {
-                if(o.GetType() == typeof(SchedulerActivity))
+                if (o.GetType() == typeof(SchedulerActivity) || o.GetType().BaseType == typeof(SchedulerActivity))
                 {
                     elementsToRemove.Add(o);
                 }
@@ -206,14 +211,15 @@ namespace CommonScheduler.SchedulerControl
             return content;
         }
 
-        private void addActivity(ActivityStatus activityStatus, string activityTypeName, string subjectName, string subjectShort, DayOfWeek dayOfWeek,
+        private void addActivity(ActivityStatus activityStatus, int activityTypeId, string subjectName, string subjectShort, DayOfWeek dayOfWeek,
             DateTime startHour, DateTime endHour, int teacherID)
         {
             Classes c = new Classes
             {
                 ID_CREATED = -1,
                 DATE_CREATED = DateTime.Now,
-                CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
+                //CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
+                CLASSESS_TYPE_DV_ID = activityTypeId,
                 DAY_OF_WEEK = (int)dayOfWeek,
                 START_DATE = startHour,
                 END_DATE = endHour,
@@ -222,9 +228,9 @@ namespace CommonScheduler.SchedulerControl
                 TEACHER_ID = teacherID
             };
 
-            SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, activityStatus, c,
+            SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, activityStatus, true, c,
                 adorner_Click);
-            activities.Add(nextActivity);
+            Activities.Add(nextActivity);
             mainGrid.Children.Add(nextActivity);
             nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
             nextActivity.repaintActivity();
@@ -237,6 +243,36 @@ namespace CommonScheduler.SchedulerControl
                 return new DictionaryValue(context).GetId("Typy zajęć", activityTypeValue);
             }
         }    
+
+        private void initializeActivities(List<Classes> classesList)
+        {
+            foreach (Classes classes in classesList)
+            {
+                SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, ActivityStatus.NONE, isActivityEditable(classes), classes, adorner_Click);
+                Activities.Add(nextActivity);
+                mainGrid.Children.Add(nextActivity);
+                nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
+                nextActivity.repaintActivity();
+            }
+        }
+
+        private bool isActivityEditable(Classes classes)
+        {
+            if (classes.CLASSESS_TYPE_DV_ID == 42 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S1) //wykład
+            {
+                return true;
+            }
+            else if (classes.CLASSESS_TYPE_DV_ID == 43 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S2) //ćwiczenia
+            {
+                return true;
+            }
+            else if(classes.CLASSESS_TYPE_DV_ID == 44 && SchedulerGroupType == SchedulerGroupType.GROUP) //laboratoria
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         void contentPresenter_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -295,7 +331,7 @@ namespace CommonScheduler.SchedulerControl
 
                 tempGridRowProperty = -1;
                 tempGridColumnProperty = -1;
-                stretchedActivity.isBeingStreched = false;
+                stretchedActivity.IsBeingStreched = false;
                 stretchedActivity = null;
                 toggleMouseOver();
             }            
@@ -321,7 +357,7 @@ namespace CommonScheduler.SchedulerControl
         {
             if (stretchedActivity != null)
             {
-                stretchedActivity.isBeingStreched = true;
+                stretchedActivity.IsBeingStreched = true;
                 stretchedActivity.toggleAdornerVisibility();
                 repaintActivities();
                 setMouseOver(stretchedActivity);                          

@@ -36,7 +36,7 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             subgroupBehavior = new Subgroup(context);
 
             this.parentSubgroup = parentSubgroup;
-            this.SubgroupSource = subgroupBehavior.GetSubgroupsForParentSubgroup(parentSubgroup);
+            this.SubgroupSource = subgroupBehavior.GetSubgroupsForParentSubgroup(parentSubgroup).Cast<Subgroup>().ToList();
 
             textBlock.Content += "\t" + parentSubgroup.NAME;
 
@@ -58,7 +58,7 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private void refreshList()
         {
-            this.SubgroupSource = subgroupBehavior.GetSubgroupsForParentSubgroup(parentSubgroup);
+            this.SubgroupSource = subgroupBehavior.GetSubgroupsForParentSubgroup(parentSubgroup).Cast<Subgroup>().ToList();
             dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = SubgroupSource;               
         }

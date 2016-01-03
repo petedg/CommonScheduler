@@ -26,10 +26,18 @@ namespace CommonScheduler.MenuComponents.Controls
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
         
-        public TopMenuGridControl()
+        public TopMenuGridControl(bool isScheduleManagement)
         {
             InitializeComponent();
-            setTopMenuButtons();
+
+            if (!isScheduleManagement)
+            {
+                setTopMenuButtons();
+            }
+            else
+            {
+                setSchedulerButtons();
+            }
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableTopMenuContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableTopMenuContent));
@@ -88,13 +96,6 @@ namespace CommonScheduler.MenuComponents.Controls
                 addButtonToList("Przyporządkowane wydziały", (Canvas)this.FindResource("appbar_home"), new Thickness(280, 0, 0, 0), departmentTeacherEventHandler);
                 addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
             }
-            else if (currentContentType == ContentType.SCHEDULE_MANAGEMENT)
-            {
-                addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
-                addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
-            }   
-
             
         }        
 
@@ -108,7 +109,7 @@ namespace CommonScheduler.MenuComponents.Controls
             topMenuGrid.Children.Add(button1);
         }
 
-        public void SetSchedulerButtons()
+        private void setSchedulerButtons()
         {
             addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
             addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);

@@ -48,7 +48,7 @@ namespace CommonScheduler.Authorization
             }
             else
             {
-                return new TopMenuGridControl();
+                return new TopMenuGridControl(false);
             }
 
             //return new Rectangle { Fill = Brushes.LightGray };
@@ -91,10 +91,6 @@ namespace CommonScheduler.Authorization
             else if (CurrentContentType == ContentType.TEACHER_MANAGEMENT)
             {
                 return new TeacherDataGridControl();
-            }
-            else if (CurrentContentType == ContentType.SCHEDULE_MANAGEMENT)
-            {
-                return new Scheduler();
             }
             else if (CurrentContentType == ContentType.DEFAULT)
             {

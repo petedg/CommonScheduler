@@ -1,4 +1,6 @@
-﻿using CommonScheduler.Events.Data;
+﻿using CommonScheduler.ContentComponents.Admin.Windows;
+using CommonScheduler.DAL;
+using CommonScheduler.Events.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,37 +23,55 @@ namespace CommonScheduler.SchedulerControl
     /// </summary>
     public partial class Scheduler : UserControl
     {
+        private serverDBEntities context;
+        private Classes classesBehavior;
+
+        private SchedulerGroupType schedulerGroupType;
+        private List<Classes> classesList;
+
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
-        public Scheduler()
+        public Scheduler(serverDBEntities context, object group)
         {
             InitializeComponent();
 
-            AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
-            AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
-            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
-        }
+            this.context = context;
+            this.classesBehavior = new Classes(context);
 
-        void disableContent(object sender, RoutedEventArgs e)
-        {
-            grid.Children.Add(rect);
-        }
-
-        void enableContent(object sender, RoutedEventArgs e)
-        {
-            grid.Children.Remove(rect);
-        }
-
-        void topButtonClickHandler(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
+            if (group.GetType() == typeof(Group) || group.GetType().BaseType == typeof(Group))
             {
-
+                classesList = classesBehavior.GetListForGroup((Group) group);
+                schedulerGroupType = SchedulerGroupType.GROUP;
             }
-            else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
+            else if (group.GetType() == typeof(Subgroup) || group.GetType().BaseType == typeof(Subgroup))
             {
+                Subgroup subgroup = (Subgroup)group;
+                if (subgroup.SUBGROUP_ID == null)
+                {
+                    classesList = classesBehavior.GetListForSubgroup_S1(subgroup);
+                    schedulerGroupType = SchedulerGroupType.SUBGROUP_S1;
+                }
+                else
+                {
+                    classesList = classesBehavior.GetListForSubgroup_S2(subgroup);
+                    schedulerGroupType = SchedulerGroupType.SUBGROUP_S2;
+                }                
+            }
 
-            }            
+            grid.Children.Add(new SchedulerGrid(schedulerGroupType, classesList));
+
+            AddHandler(SchedulerWindow.SchedulerSaveEvent, new RoutedEventHandler(saveEventHandler));
+            AddHandler(SchedulerWindow.SchedulerSaveEvent, new RoutedEventHandler(cancelEventHandler));
+        }
+
+        void saveEventHandler(object sender, RoutedEventArgs e)
+        {
+        
+        }
+
+        void cancelEventHandler(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

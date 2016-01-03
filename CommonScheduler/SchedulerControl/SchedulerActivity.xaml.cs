@@ -22,7 +22,8 @@ namespace CommonScheduler.SchedulerControl
     public partial class SchedulerActivity : Grid
     {
         public Classes Classes { get; set; }
-
+        public bool IsEditable { get; set; }
+        
         public ActivityStatus Status { get; set; }
         public DayOfWeek Day { get; set; }
         public DateTime ClassesStartHour { get; set; }
@@ -39,13 +40,14 @@ namespace CommonScheduler.SchedulerControl
         private int RowSpan;
         private int ColumnNumber;
 
-        public bool isBeingStreched { get; set; }
+        public bool IsBeingStreched { get; set; }
 
-        public SchedulerActivity(DayOfWeek weekStartDay, DateTime dayStartHour, int timePortion, ActivityStatus status, Classes classes, RoutedEventHandler adornerClick)
+        public SchedulerActivity(DayOfWeek weekStartDay, DateTime dayStartHour, int timePortion, ActivityStatus status, bool isEditable, Classes classes, RoutedEventHandler adornerClick)
         {
             InitializeComponent();
 
             this.Classes = classes;
+            this.IsEditable = isEditable;
 
             this.weekStartDay = weekStartDay;
             this.dayStartHour = dayStartHour;
@@ -59,6 +61,11 @@ namespace CommonScheduler.SchedulerControl
 
             bottomRightAdorner.Click += adornerClick;
             setBackground();
+
+            if (!IsEditable)
+            {
+                bottomRightAdorner.Visibility = Visibility.Hidden;
+            }
         }
 
         public void repaintActivity()
@@ -73,18 +80,25 @@ namespace CommonScheduler.SchedulerControl
 
         private void setBackground()
         {
-            if (ActivityType.Equals("laboratoria"))
+            if (IsEditable)
             {
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 209, 209, 183));
-            }
-            else if (ActivityType.Equals("ćwiczenia"))
-            {
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 229, 219, 217));
+                if (ActivityType.Equals("laboratoria"))
+                {
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 209, 209, 183));
+                }
+                else if (ActivityType.Equals("ćwiczenia"))
+                {
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 229, 219, 217));
+                }
+                else
+                {
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 205, 215, 240));
+                }
             }
             else
             {
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 205, 215, 240));
-            }
+                this.Background = Brushes.LightGray;
+            }            
         }
 
         private void setPosition()
@@ -112,14 +126,17 @@ namespace CommonScheduler.SchedulerControl
 
         public void toggleAdornerVisibility()
         {
-            if (bottomRightAdorner.Visibility == Visibility.Hidden)
+            if (IsEditable)
             {
-                bottomRightAdorner.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                bottomRightAdorner.Visibility = Visibility.Hidden;
-            }
+                if (bottomRightAdorner.Visibility == Visibility.Hidden)
+                {
+                    bottomRightAdorner.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    bottomRightAdorner.Visibility = Visibility.Hidden;
+                }
+            }            
         }
 
         public void SetActivityTimeSpan(int gridColumnNumber, int gridStartRow, int gridEndRow)

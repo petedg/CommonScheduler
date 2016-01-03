@@ -51,7 +51,7 @@ namespace CommonScheduler.MenuComponents.Controls
             {
                 addButtonToList("LOKALIZACJE", (Canvas)this.FindResource("appbar_globe"), new Thickness(0, 0, 0, 0), buttonAdminRoomManagementEventHandler);
                 addButtonToList("KIERUNKI", (Canvas)this.FindResource("appbar_draw_pen"), new Thickness(0, 60, 0, 0), buttonAdminSubgroupManagementEventHandler);
-                addButtonToList("GRUPY", (Canvas)this.FindResource("appbar_tiles_sixteen"), new Thickness(0, 120, 0, 0), buttonAdminGroupManagementEventHandler);
+                addButtonToList("GRUPY", (Canvas)this.FindResource("appbar_folder_people"), new Thickness(0, 120, 0, 0), buttonAdminGroupManagementEventHandler);
                 addButtonToList("NAUCZYCIELE", (Canvas)this.FindResource("appbar_people"), new Thickness(0, 180, 0, 0), buttonAdminTeacherManagementEventHandler);
                 addButtonToList("PLANY ZAJĘĆ", (Canvas)this.FindResource("appbar_clipboard_variant"), new Thickness(0, 240, 0, 0), buttonAdminScheduleManagementEventHandler);
             }
@@ -140,6 +140,8 @@ namespace CommonScheduler.MenuComponents.Controls
             //}
 
             SchedulerWindow scheduler = new SchedulerWindow();
+            scheduler.Owner = Application.Current.MainWindow;
+            scheduler.Title = "Edycja planu zajęć";
             scheduler.ShowDialog();
         }
 

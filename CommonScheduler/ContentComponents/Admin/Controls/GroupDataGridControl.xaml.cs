@@ -32,7 +32,7 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
             context = new serverDBEntities();
 
-            majorTreeView = new TreeViewData(context);
+            majorTreeView = new TreeViewData(context, TreeViewType.MAJOR_LIST);
 
             trvSubgroups.ItemsSource = majorTreeView.MajorList;
 

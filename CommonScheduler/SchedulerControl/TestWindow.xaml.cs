@@ -24,7 +24,7 @@ namespace CommonScheduler.SchedulerControl
         {
             InitializeComponent();
 
-            contentControl.Content = new Scheduler();
+            //contentControl.Content = new Scheduler();
         }
     }
 }

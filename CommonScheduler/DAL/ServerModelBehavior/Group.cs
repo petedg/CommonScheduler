@@ -16,13 +16,13 @@ namespace CommonScheduler.DAL
             this.context = context;
         }
 
-        public List<Group> GetGroupsForParentSubgroup(Subgroup parentSubgroup)
+        public List<object> GetGroupsForParentSubgroup(Subgroup parentSubgroup)
         {
             var groups = from group_1 in context.Group
                          where group_1.SUBGROUP_ID == parentSubgroup.ID
                          select group_1;
 
-            return groups.ToList();
+            return groups.ToList<object>();
         }
 
         public Group AddGroup(Group group)

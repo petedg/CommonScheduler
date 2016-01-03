@@ -77,12 +77,6 @@
             </TreeView.Resources>
         </TreeView>
 
-
-        <!--mycomp:DataGridControl Grid.Column="1" Margin="0,0,0,0" x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single" CanUserAddRows="true">
-
-        </mycomp:DataGridControl-->
-
         <ContentPresenter Name="groupPresenter" Grid.Column="1" Grid.Row="1" />
     </Grid>
 </UserControl>

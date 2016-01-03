@@ -111,9 +111,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContentComponents\Admin\CompositeCollectionSubgroupsAndGroups.cs" />
     <Compile Include="ContentComponents\Admin\Windows\SchedulerWindow.xaml.cs">
       <DependentUpon>SchedulerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContentComponents\Admin\TreeViewType.cs" />
     <Compile Include="SchedulerControl\ActivityStatus.cs" />
     <Compile Include="SchedulerControl\AdornerButton.xaml.cs">
       <DependentUpon>AdornerButton.xaml</DependentUpon>
@@ -127,6 +129,7 @@
     <Compile Include="SchedulerControl\SchedulerGrid.xaml.cs">
       <DependentUpon>SchedulerGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SchedulerControl\SchedulerGroupType.cs" />
     <Compile Include="SchedulerControl\SchedulerLeftBar.xaml.cs">
       <DependentUpon>SchedulerLeftBar.xaml</DependentUpon>
     </Compile>
