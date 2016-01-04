@@ -41,6 +41,15 @@ namespace CommonScheduler.DAL
             return weeks.ToList();
         }
 
+        public List<Week> GetListForSemester(Semester semester)
+        {
+            var weeks = from week in context.Week
+                        where week.SEMESTER_ID == semester.ID
+                        select week;
+
+            return weeks.ToList();
+        }
+
         public List<int> getDistinctSemesterIDs()
         {
             var weeks = from week in context.Week

@@ -87,6 +87,24 @@ namespace CommonScheduler.DAL
                                    select dictionaryValue;
 
             return dictionaryValues.ToList();
-        }        
+        }
+
+        public string GetTeacherDegree(Teacher teacher)
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals("Stopnie naukowe nauczycieli") && dictionaryValue.DV_ID == teacher.DEGREE_DV_ID
+                                   select dictionaryValue.VALUE;
+
+            string teacherDegree = dictionaryValues.FirstOrDefault();
+
+            if (!teacherDegree.Equals("brak"))
+            {
+                return teacherDegree + " ";
+            }
+
+            return "";
+        }
+
     }
 }

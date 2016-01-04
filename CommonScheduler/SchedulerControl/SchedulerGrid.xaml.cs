@@ -23,6 +23,8 @@ namespace CommonScheduler.SchedulerControl
     /// </summary>
     public partial class SchedulerGrid : UserControl
     {
+        private serverDBEntities context;
+
         private DateTime scheduleTimeLineStart;
         private DateTime scheduleTimeLineEnd;
         private int hoursBetween;
@@ -44,10 +46,11 @@ namespace CommonScheduler.SchedulerControl
         public SchedulerGroupType SchedulerGroupType { get; set; }
         public List<SchedulerActivity> Activities { get; set; }
 
-        public SchedulerGrid(SchedulerGroupType schedulerGroupType, List<Classes> classesList)
+        public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, List<Classes> classesList)
         {
             InitializeComponent();
 
+            this.context = context;
             this.SchedulerGroupType = schedulerGroupType;
 
             scheduleTimeLineStart = new DateTime(1,1,1, 6, 0, 0);
@@ -64,12 +67,6 @@ namespace CommonScheduler.SchedulerControl
 
             Activities = new List<SchedulerActivity>();
             initializeActivities(classesList);
-
-            //addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Friday, new DateTime(1, 1, 1, 20, 0, 0), new DateTime(1, 1, 1, 21, 0, 0), 1);
-            //addActivity(ActivityStatus.NONE, "ćwiczenia", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 6, 0, 0), new DateTime(1, 1, 1, 8, 30, 0), 1);
-            //addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 45, 0), new DateTime(1, 1, 1, 11, 15, 0), 1);
-            //addActivity(ActivityStatus.NONE, "wykład", "Matematyka", "MAT", DayOfWeek.Monday, new DateTime(1, 1, 1, 8, 30, 0), new DateTime(1, 1, 1, 8, 45, 0), 1);
-            //addActivity(ActivityStatus.NONE, "laboratoria", "Matematyka", "MAT", DayOfWeek.Wednesday, new DateTime(1, 1, 1, 12, 30, 0), new DateTime(1, 1, 1, 14, 45, 0), 1);
         }
 
         private void repaintGrid()
@@ -90,11 +87,6 @@ namespace CommonScheduler.SchedulerControl
             }
 
             addBorders();            
-
-            //Rectangle rect = new Rectangle { Fill = Brushes.Black };
-            //rect.SetValue(Grid.RowProperty, 8);
-            //rect.SetValue(Grid.RowSpanProperty, 4);
-            //mainGrid.Children.Add(rect);
         }
 
         public void repaintActivities()
@@ -216,7 +208,7 @@ namespace CommonScheduler.SchedulerControl
         {
             Classes c = new Classes
             {
-                ID_CREATED = -1,
+                ID_CREATED = CurrentUser.Instance.UserData.ID,
                 DATE_CREATED = DateTime.Now,
                 //CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
                 CLASSESS_TYPE_DV_ID = activityTypeId,
@@ -287,8 +279,15 @@ namespace CommonScheduler.SchedulerControl
         {
             if (e.ClickCount == 2 && stretchedActivity == null)
             {
-                int rowNumber = (int)((Grid)sender).GetValue(Grid.RowProperty);
-                int columnNumber = (int)((Grid)sender).GetValue(Grid.ColumnProperty);
+                SchedulerActivity activity = (SchedulerActivity)sender;
+
+                if (activity.IsEditable)
+                {
+                    SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(activity.Classes);
+                    activityEditionWindow.Owner = Application.Current.MainWindow;
+                    activityEditionWindow.Title = "Edycja zajęć";
+                    activityEditionWindow.ShowDialog();
+                }                
             }
         }
 

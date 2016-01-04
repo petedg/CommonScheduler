@@ -10,6 +10,11 @@ namespace CommonScheduler.DAL
     {
         private serverDBEntities context;
 
+        public DepartmentTeacher()
+        {
+
+        }
+
         public DepartmentTeacher(serverDBEntities context)
         {
             this.context = context;

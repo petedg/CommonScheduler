@@ -29,9 +29,27 @@ namespace CommonScheduler.DAL
         public List<Teacher> GetList()
         {
             var teachers = from teacher in context.Teacher
+                           where teacher.ID != 3
                            select teacher;
 
             return teachers.ToList();
+        }
+
+        public List<Teacher> GetListWithExternalOption()
+        {
+            var teachers = from teacher in context.Teacher
+                           select teacher;
+
+            return teachers.ToList();
+        }
+
+        public Teacher GetTeacherByID(int teacherID)
+        {
+            var teachers = from teacher in context.Teacher
+                           where teacher.ID == teacherID
+                           select teacher;
+
+            return teachers.FirstOrDefault();
         }
 
         public Teacher AddTeacher(Teacher teacher)

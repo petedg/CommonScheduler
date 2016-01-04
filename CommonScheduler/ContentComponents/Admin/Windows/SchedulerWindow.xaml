@@ -20,13 +20,17 @@
         <Border BorderBrush="LightGray" BorderThickness="1,1,1,0" Grid.Row="1" Grid.Column="1"/>
         <Border BorderBrush="LightGray" BorderThickness="1,0,1,1" Grid.Row="2" Grid.Column="0"/>
         <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" Grid.Row="2" Grid.Column="1"/>
-        
+
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="0" Margin="555,20,0,0">WYBÓR TYGODNIA</TextBlock>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1">GRUPY</TextBlock>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">EDYCJA PLANU</TextBlock>
 
         <ContentControl x:Name="contentControl" Grid.Row="2" Grid.Column="1" Padding="2"/>
         <ContentControl x:Name="groupContentControl"  Grid.Row="2" Grid.Column="0"/>
         <ContentControl x:Name="topMenuContentControl"  Grid.Row="0" Grid.ColumnSpan="2" />
+
+        <ComboBox Name="weekComboBox" Grid.Row="0" Width="300" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="455,20,0,0"
+                  SelectedValuePath="Week.ID" SelectionChanged="weekComboBox_SelectionChanged" DisplayMemberPath="DateSpan"></ComboBox>
 
         <TreeView Name="trvGroups" Grid.Column="0" Grid.Row="2" Margin="0,10,10,0" SelectedItemChanged="trvGroups_SelectedItemChanged">
             <TreeView.Resources>

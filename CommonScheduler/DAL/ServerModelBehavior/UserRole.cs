@@ -10,6 +10,11 @@ namespace CommonScheduler.DAL
     {
         private serverDBEntities context;
 
+        public UserRole()
+        {
+
+        }
+
         public UserRole(serverDBEntities context)
         {
             this.context = context;

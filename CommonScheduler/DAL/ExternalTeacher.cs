@@ -12,20 +12,18 @@ namespace CommonScheduler.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Teacher
+    public partial class ExternalTeacher
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Teacher()
+        public ExternalTeacher()
         {
             this.Classes = new HashSet<Classes>();
-            this.DepartmentTeacher = new HashSet<DepartmentTeacher>();
         }
     
         public int ID { get; set; }
         public string NAME { get; set; }
         public string SURNAME { get; set; }
         public string EMAIL { get; set; }
-        public int DEGREE_DV_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
@@ -33,7 +31,5 @@ namespace CommonScheduler.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Classes> Classes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DepartmentTeacher> DepartmentTeacher { get; set; }
     }
 }

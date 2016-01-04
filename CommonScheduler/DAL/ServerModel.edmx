@@ -23,6 +23,7 @@
           <Property Name="TEACHER_ID" Type="int" Nullable="false" />
           <Property Name="SPECIALLOCATION_ID" Type="int" />
           <Property Name="DAY_OF_WEEK" Type="int" Nullable="false" />
+          <Property Name="EXTERNALTEACHER_ID" Type="int" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -85,6 +86,19 @@
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
           <Property Name="DICTIONARY_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExternalTeacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="SURNAME" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
+          <Property Name="ID_CREATED" Type="int" Nullable="false" />
+          <Property Name="ID_MODIFIED" Type="int" />
         </EntityType>
         <EntityType Name="GlobalUser">
           <Key>
@@ -238,9 +252,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="SURNAME" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="EMAIL" Type="nvarchar" MaxLength="30" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="60" />
           <Property Name="DEGREE_DV_ID" Type="int" Nullable="false" />
-          <Property Name="IS_EXTERNAL" Type="bit" Nullable="false" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
@@ -316,6 +329,18 @@
             </Principal>
             <Dependent Role="DictionaryValue">
               <PropertyRef Name="DICTIONARY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Classes__EXTERNA__6FE99F9F">
+          <End Role="ExternalTeacher" Type="Self.ExternalTeacher" Multiplicity="0..1" />
+          <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalTeacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Classes">
+              <PropertyRef Name="EXTERNALTEACHER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -555,6 +580,7 @@
           <EntitySet Name="DepartmentTeacher" EntityType="Self.DepartmentTeacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dictionary" EntityType="Self.Dictionary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DictionaryValue" EntityType="Self.DictionaryValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalTeacher" EntityType="Self.ExternalTeacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GlobalUser" EntityType="Self.GlobalUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holiday" EntityType="Self.Holiday" Schema="dbo" store:Type="Tables" />
@@ -584,6 +610,10 @@
           <AssociationSet Name="DictionaryValue_Dictionary_FK" Association="Self.DictionaryValue_Dictionary_FK">
             <End Role="Dictionary" EntitySet="Dictionary" />
             <End Role="DictionaryValue" EntitySet="DictionaryValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Classes__EXTERNA__6FE99F9F" Association="Self.FK__Classes__EXTERNA__6FE99F9F">
+            <End Role="ExternalTeacher" EntitySet="ExternalTeacher" />
+            <End Role="Classes" EntitySet="Classes" />
           </AssociationSet>
           <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="Self.FK__Subgroup__SEMEST__5AEE82B9">
             <End Role="Semester" EntitySet="Semester" />
@@ -689,6 +719,8 @@
           <NavigationProperty Name="ClassesWeek" Relationship="Self.FK_ASS_12" FromRole="Classes" ToRole="ClassesWeek" />
           <NavigationProperty Name="ClassesGroup" Relationship="Self.FK_ASS_3" FromRole="Classes" ToRole="ClassesGroup" />
           <Property Name="DAY_OF_WEEK" Type="Int32" Nullable="false" />
+          <Property Name="EXTERNALTEACHER_ID" Type="Int32" />
+          <NavigationProperty Name="ExternalTeacher" Relationship="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" FromRole="Classes" ToRole="ExternalTeacher" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -937,9 +969,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SURNAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EMAIL" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="DEGREE_DV_ID" Type="Int32" Nullable="false" />
-          <Property Name="IS_EXTERNAL" Type="Boolean" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
@@ -1322,6 +1353,11 @@
             <End Role="Semester" EntitySet="Semester" />
             <End Role="Subgroup" EntitySet="Subgroup" />
           </AssociationSet>
+          <EntitySet Name="ExternalTeacher" EntityType="serverDBModel.ExternalTeacher" />
+          <AssociationSet Name="FK__Classes__EXTERNA__6FE99F9F" Association="serverDBModel.FK__Classes__EXTERNA__6FE99F9F">
+            <End Role="ExternalTeacher" EntitySet="ExternalTeacher" />
+            <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserDepartment">
           <Key>
@@ -1369,6 +1405,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ExternalTeacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="SURNAME" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
+          <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
+          <Property Name="ID_MODIFIED" Type="Int32" />
+          <NavigationProperty Name="Classes" Relationship="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" FromRole="ExternalTeacher" ToRole="Classes" />
+        </EntityType>
+        <Association Name="FK__Classes__EXTERNA__6FE99F9F">
+          <End Type="serverDBModel.ExternalTeacher" Role="ExternalTeacher" Multiplicity="0..1" />
+          <End Type="serverDBModel.Classes" Role="Classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalTeacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Classes">
+              <PropertyRef Name="EXTERNALTEACHER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1378,6 +1440,7 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="serverDBModel.Classes">
               <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="EXTERNALTEACHER_ID" ColumnName="EXTERNALTEACHER_ID" />
                 <ScalarProperty Name="DAY_OF_WEEK" ColumnName="DAY_OF_WEEK" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
@@ -1625,7 +1688,6 @@
                 <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
                 <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="DEGREE_DV_ID" ColumnName="DEGREE_DV_ID" />
-                <ScalarProperty Name="IS_EXTERNAL" ColumnName="IS_EXTERNAL" />
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
@@ -1657,6 +1719,20 @@
               <MappingFragment StoreEntitySet="UserDepartment">
                 <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
                 <ScalarProperty Name="GlobalUser_ID" ColumnName="GlobalUser_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExternalTeacher">
+            <EntityTypeMapping TypeName="serverDBModel.ExternalTeacher">
+              <MappingFragment StoreEntitySet="ExternalTeacher">
+                <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
+                <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
+                <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

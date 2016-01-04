@@ -49,6 +49,8 @@
         <AssociationConnector Association="serverDBModel.FK__UserDepar__Depar__4BAC3F29" />
         <AssociationConnector Association="serverDBModel.FK__UserDepar__Globa__4AB81AF0" />
         <AssociationConnector Association="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" />
+        <EntityTypeShape EntityType="serverDBModel.ExternalTeacher" Width="1.5" PointX="12.375" PointY="7" />
+        <AssociationConnector Association="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

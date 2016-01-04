@@ -59,45 +59,13 @@ namespace CommonScheduler.SchedulerControl
             for (int columnNumber = 0; columnNumber < numberOfColumns; columnNumber++)
             {
                 Label label = new Label {
-                    Content = translatedDayOfWeek(((DayOfWeek)(((int)startDay + columnNumber) % 7))),
+                    Content = DayOfWeekTranslator.TranslateDayOfWeek(((DayOfWeek)(((int)startDay + columnNumber) % 7))),
                     VerticalAlignment = VerticalAlignment.Center, 
                     HorizontalAlignment = HorizontalAlignment.Center };
 
                 label.SetValue(Grid.ColumnProperty, columnNumber);
                 topGrid.Children.Add(label);
             }
-        }
-
-        private string translatedDayOfWeek(DayOfWeek dayOfWeek)
-        {
-            if (dayOfWeek == DayOfWeek.Monday)
-            {
-                return "Poniedziałek";
-            }
-            else if (dayOfWeek == DayOfWeek.Tuesday)
-            {
-                return "Wtorek";
-            }
-            else if (dayOfWeek == DayOfWeek.Wednesday)
-            {
-                return "Środa";
-            }
-            else if (dayOfWeek == DayOfWeek.Thursday)
-            {
-                return "Czwartek";
-            }
-            else if (dayOfWeek == DayOfWeek.Friday)
-            {
-                return "Piątek";
-            }
-            else if (dayOfWeek == DayOfWeek.Saturday)
-            {
-                return "Sobota";
-            }
-            else
-            {
-                return "Niedziela";
-            }
-        }
+        }        
     }
 }

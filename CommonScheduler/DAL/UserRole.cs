@@ -14,11 +14,6 @@ namespace CommonScheduler.DAL
     
     public partial class UserRole
     {
-        public UserRole()
-        {
-
-        }
-
         public int ID { get; set; }
         public int GlobalUser_ID { get; set; }
         public int Role_ID { get; set; }

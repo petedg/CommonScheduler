@@ -16,24 +16,36 @@ namespace CommonScheduler.DAL
             this.context = context;
         }
 
-        public List<Classes> GetListForGroup(Group group_g)
+        public Classes GetClassesById(int classesID)
+        {
+            var classesList = from classes in context.Classes
+                              where classes.ID == classesID
+                              select classes;
+
+            return classesList.FirstOrDefault();
+        }
+
+        public List<Classes> GetListForGroup(Group group_g, Week week)
         {
             var classesList = from classes in context.Classes
                               join classesGroup in context.ClassesGroup on classes.ID equals classesGroup.Classes_ID
-                              where classesGroup.Group_ID == group_g.ID
+                              join classesWeek in context.ClassesWeek on classes.ID equals classesWeek.Classes_ID
+                              where classesGroup.Group_ID == group_g.ID && classesWeek.Week_ID == week.ID
                               select classes;
 
             return classesList.ToList();         
         }
 
-        public List<Classes> GetListForSubgroup_S1(Subgroup subgroup)
+        public List<Classes> GetListForSubgroup_S1(Subgroup subgroup, Week week)
         {
             var oddClassesList = from classes in context.Classes
                               join classesGroup in context.ClassesGroup on classes.ID equals classesGroup.Classes_ID
+                              join classesWeek in context.ClassesWeek on classes.ID equals classesWeek.Classes_ID
                               join group_g in context.Group on classesGroup.Group_ID equals group_g.ID
                               join subgroup_s1 in context.Subgroup on group_g.SUBGROUP_ID equals subgroup_s1.ID
                               join subgoup_s2 in context.Subgroup on subgroup_s1.SUBGROUP_ID equals subgoup_s2.ID
                               where subgoup_s2.ID == subgroup.ID && classes.CLASSESS_TYPE_DV_ID == 42               // wykład
+                                    && classesWeek.Week_ID == week.ID
                               select new ClassesWithClassesGroup_ClassesId { Classes = classes, ClassesGroup_ClassesId = classesGroup.Classes_ID };
 
             List<Classes> classesList = GetDistinctClassesForSubgroup(oddClassesList.ToList());
@@ -41,13 +53,15 @@ namespace CommonScheduler.DAL
             return classesList;
         }
 
-        public List<Classes> GetListForSubgroup_S2(Subgroup subgroup)
+        public List<Classes> GetListForSubgroup_S2(Subgroup subgroup, Week week)
         {
             var oddClassesList = from classes in context.Classes
-                              join classesGroup in context.ClassesGroup on classes.ID equals classesGroup.Classes_ID
+                              join classesGroup in context.ClassesGroup on classes.ID equals classesGroup.Classes_ID                                
+                              join classesWeek in context.ClassesWeek on classes.ID equals classesWeek.Classes_ID
                               join group_g in context.Group on classesGroup.Group_ID equals group_g.ID
                               join subgroup_s1 in context.Subgroup on group_g.SUBGROUP_ID equals subgroup_s1.ID
                               where subgroup_s1.ID == subgroup.ID && (classes.CLASSESS_TYPE_DV_ID == 42 || classes.CLASSESS_TYPE_DV_ID == 43)     // wykład lub ćwiczenia
+                                    && classesWeek.Week_ID == week.ID
                               select new ClassesWithClassesGroup_ClassesId { Classes = classes, ClassesGroup_ClassesId = classesGroup.Classes_ID };
 
             List<Classes> classesList = GetDistinctClassesForSubgroup(oddClassesList.ToList());

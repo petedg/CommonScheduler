@@ -1,4 +1,5 @@
-﻿using CommonScheduler.DAL;
+﻿using CommonScheduler.Authorization;
+using CommonScheduler.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -141,10 +142,6 @@ namespace CommonScheduler.SchedulerControl
 
         public void SetActivityTimeSpan(int gridColumnNumber, int gridStartRow, int gridEndRow)
         {
-            //this.ColumnNumber = gridColumnNumber;
-            //this.RowNumber = gridStartRow;
-            //this.RowSpan = gridEndRow - gridStartRow + 1;
-
             int divider = 60 / timePortion;
 
             gridEndRow++;
@@ -157,7 +154,7 @@ namespace CommonScheduler.SchedulerControl
             Classes.START_DATE = ClassesStartHour;            
             Classes.END_DATE = ClassesEndHour;
             Classes.DATE_MODIFIED = DateTime.Now;
-            Classes.ID_MODIFIED = -1;
+            Classes.ID_MODIFIED = CurrentUser.Instance.UserData.ID;            
         }
     }
 }

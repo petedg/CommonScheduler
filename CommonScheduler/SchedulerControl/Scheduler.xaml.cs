@@ -26,21 +26,26 @@ namespace CommonScheduler.SchedulerControl
         private serverDBEntities context;
         private Classes classesBehavior;
 
+        public object Group { get; set; }
+        public Week Week { get; set; }
         private SchedulerGroupType schedulerGroupType;
         private List<Classes> classesList;
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
-        public Scheduler(serverDBEntities context, object group)
+        public Scheduler(serverDBEntities context, object group, Week week)
         {
             InitializeComponent();
-
+    
             this.context = context;
             this.classesBehavior = new Classes(context);
 
+            this.Group = group;
+            this.Week = week;
+
             if (group.GetType() == typeof(Group) || group.GetType().BaseType == typeof(Group))
             {
-                classesList = classesBehavior.GetListForGroup((Group) group);
+                classesList = classesBehavior.GetListForGroup((Group) group, Week);
                 schedulerGroupType = SchedulerGroupType.GROUP;
             }
             else if (group.GetType() == typeof(Subgroup) || group.GetType().BaseType == typeof(Subgroup))
@@ -48,30 +53,17 @@ namespace CommonScheduler.SchedulerControl
                 Subgroup subgroup = (Subgroup)group;
                 if (subgroup.SUBGROUP_ID == null)
                 {
-                    classesList = classesBehavior.GetListForSubgroup_S1(subgroup);
+                    classesList = classesBehavior.GetListForSubgroup_S1(subgroup, Week);
                     schedulerGroupType = SchedulerGroupType.SUBGROUP_S1;
                 }
                 else
                 {
-                    classesList = classesBehavior.GetListForSubgroup_S2(subgroup);
+                    classesList = classesBehavior.GetListForSubgroup_S2(subgroup, Week);
                     schedulerGroupType = SchedulerGroupType.SUBGROUP_S2;
                 }                
             }
 
-            grid.Children.Add(new SchedulerGrid(schedulerGroupType, classesList));
-
-            AddHandler(SchedulerWindow.SchedulerSaveEvent, new RoutedEventHandler(saveEventHandler));
-            AddHandler(SchedulerWindow.SchedulerSaveEvent, new RoutedEventHandler(cancelEventHandler));
-        }
-
-        void saveEventHandler(object sender, RoutedEventArgs e)
-        {
-        
-        }
-
-        void cancelEventHandler(object sender, RoutedEventArgs e)
-        {
-
+            grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, classesList));
         }
     }
 }

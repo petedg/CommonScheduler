@@ -14,11 +14,6 @@ namespace CommonScheduler.DAL
     
     public partial class UserDepartment
     {
-        public UserDepartment()
-        {
-
-        }
-
         public int ID { get; set; }
         public int GlobalUser_ID { get; set; }
         public int Department_ID { get; set; }

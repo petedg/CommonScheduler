@@ -14,11 +14,6 @@ namespace CommonScheduler.DAL
     
     public partial class ClassesWeek
     {
-        public ClassesWeek()
-        {
-
-        }
-
         public int ID { get; set; }
         public int Classes_ID { get; set; }
         public int Week_ID { get; set; }

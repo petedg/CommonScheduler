@@ -14,11 +14,6 @@ namespace CommonScheduler.DAL
     
     public partial class ClassesGroup
     {
-        public ClassesGroup()
-        {
-
-        }
-
         public int ID { get; set; }
         public int Group_ID { get; set; }
         public int Classes_ID { get; set; }

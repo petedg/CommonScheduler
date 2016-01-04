@@ -11,6 +11,11 @@ namespace CommonScheduler.DAL
     {
         private serverDBEntities context;
 
+        public Holiday()
+        {
+
+        }
+
         public Holiday(serverDBEntities context)
         {
             this.context = context;
