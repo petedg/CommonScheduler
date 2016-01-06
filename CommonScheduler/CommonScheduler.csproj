@@ -116,6 +116,7 @@
       <DependentUpon>SchedulerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentComponents\Admin\TreeViewType.cs" />
+    <Compile Include="ContentComponents\Admin\RoomWithDescriptionDataType.cs" />
     <Compile Include="DAL\ExternalTeacher.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -141,6 +142,9 @@
     <Compile Include="SchedulerControl\SchedulerGroupType.cs" />
     <Compile Include="SchedulerControl\SchedulerLeftBar.xaml.cs">
       <DependentUpon>SchedulerLeftBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\SchedulerRoomEdition.xaml.cs">
+      <DependentUpon>SchedulerRoomEdition.xaml</DependentUpon>
     </Compile>
     <Compile Include="SchedulerControl\SchedulerTopBar.xaml.cs">
       <DependentUpon>SchedulerTopBar.xaml</DependentUpon>
@@ -561,6 +565,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SchedulerControl\SchedulerLeftBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerRoomEdition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

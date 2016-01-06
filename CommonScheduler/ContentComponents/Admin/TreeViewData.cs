@@ -13,8 +13,12 @@ namespace CommonScheduler.DAL
         private Major majorBehavior;
         private Subgroup subgroupBehavior;
         private Group groupBehavior;
+        private Department departmentBehavior;
+        private Location locationBehavior;
+        private Room roomBehavior;
 
         public List<Major> MajorList { get; set; }
+        public List<Department> DepartmentList { get; set; }
 
         public TreeViewData(serverDBEntities context, TreeViewType treeViewType)
         {
@@ -23,6 +27,9 @@ namespace CommonScheduler.DAL
             majorBehavior = new Major(context);
             subgroupBehavior = new Subgroup(context);
             groupBehavior = new Group(context);
+            departmentBehavior = new Department(context);
+            locationBehavior = new Location(context);
+            roomBehavior = new Room(context);
 
             if (treeViewType == TreeViewType.MAJOR_LIST)
             {
@@ -31,7 +38,11 @@ namespace CommonScheduler.DAL
             else if (treeViewType == TreeViewType.GROUP_LIST)
             {
                 initializeGroupList();
-            }                
+            }
+            else if (treeViewType == TreeViewType.ROOM_LIST)
+            {
+                initializeRoomList();
+            }   
         }
 
         private void initializeMajorList()
@@ -91,6 +102,31 @@ namespace CommonScheduler.DAL
                         });                        
                     }                   
                 }
+            }
+        }
+
+        private void initializeRoomList()
+        {
+            DepartmentList = departmentBehavior.GetList();
+
+            foreach (Department d in DepartmentList)
+            {
+                d.LocationsList = locationBehavior.GetLocationsForDepartment(d);
+
+                foreach (Location loc in d.LocationsList)
+                {
+                    loc.RoomsList = new List<RoomWithDescriptionDataType>();
+
+                    List<Room> rooms = roomBehavior.GetListForLocation(loc);
+
+                    var roomsWithDescription = from r in rooms
+                                               select new { Room = r, Description = r.NUMBER + " (" + r.NUMBER_OF_PLACES + ")"};                    
+
+                    foreach (dynamic dyn in roomsWithDescription.ToList())
+                    {
+                        loc.RoomsList.Add(new RoomWithDescriptionDataType(dyn.Room, dyn.Description));
+                    }
+                }                
             }
         }
 

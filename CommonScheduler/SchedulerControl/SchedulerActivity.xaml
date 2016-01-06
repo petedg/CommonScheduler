@@ -6,7 +6,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:mycomp="clr-namespace:CommonScheduler.SchedulerControl"
-             Margin="2" Background="{Binding ActivityBackground}" >
+             Margin="2" Background="{Binding ActivityBackground}">
     <mycomp:AdornerButton x:Name="bottomRightAdorner" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Visible" />
     <!--mycomp:AdornerButton x:Name="bottomAdorner" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="Visible"/ -->
+    
+    <Grid Margin="0" Name="activityDescriptionGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock Margin="5,0,0,0" Name="subjectTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"></TextBlock>
+        <TextBlock Margin="5,15,0,0" Name="teacherTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"></TextBlock>
+        <TextBlock Margin="5,30,0,0" Name="roomTextBlock" VerticalAlignment="Top" HorizontalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"></TextBlock>
+    </Grid>    
 </Grid>

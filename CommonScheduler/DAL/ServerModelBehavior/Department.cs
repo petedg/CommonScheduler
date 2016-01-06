@@ -21,6 +21,7 @@ namespace CommonScheduler.DAL
         public List<Department> GetList()
         {
             var departments = from department in context.Department
+                              where department.ID != 1
                               select department;
 
             return departments.ToList();
@@ -81,5 +82,7 @@ namespace CommonScheduler.DAL
             context.Entry(department).State = EntityState.Deleted;
             return department;
         }
+
+        public List<Location> LocationsList { get; set; }
     }
 }

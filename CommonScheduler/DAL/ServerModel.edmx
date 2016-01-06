@@ -99,6 +99,7 @@
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="NAME_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
         </EntityType>
         <EntityType Name="GlobalUser">
           <Key>
@@ -199,6 +200,7 @@
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="NUMBER_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -228,6 +230,7 @@
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="NAME_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
         </EntityType>
         <EntityType Name="Subgroup">
           <Key>
@@ -258,6 +261,7 @@
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="NAME_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDepartment">
           <Key>
@@ -909,6 +913,7 @@
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_Room_FK" FromRole="Room" ToRole="Classes" />
           <NavigationProperty Name="Location" Relationship="Self.Room_Location_FK" FromRole="Room" ToRole="Location" />
+          <Property Name="NUMBER_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -942,6 +947,7 @@
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_SpecialLocation_FK" FromRole="SpecialLocation" ToRole="Classes" />
+          <Property Name="NAME_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Subgroup">
           <Key>
@@ -977,6 +983,7 @@
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_Teacher_FK" FromRole="Teacher" ToRole="Classes" />
           <NavigationProperty Name="DepartmentTeacher" Relationship="Self.FK_ASS_11" FromRole="Teacher" ToRole="DepartmentTeacher" />
+          <Property Name="NAME_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -1418,6 +1425,7 @@
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
           <NavigationProperty Name="Classes" Relationship="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" FromRole="ExternalTeacher" ToRole="Classes" />
+          <Property Name="NAME_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Classes__EXTERNA__6FE99F9F">
           <End Type="serverDBModel.ExternalTeacher" Role="ExternalTeacher" Multiplicity="0..1" />
@@ -1621,6 +1629,7 @@
           <EntitySetMapping Name="Room">
             <EntityTypeMapping TypeName="serverDBModel.Room">
               <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="NUMBER_SHORT" ColumnName="NUMBER_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NUMBER" ColumnName="NUMBER" />
                 <ScalarProperty Name="NUMBER_OF_PLACES" ColumnName="NUMBER_OF_PLACES" />
@@ -1650,6 +1659,7 @@
           <EntitySetMapping Name="SpecialLocation">
             <EntityTypeMapping TypeName="serverDBModel.SpecialLocation">
               <MappingFragment StoreEntitySet="SpecialLocation">
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="CITY" ColumnName="CITY" />
@@ -1683,6 +1693,7 @@
           <EntitySetMapping Name="Teacher">
             <EntityTypeMapping TypeName="serverDBModel.Teacher">
               <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
@@ -1726,6 +1737,7 @@
           <EntitySetMapping Name="ExternalTeacher">
             <EntityTypeMapping TypeName="serverDBModel.ExternalTeacher">
               <MappingFragment StoreEntitySet="ExternalTeacher">
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />

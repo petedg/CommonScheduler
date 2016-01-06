@@ -64,6 +64,7 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             dataGrid.addTextColumn("NAME", "NAME", false);
             dataGrid.addTextColumn("SURNAME", "SURNAME", false);
             dataGrid.addTextColumn("EMAIL", "EMAIL", false);
+            dataGrid.addTextColumn("NAME_SHORT", "NAME_SHORT", false);
             dataGrid.addSemesterComboBoxColumn("DEGREE", "DEGREE_DV_ID", TeacherDegrees, "DV_ID", "VALUE", false);
         }
 

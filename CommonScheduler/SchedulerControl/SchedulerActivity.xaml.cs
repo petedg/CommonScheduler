@@ -43,7 +43,14 @@ namespace CommonScheduler.SchedulerControl
 
         public bool IsBeingStreched { get; set; }
 
-        public SchedulerActivity(DayOfWeek weekStartDay, DateTime dayStartHour, int timePortion, ActivityStatus status, bool isEditable, Classes classes, RoutedEventHandler adornerClick)
+        private serverDBEntities context;
+        private Teacher teacherBehavior;
+        private Room roomBehavior;
+        private ExternalTeacher externalTeacherBehavior;
+        private SpecialLocation specialLocationBehavior;
+
+        public SchedulerActivity(serverDBEntities context, DayOfWeek weekStartDay, DateTime dayStartHour, int timePortion, ActivityStatus status, bool isEditable, 
+            Classes classes, RoutedEventHandler adornerClick)
         {
             InitializeComponent();
 
@@ -67,6 +74,12 @@ namespace CommonScheduler.SchedulerControl
             {
                 bottomRightAdorner.Visibility = Visibility.Hidden;
             }
+
+            this.context = context;
+            teacherBehavior = new Teacher(context);
+            roomBehavior = new Room(context);
+            externalTeacherBehavior = new ExternalTeacher(context);
+            specialLocationBehavior = new SpecialLocation(context);
         }
 
         public void repaintActivity()
@@ -76,7 +89,9 @@ namespace CommonScheduler.SchedulerControl
             if (Status != ActivityStatus.DELETED)
             {                
                 setPosition();                
-            }       
+            }
+
+            setActivityDescription();
         }
 
         private void setBackground()
@@ -155,6 +170,29 @@ namespace CommonScheduler.SchedulerControl
             Classes.END_DATE = ClassesEndHour;
             Classes.DATE_MODIFIED = DateTime.Now;
             Classes.ID_MODIFIED = CurrentUser.Instance.UserData.ID;            
+        }
+
+        public void setActivityDescription()
+        {
+            subjectTextBlock.Text = Classes.SUBJECT_SHORT + ",";
+
+            if (Classes.TEACHER_ID != 3)
+            {
+                teacherTextBlock.Text = teacherBehavior.GetTeacherByID(Classes.TEACHER_ID).NAME_SHORT + ",";
+            }
+            else
+            {
+                teacherTextBlock.Text = externalTeacherBehavior.GetExternalTeacherById((int)Classes.EXTERNALTEACHER_ID).NAME_SHORT + ",";
+            }
+
+            if (Classes.Room_ID != 4)
+            {
+                roomTextBlock.Text = roomBehavior.GetRoomById(Classes.Room_ID).NUMBER_SHORT;
+            }
+            else
+            {
+                roomTextBlock.Text = specialLocationBehavior.GetSpecialLocationById((int)Classes.SPECIALLOCATION_ID).NAME_SHORT;
+            }                      
         }
     }
 }

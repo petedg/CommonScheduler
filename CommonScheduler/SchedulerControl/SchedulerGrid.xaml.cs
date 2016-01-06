@@ -220,7 +220,7 @@ namespace CommonScheduler.SchedulerControl
                 TEACHER_ID = teacherID
             };
 
-            SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, activityStatus, true, c,
+            SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, activityStatus, true, c,
                 adorner_Click);
             Activities.Add(nextActivity);
             mainGrid.Children.Add(nextActivity);
@@ -240,7 +240,7 @@ namespace CommonScheduler.SchedulerControl
         {
             foreach (Classes classes in classesList)
             {
-                SchedulerActivity nextActivity = new SchedulerActivity(startDay, scheduleTimeLineStart, timePortion, ActivityStatus.NONE, isActivityEditable(classes), classes, adorner_Click);
+                SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, ActivityStatus.NONE, isActivityEditable(classes), classes, adorner_Click);
                 Activities.Add(nextActivity);
                 mainGrid.Children.Add(nextActivity);
                 nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
@@ -287,6 +287,9 @@ namespace CommonScheduler.SchedulerControl
                     activityEditionWindow.Owner = Application.Current.MainWindow;
                     activityEditionWindow.Title = "Edycja zajęć";
                     activityEditionWindow.ShowDialog();
+
+                    activity.Classes = activityEditionWindow.EditedClasses;
+                    repaintActivities();
                 }                
             }
         }

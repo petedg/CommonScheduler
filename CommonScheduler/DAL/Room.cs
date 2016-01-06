@@ -28,6 +28,7 @@ namespace CommonScheduler.DAL
         public System.DateTime DATE_CREATED { get; set; }
         public int ID_CREATED { get; set; }
         public Nullable<int> ID_MODIFIED { get; set; }
+        public string NUMBER_SHORT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Classes> Classes { get; set; }

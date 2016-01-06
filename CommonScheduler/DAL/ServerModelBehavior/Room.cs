@@ -19,10 +19,19 @@ namespace CommonScheduler.DAL
         public List<Room> GetListForLocation(Location location)
         {
             var rooms = from room in context.Room
-                        where room.Location_ID == location.ID
+                        where room.Location_ID == location.ID && room.ID != 4   // != specjalna lokalizacja
                         select room;
 
             return rooms.ToList();
+        }
+
+        public Room GetRoomById(int roomId)
+        {
+            var rooms = from room in context.Room
+                        where room.ID == roomId
+                        select room;
+
+            return rooms.FirstOrDefault();
         }
 
         public Room AddRoom(Room room)

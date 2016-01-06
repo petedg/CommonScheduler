@@ -46,6 +46,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         private void setColumns()
         {
             dataGrid.addTextColumn("NUMBER", "NUMBER", false);
+            dataGrid.addTextColumn("NUMBER_SHORT", "NUMBER_SHORT", false);
             dataGrid.addTextColumn("NUMBER_OF_PLACES", "NUMBER_OF_PLACES", false);            
         }
 

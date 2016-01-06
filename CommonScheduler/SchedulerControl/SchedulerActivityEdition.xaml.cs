@@ -33,11 +33,14 @@ namespace CommonScheduler.SchedulerControl
         private DictionaryValue dictionaryValueBehavior;
         private Week weekBehavior;
         private ClassesWeek classesWeekBehavior;
+        private Room roomBehavior;
+        private SpecialLocation specialLocationBehavior;
 
+        public Classes EditedClasses { get; set; }
         private Classes classes;
         private Teacher teacher;
         private ExternalTeacher externalTeacher;
-        private List<ClassesWeek> classesWeekAssociations = new List<ClassesWeek>();
+        private List<ClassesWeek> classesWeekAssociations = new List<ClassesWeek>();        
 
         public SchedulerActivityEdition(Classes editedClasses)
         {
@@ -50,7 +53,10 @@ namespace CommonScheduler.SchedulerControl
             this.externalTeacherBahevior = new ExternalTeacher(context);
             this.weekBehavior = new Week(context);
             this.classesWeekBehavior = new ClassesWeek(context);
+            this.roomBehavior = new Room(context);
+            this.specialLocationBehavior = new SpecialLocation(context);
 
+            this.EditedClasses = editedClasses;
             this.classes = classesBehavior.GetClassesById(editedClasses.ID);
             this.teacher = teacherBehavior.GetTeacherByID(classes.TEACHER_ID);            
 
@@ -66,6 +72,13 @@ namespace CommonScheduler.SchedulerControl
 
             initBinding();
             initializeWeeksList();
+            initializeSpecialLocation();
+
+            roomDescriptionGrid.DataContext = roomBehavior.GetRoomById(classes.Room_ID);
+            if (classes.Room_ID == 4)
+            {
+                specialLocationCheckBox.IsChecked = true;    
+            }                     
         }
 
         ~SchedulerActivityEdition()
@@ -99,12 +112,27 @@ namespace CommonScheduler.SchedulerControl
         {
             using (serverDBEntities externalTeacherContext = new serverDBEntities())
             {
-                externalTeacher = new ExternalTeacher { DATE_CREATED = DateTime.Now, NAME = "", SURNAME = "", EMAIL = "", ID_CREATED = CurrentUser.Instance.UserData.ID };
+                externalTeacher = new ExternalTeacher { DATE_CREATED = DateTime.Now, NAME_SHORT="", NAME = "", SURNAME = "", EMAIL = "", ID_CREATED = CurrentUser.Instance.UserData.ID };
                 externalTeacherContext.ExternalTeacher.Add(externalTeacher);
                 externalTeacherContext.SaveChanges();
                 classes.EXTERNALTEACHER_ID = externalTeacher.ID;
                 context.SaveChanges();
             }                            
+        }
+
+        private void initializeSpecialLocation()
+        {
+            if (classes.SPECIALLOCATION_ID == null)
+            {
+                using (serverDBEntities specialLocationContext = new serverDBEntities())
+                {
+                    SpecialLocation sl = new SpecialLocation { DATE_CREATED = DateTime.Now, ID_CREATED = CurrentUser.Instance.UserData.ID, NAME_SHORT="", NAME = "", STREET = "", POSTAL_CODE = "", STREET_NUMBER = "", CITY = "" };
+                    specialLocationContext.SpecialLocation.Add(sl);
+                    specialLocationContext.SaveChanges();
+                    classes.SPECIALLOCATION_ID = sl.ID;
+                    context.SaveChanges();
+                }
+            }            
         }
 
         private void initializeWeeksList()
@@ -127,7 +155,7 @@ namespace CommonScheduler.SchedulerControl
             }
 
             weeksListBox.SelectionChanged += weeksListBox_SelectionChanged;
-        }
+        }        
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -140,6 +168,7 @@ namespace CommonScheduler.SchedulerControl
             }
 
             context.SaveChanges();
+            this.EditedClasses = classes;
             this.Close();
         }
 
@@ -303,6 +332,42 @@ namespace CommonScheduler.SchedulerControl
             }
 
             return new DateTime(3000, 1, 1);
+        }
+
+        private void specialLocationCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            chooseRoomButton.IsEnabled = false;
+            specialRoomGrid.Visibility = Visibility.Visible;
+            roomNumberLabel.Background = Brushes.Gray;
+            roomNumberOfPlacesLabel.Background = Brushes.Gray;
+
+            classes.Room_ID = 4;
+            roomDescriptionGrid.DataContext = null;
+            specialRoomGrid.DataContext = specialLocationBehavior.GetSpecialLocationById((int)classes.SPECIALLOCATION_ID);
+        }
+
+        private void specialLocationCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chooseRoomButton.IsEnabled = true;
+            specialRoomGrid.Visibility = Visibility.Hidden;
+            roomNumberLabel.Background = Brushes.White;
+            roomNumberOfPlacesLabel.Background = Brushes.White;
+
+            classes.Room_ID = 0;           
+        }
+
+        private void chooseRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            SchedulerRoomEdition roomEditionWindow = new SchedulerRoomEdition(context, classes.Room_ID);
+            roomEditionWindow.Title = "Wybór sali zajęciowej";
+            roomEditionWindow.Owner = Application.Current.MainWindow;
+            roomEditionWindow.ShowDialog();
+
+            if (roomEditionWindow.RoomID != 0)
+            {
+                classes.Room_ID = roomEditionWindow.RoomID;
+                roomDescriptionGrid.DataContext = roomBehavior.GetRoomById(classes.Room_ID);
+            }
         }
     }
 }

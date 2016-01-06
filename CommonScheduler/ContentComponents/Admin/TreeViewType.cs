@@ -9,6 +9,7 @@ namespace CommonScheduler.DAL
     public enum TreeViewType
     {
         MAJOR_LIST, 
-        GROUP_LIST
+        GROUP_LIST,
+        ROOM_LIST
     }
 }
