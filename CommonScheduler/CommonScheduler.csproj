@@ -657,6 +657,8 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>LocalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App_Data\Backups\serverDB_2016_01_06" />
+    <None Include="App_Data\Backups\serverDB_backup_19XII2015.bak" />
     <None Include="App_Data\localDB.db" />
     <None Include="DAL\LocalModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
