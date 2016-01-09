@@ -1,0 +1,148 @@
+﻿<Metro:MetroWindow x:Class="CommonScheduler.SchedulerControl.SchedulerActivityAddition"
+                   xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:self="clr-namespace:CommonScheduler.DAL"
+        Title="SchedulerActivityAddition" Height="683" Width="683" MinWidth="683" MinHeight="683" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBarTray>
+            <ToolBar Margin="0,2,0,0">
+                <Button ToolTip="Zapisz zmiany." Click="saveButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Margin="0,0,3,0" Height="24" Width="24">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_save}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Margin="3,0,0,0" VerticalAlignment="Center">Zapisz</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button ToolTip="Anuluj zmiany." Click="cancelButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Margin="0,0,3,0" Width="24" Height="24">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_cancel}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Margin="3,0,0,0" VerticalAlignment="Center">Anuluj zmiany</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <Label Name="windowLabel" Background="AliceBlue" BorderBrush="LightGray" BorderThickness="1,0,1,2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold"/>
+
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="2" />
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="3" />
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="2" Grid.Column="2"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="3" Grid.Column="2"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="4" Grid.ColumnSpan="2"/>
+
+        <Grid Grid.Row="2" Margin="5" Name="subjectGrid">
+            <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+               Content="PRZEDMIOT ZAJĘĆ"  />
+            <Label Content="Nazwa" Margin="5, 30, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Nazwa skrócona" Margin="5, 60, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <TextBox Name="classesName" Text="{Binding SUBJECT_NAME, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="110,30,10,0" MaxLength="60"/>
+            <TextBox Name="classesShort" Text="{Binding SUBJECT_SHORT, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="110,60,10,0" MaxLength="8"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="2" Margin="5,15,5,5" Name="teacherGrid">
+            <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+               Content="PROWADZĄCY"  />
+
+            <ComboBox Name="teacherComboBox" Width="300" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="10,30,10,0"
+                  SelectedValuePath="Teacher.ID" SelectionChanged="teacherComboBox_SelectionChanged" DisplayMemberPath="Description"
+                      SelectedValue="{Binding TEACHER_ID}"></ComboBox>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="2" Margin="5,100,5,5" Name="externalTeacherGrid" Visibility="Hidden">
+            <Label Content="Imię" Margin="5, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Nazwisko" Margin="5, 30, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Adres email" Margin="5, 60, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Skrót" Margin="5, 90, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <TextBox Name="externalTeacherName" Text="{Binding NAME, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="100,0,10,0" MaxLength="60"/>
+            <TextBox Name="externalTeacherSurname" Text="{Binding SURNAME, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="100,30,10,0" MaxLength="60"/>
+            <TextBox Name="externalTeacherEmail" Text="{Binding EMAIL, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="100,60,10,0" MaxLength="60"/>
+            <TextBox Name="externalTeacherNameShort" Text="{Binding NAME_SHORT, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="100,90,10,0" MaxLength="8"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="3" Margin="5">
+            <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+               Content="WYBÓR TYGODNI"  />
+            <ListBox Name="weeksListBox" SelectionMode="Multiple" Margin="5,30,5,35" SelectedValuePath="Week.ID" DisplayMemberPath="DateSpan" 
+                     HorizontalContentAlignment="Center"/>
+            <StackPanel VerticalAlignment="Bottom" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Wszystkie" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5, 0, 5, 0" Click="selectAllItems_Click"/>
+                <Button Content="Żaden" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5, 0, 5, 0" Click="unselectAllItems_Click"/>
+                <Button Content="Parzyste" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5, 0, 5, 0" Click="selectEvenItems_Click"/>
+                <Button Content="Nieparzyste" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5, 0, 5, 0" Click="selectOddItems_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="roomDescriptionGrid" Grid.Column="1" Grid.Row="3" Margin="5">
+            <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+               Content="SALA ZAJĘCIOWA"  />
+
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Content="Numer" Margin="5,30,0,0" />
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Content="Liczba miejsc" Margin="5,60,0,0" />
+
+            <Label Name="roomNumberLabel" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Height="28" Content="{Binding NUMBER}" Margin="90,30,5,0" VerticalContentAlignment="Center" Padding="10,0,0,0" />
+            <Label Name="roomNumberOfPlacesLabel" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Height="28" Content="{Binding NUMBER_OF_PLACES}" Margin="90,60,5,0" VerticalContentAlignment="Center" Padding="10,0,0,0" />
+
+            <Button Name="chooseRoomButton" Click="chooseRoomButton_Click" Content="wybierz z listy" Margin="0,100,5,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+            <CheckBox Name="specialLocationCheckBox" HorizontalAlignment="Left" VerticalAlignment="Top"
+                      Margin="10,150,0,0" Checked="specialLocationCheckBox_Checked" Unchecked="specialLocationCheckBox_Unchecked"/>
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Content="Inna lokalizacja" Margin="35,145,0,0" />
+
+        </Grid>
+
+        <Grid Name="specialRoomGrid" Grid.Row="3" Grid.Column="1" Margin="0,180,0,0" Visibility="Hidden">
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" 
+                   Height="25" Content="Nazwa" Margin="5,0,5,0" VerticalContentAlignment="Center" />
+            <TextBox BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Text="{Binding NAME, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="90,0,5,0" VerticalContentAlignment="Center"/>
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" 
+                   Height="25" Content="Nazwa (skrót)" Margin="5,30,5,0" VerticalContentAlignment="Center" />
+            <TextBox BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Text="{Binding NAME_SHORT, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="90,30,5,0" VerticalContentAlignment="Center"/>
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" 
+                   Height="25" Content="Miasto" Margin="5,60,5,0" VerticalContentAlignment="Center" />
+            <TextBox BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Text="{Binding CITY, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="90,60,5,0" VerticalContentAlignment="Center"/>
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" 
+                   Height="25" Content="Ulica" Margin="5,90,5,0" VerticalContentAlignment="Center" />
+            <TextBox BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Text="{Binding STREET, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="90,90,5,0" VerticalContentAlignment="Center"/>
+            <Label HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" 
+                   Height="25" Content="Numer ulicy" Margin="5,120,5,0" VerticalContentAlignment="Center" />
+            <TextBox BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Top" 
+                   Text="{Binding STREET_NUMBER, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="90,120,5,0" VerticalContentAlignment="Center"
+                     MaxLength="8"/>
+        </Grid>
+    </Grid>
+</Metro:MetroWindow>

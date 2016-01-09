@@ -2,11 +2,13 @@
 using CommonScheduler.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -44,14 +46,20 @@ namespace CommonScheduler.SchedulerControl
         private double currentHeight;
 
         public SchedulerGroupType SchedulerGroupType { get; set; }
+        public int GroupId { get; set; }
         public List<SchedulerActivity> Activities { get; set; }
 
-        public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, List<Classes> classesList)
+        private ContextMenu schedulerContextMenu;
+
+        public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, int groupId, List<Classes> classesList)
         {
             InitializeComponent();
 
+            initializeContextMenu();
+
             this.context = context;
             this.SchedulerGroupType = schedulerGroupType;
+            this.GroupId = groupId;
 
             scheduleTimeLineStart = new DateTime(1,1,1, 6, 0, 0);
             scheduleTimeLineEnd = new DateTime(1, 1, 1, 21, 0, 0);
@@ -196,36 +204,46 @@ namespace CommonScheduler.SchedulerControl
             content.Stretch = Stretch.Fill;
             content.Margin = new Thickness(2);
             content.Fill = Brushes.Transparent;
-            content.MouseLeftButtonDown += contentPresenter_MouseLeftButtonDown;
+            content.PreviewMouseLeftButtonDown += contentPresenter_MouseLeftButtonDown;
             content.SetValue(Grid.RowProperty, rowNumber);
             content.SetValue(Grid.ColumnProperty, columnNumber);
 
             return content;
         }
 
-        private void addActivity(ActivityStatus activityStatus, int activityTypeId, string subjectName, string subjectShort, DayOfWeek dayOfWeek,
-            DateTime startHour, DateTime endHour, int teacherID)
+        private SchedulerActivity addActivity(ActivityStatus activityStatus, Classes classes)
         {
-            Classes c = new Classes
-            {
-                ID_CREATED = CurrentUser.Instance.UserData.ID,
-                DATE_CREATED = DateTime.Now,
-                //CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
-                CLASSESS_TYPE_DV_ID = activityTypeId,
-                DAY_OF_WEEK = (int)dayOfWeek,
-                START_DATE = startHour,
-                END_DATE = endHour,
-                SUBJECT_NAME = subjectName,
-                SUBJECT_SHORT = subjectShort,
-                TEACHER_ID = teacherID
-            };
+            //Classes c = new Classes
+            //{
+            //    ID_CREATED = CurrentUser.Instance.UserData.ID,
+            //    DATE_CREATED = DateTime.Now,
+            //    //CLASSESS_TYPE_DV_ID = getActivityTypeId(activityTypeName),
+            //    CLASSESS_TYPE_DV_ID = activityTypeId,
+            //    DAY_OF_WEEK = (int)dayOfWeek,
+            //    START_DATE = startHour,
+            //    END_DATE = endHour,
+            //    SUBJECT_NAME = subjectName,
+            //    SUBJECT_SHORT = subjectShort,
+            //    TEACHER_ID = teacherID
+            //};
 
-            SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, activityStatus, true, c,
+            SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, activityStatus, true, classes,
                 adorner_Click);
             Activities.Add(nextActivity);
             mainGrid.Children.Add(nextActivity);
             nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
-            nextActivity.repaintActivity();
+            nextActivity.ContextMenu = schedulerContextMenu;
+            //nextActivity.repaintActivity();
+
+            return nextActivity;
+        }
+
+        private void removeActivity(SchedulerActivity activity)
+        {
+            context.Classes.Attach(activity.Classes);
+            context.Entry(activity.Classes).State = System.Data.Entity.EntityState.Deleted;
+
+            Activities.Remove(activity);
         }
 
         private int getActivityTypeId(string activityTypeValue)
@@ -240,13 +258,42 @@ namespace CommonScheduler.SchedulerControl
         {
             foreach (Classes classes in classesList)
             {
-                SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, ActivityStatus.NONE, isActivityEditable(classes), classes, adorner_Click);
-                Activities.Add(nextActivity);
-                mainGrid.Children.Add(nextActivity);
-                nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
-                nextActivity.repaintActivity();
+                if (context.Entry(classes).State != EntityState.Deleted)
+                {
+                    SchedulerActivity nextActivity = new SchedulerActivity(context, startDay, scheduleTimeLineStart, timePortion, ActivityStatus.NONE, isActivityEditable(classes), classes, adorner_Click);
+                    Activities.Add(nextActivity);
+                    mainGrid.Children.Add(nextActivity);
+                    nextActivity.MouseLeftButtonDown += nextActivity_MouseLeftButtonDown;
+                    if (nextActivity.IsEditable == true)
+                    {
+                        nextActivity.ContextMenu = schedulerContextMenu;
+                    }
+                    nextActivity.repaintActivity();
+                }                
             }
         }
+
+        //private void enabledActivity_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //PopupContextMenu contextMenu = new PopupContextMenu();
+
+        //    //contextMenu.Placement = PlacementMode.MousePoint;           
+
+        //    ////int gridRowProperty = (int)((Grid)sender).GetValue(Grid.RowProperty);
+        //    ////int gridColumnProperty = (int)((Grid)sender).GetValue(Grid.ColumnProperty);
+
+        //    ////contextMenu.SetValue(Grid.ColumnProperty, gridColumnProperty);
+        //    ////contextMenu.SetValue(Grid.RowProperty, gridRowProperty);
+        //    ////contextMenu.SetValue(Grid.RowSpanProperty, 100);
+        //    ////contextMenu.SetValue(Grid.ColumnSpanProperty, 100);
+        //    //contextMenu.StaysOpen = false;
+        //    //contextMenu.IsOpen = true;
+        //    //((Grid)contextMenu.Child).Children[0].Focus();
+            
+            
+
+        //    //e.Handled = true;
+        //}
 
         private bool isActivityEditable(Classes classes)
         {
@@ -272,6 +319,19 @@ namespace CommonScheduler.SchedulerControl
             {
                 int rowNumber = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
                 int columnNumber = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
+
+                SchedulerActivityAddition activityEditionWindow = new SchedulerActivityAddition(SchedulerGroupType, GroupId);
+                activityEditionWindow.Owner = Application.Current.MainWindow;
+                activityEditionWindow.Title = "Dodawanie zajęć";
+                activityEditionWindow.ShowDialog();
+
+                if (activityEditionWindow.NewClasses != null)
+                {                    
+                    SchedulerActivity nextActivity = addActivity(ActivityStatus.INSERTED, activityEditionWindow.NewClasses);
+                    nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, rowNumber, true);
+                }                
+
+                repaintActivities();
             }
         }
 
@@ -287,9 +347,9 @@ namespace CommonScheduler.SchedulerControl
                     activityEditionWindow.Owner = Application.Current.MainWindow;
                     activityEditionWindow.Title = "Edycja zajęć";
                     activityEditionWindow.ShowDialog();
-
+                    
                     activity.Classes = activityEditionWindow.EditedClasses;
-                    repaintActivities();
+                    repaintActivities();                  
                 }                
             }
         }
@@ -327,7 +387,7 @@ namespace CommonScheduler.SchedulerControl
 
                     if (!activityConflictOccurrence(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty))
                     {
-                        stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty);
+                        stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, false);
                     }
                 }
 
@@ -378,9 +438,9 @@ namespace CommonScheduler.SchedulerControl
             foreach (UIElement o in mainGrid.Children)
             {
                 if (o.GetType() == typeof(Rectangle))
-                {                   
-                    ((Rectangle)o).PreviewMouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
-                    ((Rectangle)o).Cursor = Cursors.Hand;
+                {
+                    ((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
+                    ((Rectangle)o).Cursor = Cursors.Hand;       
                 }
             }
         }
@@ -391,8 +451,8 @@ namespace CommonScheduler.SchedulerControl
             {
                 if (o.GetType() == typeof(Rectangle))
                 {
-                    ((Rectangle)o).PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(content_MouseClick);
-                    ((Rectangle)o).Cursor = Cursors.Arrow;
+                    ((Rectangle)o).MouseLeftButtonDown -= new MouseButtonEventHandler(content_MouseClick);
+                    ((Rectangle)o).Cursor = Cursors.Arrow; 
                 }
             }
         }
@@ -406,6 +466,74 @@ namespace CommonScheduler.SchedulerControl
                     ((SchedulerActivity)o).toggleAdornerVisibility();
                 }
             }
-        }            
+        }
+
+        private void initializeContextMenu()
+        {
+            Rectangle editionIcon = new Rectangle { VerticalAlignment=System.Windows.VerticalAlignment.Center, HorizontalAlignment=System.Windows.HorizontalAlignment.Center,
+                Width=12, Height=12, Fill = new VisualBrush { Visual=(Canvas)FindResource("appbar_edit") } };
+            Rectangle setTimeSpanIcon = new Rectangle
+            {
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                Width = 12,
+                Height = 12,
+                Fill = new VisualBrush { Visual = (Canvas)FindResource("appbar_clock") }
+            };
+            Rectangle deleteItemIcon = new Rectangle
+            {
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                Width = 12,
+                Height = 12,
+                Fill = new VisualBrush { Visual = (Canvas)FindResource("appbar_delete") }
+            };
+
+            MenuItem editionItem = new MenuItem { Header = "Edytuj", Icon = editionIcon };
+            MenuItem setTimeSpanItem = new MenuItem { Header = "Zmień termin", Icon = setTimeSpanIcon };
+            MenuItem deleteItem = new MenuItem { Header = "Usuń", Icon = deleteItemIcon };
+
+            editionItem.Click += editionItem_Click;
+            setTimeSpanItem.Click += setTimeSpanItem_Click;
+            deleteItem.Click += deleteItem_Click;
+
+            schedulerContextMenu = new ContextMenu();
+            schedulerContextMenu.Items.Add(editionItem);
+            schedulerContextMenu.Items.Add(setTimeSpanItem);
+            schedulerContextMenu.Items.Add(deleteItem);
+        }
+
+        void deleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
+            SchedulerActivity current = ((SchedulerActivity)menu.PlacementTarget);
+
+            current.DeleteActvity();
+            Activities.Remove(current);
+            repaintActivities();
+        }
+
+        void setTimeSpanItem_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
+            SchedulerActivity current = ((SchedulerActivity)menu.PlacementTarget);
+
+            stretchedActivity = current;
+            toggleMouseOver();
+        }
+
+        void editionItem_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
+            SchedulerActivity current = ((SchedulerActivity)menu.PlacementTarget);
+
+            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(current.Classes);
+            activityEditionWindow.Owner = Application.Current.MainWindow;
+            activityEditionWindow.Title = "Edycja zajęć";
+            activityEditionWindow.ShowDialog();
+
+            current.Classes = activityEditionWindow.EditedClasses;
+            repaintActivities();
+        }
     }
 }

@@ -23,5 +23,17 @@ namespace CommonScheduler.DAL
 
             return externalTeachers.FirstOrDefault();
         }
+
+        public void DeleteExternalTeacherForClasses(Classes classes)
+        {
+            var externalTeachers = from externalTeacher in context.ExternalTeacher
+                                   where externalTeacher.ID == classes.EXTERNALTEACHER_ID
+                                   select externalTeacher;
+
+            foreach (ExternalTeacher ex in externalTeachers)
+            {
+                context.ExternalTeacher.Remove(ex);
+            }
+        }
     }
 }

@@ -20,6 +20,18 @@ namespace CommonScheduler.DAL
             this.context = context;
         }
 
+        public void RemoveAssociationsForClasses(Classes classes)
+        {
+            var classesWeeks = from cw in context.ClassesWeek
+                                where cw.Classes_ID == classes.ID
+                                select cw;
+
+            foreach (ClassesWeek classesWeek in classesWeeks)
+            {
+                context.ClassesWeek.Remove(classesWeek);
+            }
+        }
+
         public List<ClassesWeek> GetClassesWeekList(Classes classes)
         {
             var classesWeekList = from classesWeek in context.ClassesWeek

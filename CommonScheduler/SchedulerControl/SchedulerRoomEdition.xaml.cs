@@ -68,7 +68,7 @@ namespace CommonScheduler.SchedulerControl
             }
             else
             {
-                TempRoomID = 0;
+                TempRoomID = -1;
             }
         }
     }

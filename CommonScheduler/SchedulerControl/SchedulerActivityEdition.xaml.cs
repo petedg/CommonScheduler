@@ -284,7 +284,7 @@ namespace CommonScheduler.SchedulerControl
                 }
                 else
                 {
-                    return 2;
+                    return 0;
                 }
             }
         }
@@ -316,7 +316,7 @@ namespace CommonScheduler.SchedulerControl
                 }
                 else
                 {
-                    return 2;
+                    return 0;
                 }
             }
         }

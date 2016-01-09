@@ -43,8 +43,11 @@ namespace CommonScheduler.SchedulerControl
             this.Group = group;
             this.Week = week;
 
+            int groupId = 0;
+
             if (group.GetType() == typeof(Group) || group.GetType().BaseType == typeof(Group))
             {
+                groupId = ((Group)group).ID;
                 classesList = classesBehavior.GetListForGroup((Group) group, Week);
                 schedulerGroupType = SchedulerGroupType.GROUP;
             }
@@ -60,10 +63,12 @@ namespace CommonScheduler.SchedulerControl
                 {
                     classesList = classesBehavior.GetListForSubgroup_S2(subgroup, Week);
                     schedulerGroupType = SchedulerGroupType.SUBGROUP_S2;
-                }                
+                }
+
+                groupId = ((Subgroup)group).ID;
             }
 
-            grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, classesList));
+            grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, groupId, classesList));
         }
     }
 }

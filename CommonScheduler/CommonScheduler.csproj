@@ -133,6 +133,9 @@
     <Compile Include="SchedulerControl\SchedulerActivity.xaml.cs">
       <DependentUpon>SchedulerActivity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SchedulerControl\SchedulerActivityAddition.xaml.cs">
+      <DependentUpon>SchedulerActivityAddition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SchedulerControl\SchedulerActivityEdition.xaml.cs">
       <DependentUpon>SchedulerActivityEdition.xaml</DependentUpon>
     </Compile>
@@ -553,6 +556,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SchedulerControl\SchedulerActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\SchedulerActivityAddition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

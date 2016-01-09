@@ -11,9 +11,30 @@ namespace CommonScheduler.DAL
     {
         private serverDBEntities context;
 
+        private ExternalTeacher externalTeacherBehavior;
+        private SpecialLocation specialLocationBehavior;
+        private ClassesGroup classesGroupBehavior;
+        private ClassesWeek classesWeekBehavior;
+
         public Classes(serverDBEntities context)
         {
             this.context = context;
+
+            externalTeacherBehavior = new ExternalTeacher(context);
+            specialLocationBehavior = new SpecialLocation(context);
+            classesGroupBehavior = new ClassesGroup(context);
+            classesWeekBehavior = new ClassesWeek(context);
+        }
+
+        public void RemoveClasses(Classes classes)
+        {
+            externalTeacherBehavior.DeleteExternalTeacherForClasses(classes);
+            specialLocationBehavior.DeleteSpecialLocationForClasses(classes);
+            classesGroupBehavior.RemoveAssociationsForClasses(classes);
+            classesWeekBehavior.RemoveAssociationsForClasses(classes);
+
+            context.Classes.Attach(classes);
+            context.Entry(classes).State = System.Data.Entity.EntityState.Deleted;
         }
 
         public Classes GetClassesById(int classesID)

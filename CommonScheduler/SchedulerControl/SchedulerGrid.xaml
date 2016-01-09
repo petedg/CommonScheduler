@@ -14,6 +14,38 @@
 
                 </Grid>
             </Grid>
-        </ScrollViewer>
+        </ScrollViewer>   
+        
+        <!--Grid.ContextMenu>
+            <ContextMenu StaysOpen="False" Placement="MousePoint">
+                <MenuItem Command="Cut">
+                    <MenuItem.Icon>
+                        <Rectangle Margin="0,0,3,0" Height="12" Width="12">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_edit}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="Copy">
+                    <MenuItem.Icon>
+                        <Rectangle Margin="0,0,3,0" Height="12" Width="12">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_edit}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="Paste">
+                    <MenuItem.Icon>
+                        <Rectangle Margin="0,0,3,0" Height="12" Width="12">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_edit}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu-->
     </Grid>
 </UserControl>

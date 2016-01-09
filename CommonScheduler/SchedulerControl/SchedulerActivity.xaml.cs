@@ -48,6 +48,7 @@ namespace CommonScheduler.SchedulerControl
         private Room roomBehavior;
         private ExternalTeacher externalTeacherBehavior;
         private SpecialLocation specialLocationBehavior;
+        private Classes classesBehavior;
 
         public SchedulerActivity(serverDBEntities context, DayOfWeek weekStartDay, DateTime dayStartHour, int timePortion, ActivityStatus status, bool isEditable, 
             Classes classes, RoutedEventHandler adornerClick)
@@ -80,6 +81,7 @@ namespace CommonScheduler.SchedulerControl
             roomBehavior = new Room(context);
             externalTeacherBehavior = new ExternalTeacher(context);
             specialLocationBehavior = new SpecialLocation(context);
+            classesBehavior = new Classes(context);
         }
 
         public void repaintActivity()
@@ -155,7 +157,7 @@ namespace CommonScheduler.SchedulerControl
             }            
         }
 
-        public void SetActivityTimeSpan(int gridColumnNumber, int gridStartRow, int gridEndRow)
+        public void SetActivityTimeSpan(int gridColumnNumber, int gridStartRow, int gridEndRow, bool save)
         {
             int divider = 60 / timePortion;
 
@@ -169,7 +171,20 @@ namespace CommonScheduler.SchedulerControl
             Classes.START_DATE = ClassesStartHour;            
             Classes.END_DATE = ClassesEndHour;
             Classes.DATE_MODIFIED = DateTime.Now;
-            Classes.ID_MODIFIED = CurrentUser.Instance.UserData.ID;            
+            Classes.ID_MODIFIED = CurrentUser.Instance.UserData.ID;
+
+            if (save)
+            {
+                using(serverDBEntities con = new serverDBEntities())
+                {
+                    con.Classes.Attach(Classes);
+                    con.Entry(Classes).State = System.Data.Entity.EntityState.Modified;
+                    con.SaveChanges();
+                }                  
+            }
+
+            context.Classes.Attach(Classes);
+            context.Entry(Classes).State = System.Data.Entity.EntityState.Modified;
         }
 
         public void setActivityDescription()
@@ -193,6 +208,12 @@ namespace CommonScheduler.SchedulerControl
             {
                 roomTextBlock.Text = specialLocationBehavior.GetSpecialLocationById((int)Classes.SPECIALLOCATION_ID).NAME_SHORT;
             }                      
+        }
+
+        public void DeleteActvity()
+        {
+            classesBehavior.RemoveClasses(Classes);
+            Status = ActivityStatus.DELETED;
         }
     }
 }

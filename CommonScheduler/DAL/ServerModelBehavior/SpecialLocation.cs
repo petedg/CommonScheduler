@@ -23,5 +23,17 @@ namespace CommonScheduler.DAL
 
             return specialLocations.FirstOrDefault();
         }
+
+        public void DeleteSpecialLocationForClasses(Classes classes)
+        {
+            var specialLocations = from specialLocation in context.SpecialLocation
+                                   where specialLocation.ID == classes.SPECIALLOCATION_ID
+                                   select specialLocation;
+
+            foreach (SpecialLocation sl in specialLocations)
+            {
+                context.SpecialLocation.Remove(sl);
+            }
+        }
     }
 }
