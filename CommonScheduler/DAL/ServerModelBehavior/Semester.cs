@@ -10,10 +10,13 @@ namespace CommonScheduler.DAL
     public partial class Semester
     {
         private serverDBEntities context;
+        private Subgroup subgroupBehavior;
+
 
         public Semester(serverDBEntities context)
         {
             this.context = context;
+            this.subgroupBehavior = new Subgroup(context);
         }
 
         public List<Semester> GetList()

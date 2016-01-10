@@ -10,10 +10,12 @@ namespace CommonScheduler.DAL
     public partial class Subgroup
     {
         private serverDBEntities context;
+        private Group groupBehavior;
 
         public Subgroup(serverDBEntities context)
         {
             this.context = context;
+            groupBehavior = new Group(context);
         }
 
         public List<object> GetSubgroupsForMajor(Major major)
@@ -52,7 +54,7 @@ namespace CommonScheduler.DAL
 
         public Subgroup DeleteSubgroup(Subgroup subgroup)
         {
-            new Group(context).RemoveGroupsForSubgroup(subgroup);
+            groupBehavior.RemoveGroupsForSubgroup(subgroup);
             context.Entry(subgroup).State = EntityState.Deleted;
             return subgroup;
         }
@@ -60,7 +62,19 @@ namespace CommonScheduler.DAL
         public void RemoveSubgroupsForMajor(Major major)
         {
             var subgroups = from subgroup in context.Subgroup
-                            where subgroup.MAJOR_ID == major.ID
+                            where subgroup.MAJOR_ID == major.ID && subgroup.SEMESTER_ID == new Semester(context).GetActiveSemester().ID
+                            select subgroup;
+
+            foreach (Subgroup m in subgroups)
+            {
+                DeleteSubgroup(m);
+            }
+        }
+
+        public void RemoveSubgroupsForSemester(Semester semester)
+        {
+            var subgroups = from subgroup in context.Subgroup
+                            where subgroup.SEMESTER_ID == semester.ID
                             select subgroup;
 
             foreach (Subgroup m in subgroups)

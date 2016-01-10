@@ -14,7 +14,7 @@
           <Property Name="END_DATE" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CLASSESS_TYPE_DV_ID" Type="int" Nullable="false" />
           <Property Name="SUBJECT_NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="SUBJECT_SHORT" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="SUBJECT_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
           <Property Name="Room_ID" Type="int" Nullable="false" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
@@ -124,7 +124,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="SHORT_NAME" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="SHORT_NAME" Type="nvarchar" MaxLength="8" Nullable="false" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
@@ -152,8 +152,8 @@
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="CITY" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="STREET" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="STREET_NUMBER" Type="varchar" MaxLength="8" Nullable="false" />
-          <Property Name="POSTAL_CODE" Type="varchar" MaxLength="8" />
+          <Property Name="STREET_NUMBER" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="POSTAL_CODE" Type="nvarchar" MaxLength="8" />
           <Property Name="Department_ID" Type="int" Nullable="false" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
@@ -224,8 +224,8 @@
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="CITY" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="STREET" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="STREET_NUMBER" Type="varchar" MaxLength="8" Nullable="false" />
-          <Property Name="POSTAL_CODE" Type="varchar" MaxLength="8" />
+          <Property Name="STREET_NUMBER" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="POSTAL_CODE" Type="nvarchar" MaxLength="8" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
@@ -238,7 +238,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="SHORT_NAME" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="SHORT_NAME" Type="nvarchar" MaxLength="8" Nullable="false" />
           <Property Name="SUBGROUP_TYPE_DV_ID" Type="int" />
           <Property Name="DATE_CREATED" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
@@ -709,7 +709,7 @@
           <Property Name="END_DATE" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CLASSESS_TYPE_DV_ID" Type="Int32" Nullable="false" />
           <Property Name="SUBJECT_NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SUBJECT_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SUBJECT_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Room_ID" Type="Int32" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
@@ -826,7 +826,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SHORT_NAME" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SHORT_NAME" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
@@ -857,8 +857,8 @@
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CITY" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="STREET" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="STREET_NUMBER" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="POSTAL_CODE" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="STREET_NUMBER" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POSTAL_CODE" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="Department_ID" Type="Int32" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
@@ -940,8 +940,8 @@
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CITY" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="STREET" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="STREET_NUMBER" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="POSTAL_CODE" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="STREET_NUMBER" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="POSTAL_CODE" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
@@ -955,7 +955,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SHORT_NAME" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SHORT_NAME" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SUBGROUP_TYPE_DV_ID" Type="Int32" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />

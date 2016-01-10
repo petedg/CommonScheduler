@@ -31,7 +31,7 @@ namespace CommonScheduler.SchedulerControl
         private Week weekBehavior;
         private ClassesWeek classesWeekBehavior;
         private ClassesGroup classesGroupBehavior;
-        //private Room roomBehavior;
+        private Room roomBehavior;
         //private SpecialLocation specialLocationBehavior;
 
         public Classes NewClasses { get; set; }
@@ -58,7 +58,7 @@ namespace CommonScheduler.SchedulerControl
             //this.externalTeacherBahevior = new ExternalTeacher(context);
             this.weekBehavior = new Week(context);
             this.classesWeekBehavior = new ClassesWeek(context);
-            //this.roomBehavior = new Room(context);
+            this.roomBehavior = new Room(context);
             //this.specialLocationBehavior = new SpecialLocation(context);
             this.classesGroupBehavior = new ClassesGroup(context);
 
@@ -310,6 +310,7 @@ namespace CommonScheduler.SchedulerControl
             roomNumberOfPlacesLabel.Background = Brushes.Gray;
 
             EditedClasses.Room_ID = 4;
+            roomDescriptionGrid.DataContext = null;
         }
 
         private void specialLocationCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -332,6 +333,7 @@ namespace CommonScheduler.SchedulerControl
             if (roomEditionWindow.RoomID != -1)
             {
                 EditedClasses.Room_ID = roomEditionWindow.RoomID;
+                roomDescriptionGrid.DataContext = roomBehavior.GetRoomById(EditedClasses.Room_ID);
             }
         }
 

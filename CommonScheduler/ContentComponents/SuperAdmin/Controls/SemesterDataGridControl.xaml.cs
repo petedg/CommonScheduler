@@ -33,6 +33,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
         private Week weekBehavior;
         private DictionaryValue dictionaryValueBehavior;
         private Holiday holidayBehavior;
+        private Subgroup subgroupBehavior;
 
         public List<Semester> ItemsSource { get; set; }
         public List<DictionaryValue> SemesterTypes { get; set; }
@@ -49,6 +50,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             weekBehavior = new Week(context);
             dictionaryValueBehavior = new DictionaryValue(context);
             holidayBehavior = new Holiday(context);
+            subgroupBehavior = new Subgroup(context);
             
             initializeList();
             setColumns();            
@@ -120,6 +122,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
                 //semesterBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
                 holidayBehavior.removeHolidaysForSemester((Semester)dataGrid.SelectedItem);
                 weekBehavior.RemoveWeeksListOnSemesterDelete((Semester)dataGrid.SelectedItem);
+                subgroupBehavior.RemoveSubgroupsForSemester((Semester)dataGrid.SelectedItem);
                 semesterBehavior.DeleteSemester((Semester)dataGrid.SelectedItem);               
             }
         }
