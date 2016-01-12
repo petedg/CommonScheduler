@@ -79,7 +79,8 @@ namespace CommonScheduler.DAL
             new Major(context).RemoveMajorsForDepartment(department);
             new UserDepartment(context).RemoveDepartmentsAssociations(department);
             locationBehavior.RemoveLocationsForDepartment(department);
-            context.Entry(department).State = EntityState.Deleted;
+            context.Department.Remove(department);
+            context.Department.Local.Remove(department);
             return department;
         }
 

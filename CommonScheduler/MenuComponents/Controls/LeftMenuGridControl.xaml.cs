@@ -1,7 +1,7 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.ContentComponents.Admin.Windows;
 using CommonScheduler.Events;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using CommonScheduler.SchedulerControl;
 using System;
 using System.Collections.Generic;
@@ -61,7 +61,6 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             LeftMenuButtonControl button1 = new LeftMenuButtonControl();
             button1.LeftMenuButtonText = text;
-            //button1.LeftMenuButtonImageSource = imageSource;
             button1.LeftMenuButtonIconResource = icon;
             button1.Margin = margin;
             button1.LeftMenuButtonClick += eventHandler;
@@ -134,11 +133,6 @@ namespace CommonScheduler.MenuComponents.Controls
 
         private void buttonAdminScheduleManagementEventHandler(object sender, RoutedEventArgs e)
         {
-            //if (LeftGridButtonClick != null)
-            //{
-            //    LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SCHEDULE_MANAGEMENT_BUTTON));
-            //}
-
             SchedulerWindow scheduler = new SchedulerWindow();
             scheduler.Owner = Application.Current.MainWindow;
             scheduler.Title = "Edycja planu zajęć";

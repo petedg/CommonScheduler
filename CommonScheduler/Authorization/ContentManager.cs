@@ -19,9 +19,6 @@ namespace CommonScheduler.Authorization
     {
         public ContentType CurrentContentType { get; set; }
 
-        public object PreviousTopContent { get; set; }
-        public object PreviousMainContent { get; set; }
-
         public UIElement getLeftMenuContent()
         {
             if (CurrentContentType == ContentType.MENU)

@@ -1,7 +1,7 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.ContentComponents.SuperAdmin.Windows;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;

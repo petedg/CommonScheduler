@@ -49,21 +49,9 @@
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
-    <Reference Include="SQLite.Designer, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.98.1\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.98.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
@@ -111,17 +99,96 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ContentComponents\Admin\CompositeCollectionSubgroupsAndGroups.cs" />
-    <Compile Include="ContentComponents\Admin\Windows\SchedulerWindow.xaml.cs">
-      <DependentUpon>SchedulerWindow.xaml</DependentUpon>
+    <Compile Include="DAL\Classes.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ContentComponents\Admin\TreeViewType.cs" />
-    <Compile Include="ContentComponents\Admin\RoomWithDescriptionDataType.cs" />
+    <Compile Include="DAL\ClassesGroup.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ClassesWeek.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Department.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DepartmentTeacher.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Dictionary.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\DictionaryValue.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\ExternalTeacher.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\GlobalUser.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Group.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Holiday.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Location.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Major.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Role.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Room.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Semester.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\ServerModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServerModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SpecialLocation.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Subgroup.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Teacher.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\TreeViewComponents\CompositeCollectionSubgroupsAndGroups.cs" />
+    <Compile Include="ContentComponents\Admin\Windows\SchedulerWindow.xaml.cs">
+      <DependentUpon>SchedulerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\TreeViewComponents\TreeViewType.cs" />
+    <Compile Include="DAL\TreeViewComponents\RoomWithDescriptionClass.cs" />
+    <Compile Include="DAL\DbTools.cs" />
     <Compile Include="DAL\ServerModelBehavior\ClassesGroup.cs" />
     <Compile Include="DAL\ServerModelBehavior\ExternalTeacher.cs" />
+    <Compile Include="DAL\UserDepartment.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\UserRole.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Week.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SchedulerControl\ActivityStatus.cs" />
     <Compile Include="SchedulerControl\AdornerButton.xaml.cs">
       <DependentUpon>AdornerButton.xaml</DependentUpon>
@@ -164,10 +231,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Authentication\Windows\AuthWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CommonComponents\Controls\MenuMainButtonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,10 +294,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContentComponents\SuperAdmin\Controls\DepartmentsLocationDataGridControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ContentComponents\SuperAdmin\Controls\SemesterDataGridControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -278,9 +337,6 @@
     <Compile Include="Authorization\ContentType.cs" />
     <Compile Include="Authorization\CurrentUser.cs" />
     <Compile Include="Authorization\ContentManager.cs" />
-    <Compile Include="CommonComponents\Controls\MenuMainButtonControl.xaml.cs">
-      <DependentUpon>MenuMainButtonControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CommonComponents\Message.cs" />
     <Compile Include="CommonComponents\MessagesManager.cs" />
     <Compile Include="CommonComponents\MessageType.cs" />
@@ -327,9 +383,6 @@
     <Compile Include="ContentComponents\SuperAdmin\Controls\DepartmentDataGridControl.xaml.cs">
       <DependentUpon>DepartmentDataGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContentComponents\SuperAdmin\Controls\DepartmentsLocationDataGridControl.xaml.cs">
-      <DependentUpon>DepartmentsLocationDataGridControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ContentComponents\SuperAdmin\Controls\SemesterDataGridControl.xaml.cs">
       <DependentUpon>SemesterDataGridControl.xaml</DependentUpon>
     </Compile>
@@ -345,120 +398,6 @@
     <Compile Include="ContentComponents\SuperAdmin\Windows\UserDepartmentsWindow.xaml.cs">
       <DependentUpon>UserDepartmentsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Classes.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ClassesGroup.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ClassesWeek.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Classes_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Deparment_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Department.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DepartmentTeacher.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DepartmentTeacher_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Dictionary.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DictionaryValue.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\DictionaryValue_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Dictionary_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\GlobalUser.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Group.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Group_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Holiday.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Holiday_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\LocalModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\LocalModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\LocalModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LocalModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\LocalUser_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Location.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Location_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Major.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Major_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Role.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Role_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Room.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Room_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Semester.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Semester_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ServerModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServerModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ServerModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\ServerModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServerModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="DAL\ServerModelBehavior\Classes.cs" />
     <Compile Include="DAL\ServerModelBehavior\ClassesWeek.cs" />
     <Compile Include="DAL\ServerModelBehavior\Department.cs" />
@@ -471,7 +410,7 @@
     <Compile Include="DAL\ServerModelBehavior\Holiday.cs" />
     <Compile Include="DAL\ServerModelBehavior\Location.cs" />
     <Compile Include="DAL\ServerModelBehavior\Major.cs" />
-    <Compile Include="ContentComponents\Admin\TreeViewData.cs" />
+    <Compile Include="DAL\TreeViewComponents\TreeViewData.cs" />
     <Compile Include="DAL\ServerModelBehavior\Role.cs" />
     <Compile Include="DAL\ServerModelBehavior\Room.cs" />
     <Compile Include="DAL\ServerModelBehavior\Semester.cs" />
@@ -482,39 +421,9 @@
     <Compile Include="DAL\ServerModelBehavior\UserDepartment.cs" />
     <Compile Include="DAL\ServerModelBehavior\UserRole.cs" />
     <Compile Include="DAL\ServerModelBehavior\Week.cs" />
-    <Compile Include="DAL\SpecialLocation.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\SpecialLocation_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Subgroup.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Subgroup_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Teacher.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Teacher_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\UserDepartment.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\UserRole.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Week.cs">
-      <DependentUpon>ServerModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Week_L.cs">
-      <DependentUpon>LocalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Events\Data\LeftGridButtonClickEventArgs.cs" />
-    <Compile Include="Events\Data\SenderType.cs" />
-    <Compile Include="Events\Data\TopGridButtonClickEventArgs.cs" />
+    <Compile Include="Events\CustomEventArgs\LeftGridButtonClickEventArgs.cs" />
+    <Compile Include="Events\SenderType.cs" />
+    <Compile Include="Events\CustomEventArgs\TopGridButtonClickEventArgs.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -660,27 +569,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="DAL\LocalModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LocalModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="App_Data\Backups\serverDB_20160110.bak" />
     <None Include="App_Data\Backups\serverDB_2016_01_06" />
     <None Include="App_Data\Backups\serverDB_backup_19XII2015.bak" />
-    <None Include="App_Data\localDB.db" />
-    <None Include="DAL\LocalModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LocalModel.edmx</DependentUpon>
-      <LastGenOutput>LocalModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="DAL\LocalModel.edmx.diagram">
-      <DependentUpon>LocalModel.edmx</DependentUpon>
-    </None>
-    <None Include="DAL\LocalModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LocalModel.edmx</DependentUpon>
-      <LastGenOutput>LocalModel.cs</LastGenOutput>
-    </None>
     <EntityDeploy Include="DAL\ServerModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ServerModel.Designer.cs</LastGenOutput>
@@ -734,13 +625,6 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Włącz przywracanie pakietu NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.98.1\build\net45\System.Data.SQLite.Core.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

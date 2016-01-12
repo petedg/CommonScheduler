@@ -2,9 +2,10 @@
 using CommonScheduler.Authorization;
 using CommonScheduler.CommonComponents;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
@@ -35,7 +36,7 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
         private GlobalUser globalUserBehavior;
         private Role roleBehavior;
 
-        public List<GlobalUser> ItemsSource { get; set; }
+        public ObservableCollection<GlobalUser> ItemsSource { get; set; }
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
@@ -44,15 +45,14 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
             InitializeComponent();
 
             context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
-            roleBehavior = new Role(context);
+            initializeServerModelBehavior();
 
-            initializeList();
-            setColumns();            
+            setColumns();       
+            reinitializeList();                 
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
-            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
+            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));            
         }
 
         ~SuperAdminDataGridControl()
@@ -61,152 +61,80 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                 context.Dispose();
         }
 
-        private void initializeList()
+        private void initializeServerModelBehavior()
         {
-            this.ItemsSource = globalUserBehavior.GetSuperAdminList();
-            dataGrid.ItemsSource = ItemsSource;
+            globalUserBehavior = new GlobalUser(context);
+            roleBehavior = new Role(context);
         }
 
         private void setColumns()
         {
             dataGrid.addTextColumn("NAME", "NAME", false);
             dataGrid.addTextColumn("SURNAME", "SURNAME", false);
-            //dataGrid.addComboBoxColumn("LOGIN", ItemsSource3, "LOGIN", "LOGIN");
             dataGrid.addTextColumn("LOGIN", "LOGIN", true);
             dataGrid.addButtonColumn("PASSWORD", "Zresetuj hasło", dataGridButton_Click);
         }
 
-        private void refreshList()
+        private void reinitializeList()
         {
-            ItemsSource = globalUserBehavior.GetSuperAdminList();
-            dataGrid.ItemsSource = null;
+            if (ItemsSource != null)
+            {
+                ItemsSource.Clear();
+            }
+            ItemsSource = new ObservableCollection<GlobalUser>(globalUserBehavior.GetSuperAdminList());
+            ItemsSource.CollectionChanged += ItemsSource_CollectionChanged;
+
             dataGrid.ItemsSource = ItemsSource;
         }
 
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit)
+            if (e.NewItems != null)
             {
-                if (((GlobalUser)e.Row.Item).ID == 0)
+                foreach (GlobalUser globalUser in e.NewItems)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        GlobalUser newRow = ((GlobalUser)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.DATE_MODIFIED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.USER_TYPE_DV_ID = 2;
-                        newRow.PASSWORD = globalUserBehavior.RandomHashedPassword();
-                        newRow.PASSWORD_TEMPORARY = false;
-
-                        newRow = globalUserBehavior.AddUser(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
+                    globalUser.DATE_CREATED = DateTime.Now;
+                    globalUser.ID_CREATED = CurrentUser.Instance.UserData.ID;
+                    globalUser.USER_TYPE_DV_ID = 2;
+                    globalUser.PASSWORD = globalUserBehavior.RandomHashedPassword();
+                    globalUser.PASSWORD_TEMPORARY = false;
+                    context.GlobalUser.Add(globalUser);
                 }
-                else
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (GlobalUser globalUser in e.OldItems)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        GlobalUser row = ((GlobalUser)e.Row.DataContext);
-                        globalUserBehavior.UpdateUser(row);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
+                    context.GlobalUser.Remove(globalUser);
+                    context.GlobalUser.Local.Remove(globalUser);
                 }
-            }            
-        }
-
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser))
-            {
-                //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                globalUserBehavior.DeleteUser((GlobalUser)dataGrid.SelectedItem);                
             }
-        }
+        }       
 
-        void disableContent(object sender, RoutedEventArgs e)
+        private bool saveChanges()
         {
-            grid.Children.Add(rect);
-        }
-
-        void enableContent(object sender, RoutedEventArgs e)
-        {
-            grid.Children.Remove(rect);
-        }
-
-        void topButtonClickHandler(object sender, RoutedEventArgs e)
-        {
-            if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
-            {
-                saveChanges();
-                refreshList();
-            }
-            else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
-            {
-                discardChanges();
-                refreshList();
-            }
+            return DbTools.SaveChanges(context);
         }
 
         private void discardChanges()
         {
             context.Dispose();
             context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
-        }
-
-        private bool saveChanges()
-        {
-            dataGrid.CancelEdit();
-
-            try
-            {
-                context.SaveChanges();
-                //roleBehavior.UpdateRolesForUsers();
-                return true;
-            }
-            catch (DbEntityValidationException dbEx)
-            {
-                MessagesManager messageManager = new MessagesManager();
-
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        //Trace.TraceInformation("Property: {0} Error: {1}",
-                        //                        validationError.PropertyName,
-                        //                        validationError.ErrorMessage);
-                        messageManager.addMessage(validationError.ErrorMessage, MessageType.ERROR_MESSAGE);
-                    }
-                }
-
-                messageManager.showMessages();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                if (ex.InnerException.InnerException != null)
-                {
-                    MessageBox.Show(ex.InnerException.InnerException.Message);
-                }
-                else if (ex.InnerException != null)
-                {
-                    MessageBox.Show(ex.InnerException.Message);
-                }
-                return false;
-            }
-            
-        }
+            initializeServerModelBehavior();
+        }   
 
         private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             if (dataGrid.SelectedItem != null)
             {
-                if (dataGrid.SelectedItem.GetType() != typeof(GlobalUser) && dataGrid.SelectedItem.GetType().BaseType != typeof(GlobalUser))
+                if ((dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)) && ((GlobalUser)dataGrid.SelectedItem).ID != 0)
                 {
-                    dataGrid.Columns[3].IsReadOnly = false;
+                    dataGrid.Columns[3].IsReadOnly = true;                    
                 }
                 else
                 {
-                    dataGrid.Columns[3].IsReadOnly = true;
+                    dataGrid.Columns[3].IsReadOnly = false;
                 }
             }                      
         }
@@ -225,9 +153,31 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                         + ".\r\nWażne 24h od tej chwili.", MessageType.SUCCESS_MESSAGE).showMessage();
                 }
             }
-            else
+        }
+
+        void disableContent(object sender, RoutedEventArgs e)
+        {
+            grid.Children.Add(rect);
+        }
+
+        void enableContent(object sender, RoutedEventArgs e)
+        {
+            grid.Children.Remove(rect);
+        }
+
+        void topButtonClickHandler(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
             {
-                refreshList();
+                if (saveChanges())
+                {
+                    reinitializeList();
+                }                
+            }
+            else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
+            {
+                discardChanges();
+                reinitializeList();
             }
         }
     }    

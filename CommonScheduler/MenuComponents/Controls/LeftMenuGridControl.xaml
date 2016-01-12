@@ -7,6 +7,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="540" d:DesignWidth="170">
     <Grid Name="leftMenuGrid">        
-        <!--myMenuControl:LeftMenuButtonControl LeftMenuButtonText="ssasas" LeftMenuButtonImageSource="/Resources/Images/okIcon.png"/-->
     </Grid>
 </UserControl>

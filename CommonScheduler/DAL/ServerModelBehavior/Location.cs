@@ -70,6 +70,6 @@ namespace CommonScheduler.DAL
             }
         }
 
-        public List<RoomWithDescriptionDataType> RoomsList { get; set; }                                   
+        public List<RoomWithDescriptionClass> RoomsList { get; set; }                                   
     }
 }

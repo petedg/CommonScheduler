@@ -2,9 +2,10 @@
 using CommonScheduler.CommonComponents;
 using CommonScheduler.ContentComponents.SuperAdmin.Windows;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -35,7 +36,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
         private Holiday holidayBehavior;
         private Subgroup subgroupBehavior;
 
-        public List<Semester> ItemsSource { get; set; }
+        public ObservableCollection<Semester> ItemsSource { get; set; }
         public List<DictionaryValue> SemesterTypes { get; set; }
         public List<Holiday> HolidaysSource { get; set; }
 
@@ -46,14 +47,12 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             InitializeComponent();
 
             context = new serverDBEntities();
-            semesterBehavior = new Semester(context);
-            weekBehavior = new Week(context);
-            dictionaryValueBehavior = new DictionaryValue(context);
-            holidayBehavior = new Holiday(context);
-            subgroupBehavior = new Subgroup(context);
-            
-            initializeList();
-            setColumns();            
+            initializeServerModelBehavior();
+
+            initializeServerModelBehavior();
+            initializeDictionaries();
+            setColumns(); 
+            reinitializeList();                       
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
@@ -66,12 +65,13 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
                 context.Dispose();
         }
 
-        private void initializeList()
+        private void initializeServerModelBehavior()
         {
-            this.SemesterTypes = dictionaryValueBehavior.GetSemesterTypes();                        
-            this.ItemsSource = semesterBehavior.GetList();
-            dataGrid.Items.Clear();
-            dataGrid.ItemsSource = ItemsSource;
+            semesterBehavior = new Semester(context);
+            weekBehavior = new Week(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
+            holidayBehavior = new Holiday(context);
+            subgroupBehavior = new Subgroup(context);
         }
 
         private void setColumns()
@@ -82,50 +82,49 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             dataGrid.addCheckBoxColumn("IS_ACTIVE", "IS_ACTIVE", false);
         }
 
-        private void refreshList()
+        private void initializeDictionaries()
         {
-            this.ItemsSource = semesterBehavior.GetList();
-            dataGrid.ItemsSource = null;
+            SemesterTypes = dictionaryValueBehavior.GetSemesterTypes();
+        }        
+
+        private void reinitializeList()
+        {
+            if (ItemsSource != null)
+            {
+                ItemsSource.Clear();
+            }
+            ItemsSource = new ObservableCollection<Semester>(semesterBehavior.GetList());
+            ItemsSource.CollectionChanged += ItemsSource_CollectionChanged;
+
             dataGrid.ItemsSource = ItemsSource;
         }
 
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit)
+            if (e.NewItems != null)
             {
-                if (((Semester)e.Row.Item).ID == 0)
+                foreach (Semester semester in e.NewItems)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Semester newRow = ((Semester)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;                        
+                    semester.DATE_CREATED = DateTime.Now;
+                    semester.ID_CREATED = CurrentUser.Instance.UserData.ID;
 
-                        newRow = semesterBehavior.AddSemester(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Semester row = ((Semester)e.Row.DataContext);
-                        semesterBehavior.UpdateSemester(row);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
-                }
-            }            
-        }
+                    holidayBehavior.removeHolidaysForSemester(semester);
+                    weekBehavior.RemoveWeeksListOnSemesterDelete(semester);
+                    subgroupBehavior.RemoveSubgroupsForSemester(semester);
 
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(Semester))
-            {
-                //semesterBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
-                holidayBehavior.removeHolidaysForSemester((Semester)dataGrid.SelectedItem);
-                weekBehavior.RemoveWeeksListOnSemesterDelete((Semester)dataGrid.SelectedItem);
-                subgroupBehavior.RemoveSubgroupsForSemester((Semester)dataGrid.SelectedItem);
-                semesterBehavior.DeleteSemester((Semester)dataGrid.SelectedItem);               
+                    context.Semester.Add(semester);
+                }
             }
-        }
+
+            if (e.OldItems != null)
+            {
+                foreach (Semester semester in e.OldItems)
+                {
+                    context.Semester.Remove(semester);
+                    context.Semester.Local.Remove(semester);
+                }
+            }
+        }       
 
         void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
         {
@@ -149,12 +148,12 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
             {
                 saveChanges();
-                refreshList();
+                reinitializeList();
             }
             else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
             {
                 discardChanges();
-                refreshList();
+                reinitializeList();
             }
             else if (MainWindow.TopMenuButtonType == SenderType.EDIT_HOLIDAYS_BUTTON)
             {
@@ -168,53 +167,17 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             }
         }
 
+        private bool saveChanges()
+        {
+            return DbTools.SaveChanges(context);
+        }
+
         private void discardChanges()
         {
             context.Dispose();
             context = new serverDBEntities();
-            semesterBehavior = new Semester(context);
-            weekBehavior = new Week(context);
-            dictionaryValueBehavior = new DictionaryValue(context);
-        }
-
-        private bool saveChanges()
-        {            
-            //dataGrid.CancelEdit();
-            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
-
-            try
-            {
-                context.SaveChanges();
-                //roleBehavior.UpdateRolesForUsers();
-                weekBehavior.InitializeWeeksForNewSemesters();
-                return true;
-            }
-            catch (DbEntityValidationException dbEx)
-            {
-                MessagesManager messageManager = new MessagesManager();
-
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        //Trace.TraceInformation("Property: {0} Error: {1}",
-                        //                        validationError.PropertyName,
-                        //                        validationError.ErrorMessage);
-                        messageManager.addMessage(validationError.ErrorMessage, MessageType.ERROR_MESSAGE);
-                    }
-                }
-
-                messageManager.showMessages();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                if(ex.InnerException.InnerException != null)
-                    MessageBox.Show(ex.InnerException.InnerException.Message);
-
-                return false;
-            }            
-        }
+            initializeServerModelBehavior();
+        }   
 
         private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

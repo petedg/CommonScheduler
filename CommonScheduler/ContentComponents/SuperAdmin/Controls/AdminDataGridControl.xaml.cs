@@ -2,9 +2,10 @@
 using CommonScheduler.CommonComponents;
 using CommonScheduler.ContentComponents.SuperAdmin.Windows;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,7 +34,7 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
         private Role roleBehavior;
         private UserDepartment userDepartmentBehavior;
 
-        public List<GlobalUser> ItemsSource { get; set; }        
+        public ObservableCollection<GlobalUser> ItemsSource { get; set; }
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
@@ -42,16 +43,14 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
             InitializeComponent();
 
             context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
-            roleBehavior = new Role(context);
-            userDepartmentBehavior = new UserDepartment(context);
-            
-            initializeList();
-            setColumns();            
+            initializeServerModelBehavior();
+
+            setColumns();       
+            reinitializeList();                 
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
-            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
+            AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));            
         }
 
         ~AdminDataGridControl()
@@ -60,65 +59,98 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
                 context.Dispose();
         }
 
-        private void initializeList()
+        private void initializeServerModelBehavior()
         {
-            this.ItemsSource = globalUserBehavior.GetAdminList();
-            dataGrid.ItemsSource = ItemsSource;                    
+            globalUserBehavior = new GlobalUser(context);
+            roleBehavior = new Role(context);
+            userDepartmentBehavior = new UserDepartment(context);
         }
 
         private void setColumns()
         {
             dataGrid.addTextColumn("NAME", "NAME", false);
             dataGrid.addTextColumn("SURNAME", "SURNAME", false);
-            //dataGrid.addComboBoxColumn("LOGIN", "LOGIN", ItemsSource3, "LOGIN", "LOGIN");
             dataGrid.addTextColumn("LOGIN", "LOGIN", true);
             dataGrid.addButtonColumn("PASSWORD", "Zresetuj hasło", dataGridButton_Click);
         }
 
-        private void refreshList()
+        private void reinitializeList()
         {
-            ItemsSource = globalUserBehavior.GetAdminList();
-            dataGrid.ItemsSource = null;
+            if (ItemsSource != null)
+            {
+                ItemsSource.Clear();
+            }
+            ItemsSource = new ObservableCollection<GlobalUser>(globalUserBehavior.GetAdminList());
+            ItemsSource.CollectionChanged += ItemsSource_CollectionChanged;
+
             dataGrid.ItemsSource = ItemsSource;
         }
 
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Commit)
+            if (e.NewItems != null)
             {
-                if (((GlobalUser)e.Row.Item).ID == 0)
+                foreach (GlobalUser globalUser in e.NewItems)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        GlobalUser newRow = ((GlobalUser)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.DATE_MODIFIED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.USER_TYPE_DV_ID = 3;
-                        newRow.PASSWORD = globalUserBehavior.RandomHashedPassword();
-                        newRow.PASSWORD_TEMPORARY = false;
+                    globalUser.DATE_CREATED = DateTime.Now;
+                    globalUser.ID_CREATED = CurrentUser.Instance.UserData.ID;
+                    globalUser.USER_TYPE_DV_ID = 3;
+                    globalUser.PASSWORD = globalUserBehavior.RandomHashedPassword();
+                    globalUser.PASSWORD_TEMPORARY = false;
+                    context.GlobalUser.Add(globalUser);
+                }
+            }
 
-                        newRow = globalUserBehavior.AddUser(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
+            if (e.OldItems != null)
+            {
+                foreach (GlobalUser globalUser in e.OldItems)
+                {
+                    context.GlobalUser.Remove(globalUser);
+                    context.GlobalUser.Local.Remove(globalUser);
+                }
+            }
+        }       
+
+        private bool saveChanges()
+        {
+            return DbTools.SaveChanges(context);
+        }
+
+        private void discardChanges()
+        {
+            context.Dispose();
+            context = new serverDBEntities();
+            initializeServerModelBehavior();
+        }   
+
+        private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+            {
+                if ((dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)) && ((GlobalUser)dataGrid.SelectedItem).ID != 0)
+                {
+                    dataGrid.Columns[3].IsReadOnly = true;                    
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        GlobalUser row = ((GlobalUser)e.Row.DataContext);
-                        globalUserBehavior.UpdateUser(row);
-                    }), System.Windows.Threading.DispatcherPriority.Background);
+                    dataGrid.Columns[3].IsReadOnly = false;
                 }
-            }            
+            }                      
         }
 
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        void dataGridButton_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Delete && dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser))
+            if (saveChanges() && dataGrid.SelectedItem != null)
             {
-                //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                userDepartmentBehavior.RemoveUsersAssociations((GlobalUser)dataGrid.SelectedItem);
-                globalUserBehavior.DeleteUser((GlobalUser)dataGrid.SelectedItem);                
+                if ((dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser))
+                        && ((GlobalUser)dataGrid.SelectedItem).ID != 0)
+                {
+                    GlobalUser user = (GlobalUser)dataGrid.SelectedItem;
+                    SecureString temporaryPassword = globalUserBehavior.ResetPassword(user.ID);
+                    new Message("Nowe hasło tymczasowe dla użytkownika " + user.LOGIN + ": "
+                        + Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(temporaryPassword))
+                        + ".\r\nWażne 24h od tej chwili.", MessageType.SUCCESS_MESSAGE).showMessage();
+                }
             }
         }
 
@@ -136,105 +168,25 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
         {
             if (MainWindow.TopMenuButtonType == SenderType.SAVE_BUTTON)
             {
-                saveChanges();
-                refreshList();
+                if (saveChanges())
+                {
+                    reinitializeList();
+                }                
             }
             else if (MainWindow.TopMenuButtonType == SenderType.CANCEL_BUTTON)
             {
                 discardChanges();
-                refreshList();
+                reinitializeList();
             }
             else if (MainWindow.TopMenuButtonType == SenderType.EDIT_ROLE_BUTTON)
             {
-                if (dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)))
+                if (dataGrid.SelectedItems.Count == 1 && dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)))
                 {
                     UserDepartmentsWindow userDepartmentWindow = new UserDepartmentsWindow(((GlobalUser)dataGrid.SelectedItem));
-                    //userDepartmentWindow.Title = "Lista przyporządkowanych wydziałów dla administratora" + ((GlobalUser)dataGrid.SelectedItem).LOGIN;
                     userDepartmentWindow.Owner = Application.Current.MainWindow;
                     userDepartmentWindow.Title = "Edycja wydziałów";                    
                     userDepartmentWindow.ShowDialog();
                 }
-            }
-        }
-
-        private void discardChanges()
-        {
-            context.Dispose();
-            context = new serverDBEntities();
-            globalUserBehavior = new GlobalUser(context);
-        }
-
-        private bool saveChanges()
-        {
-            dataGrid.CancelEdit();
-
-            try
-            {
-                context.SaveChanges();
-                //roleBehavior.UpdateRolesForUsers();
-
-                return true;
-            }
-            catch (DbEntityValidationException dbEx)
-            {
-                MessagesManager messageManager = new MessagesManager();
-
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        //Trace.TraceInformation("Property: {0} Error: {1}",
-                        //                        validationError.PropertyName,
-                        //                        validationError.ErrorMessage);
-                        messageManager.addMessage(validationError.ErrorMessage, MessageType.ERROR_MESSAGE);
-                    }
-                }
-
-                messageManager.showMessages();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                if(ex.InnerException.InnerException != null)
-                    MessageBox.Show(ex.InnerException.InnerException.Message);
-
-                return false;
-            }
-            
-        }
-
-        private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            if (dataGrid.SelectedItem != null)
-            {
-                if (dataGrid.SelectedItem.GetType() != typeof(GlobalUser) && dataGrid.SelectedItem.GetType().BaseType != typeof(GlobalUser))
-                {
-                    dataGrid.Columns[3].IsReadOnly = false;
-                }
-                else
-                {
-                    dataGrid.Columns[3].IsReadOnly = true;
-                }
-            }                      
-        }
-
-        void dataGridButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (saveChanges() && dataGrid.SelectedItem != null)
-            {
-                if ((dataGrid.SelectedItem.GetType() == typeof(GlobalUser) || dataGrid.SelectedItem.GetType().BaseType == typeof(GlobalUser)) 
-                        && ((GlobalUser)dataGrid.SelectedItem).ID != 0)
-                {
-                    GlobalUser user = (GlobalUser)dataGrid.SelectedItem;
-                    SecureString temporaryPassword = globalUserBehavior.ResetPassword(user.ID);
-                    new Message("Nowe hasło tymczasowe dla użytkownika " + user.LOGIN + ": " 
-                        + Marshal.PtrToStringUni(Marshal.SecureStringToGlobalAllocUnicode(temporaryPassword))
-                        + ".\r\nWażne 24h od tej chwili.", MessageType.SUCCESS_MESSAGE).showMessage();
-                }                
-            }
-            else
-            {
-                refreshList();
             }
         }
     }

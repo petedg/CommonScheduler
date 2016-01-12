@@ -32,6 +32,7 @@ namespace CommonScheduler.DAL
         public virtual DbSet<DepartmentTeacher> DepartmentTeacher { get; set; }
         public virtual DbSet<Dictionary> Dictionary { get; set; }
         public virtual DbSet<DictionaryValue> DictionaryValue { get; set; }
+        public virtual DbSet<ExternalTeacher> ExternalTeacher { get; set; }
         public virtual DbSet<GlobalUser> GlobalUser { get; set; }
         public virtual DbSet<Group> Group { get; set; }
         public virtual DbSet<Holiday> Holiday { get; set; }
@@ -43,9 +44,8 @@ namespace CommonScheduler.DAL
         public virtual DbSet<SpecialLocation> SpecialLocation { get; set; }
         public virtual DbSet<Subgroup> Subgroup { get; set; }
         public virtual DbSet<Teacher> Teacher { get; set; }
+        public virtual DbSet<UserDepartment> UserDepartment { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Week> Week { get; set; }
-        public virtual DbSet<UserDepartment> UserDepartment { get; set; }
-        public virtual DbSet<ExternalTeacher> ExternalTeacher { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace CommonScheduler.Authentication.Controls
     /// </summary>
     public partial class PasswordExpiredTab : UserControl
     {
-        private BitmapImage image = new BitmapImage(new Uri("/CommonScheduler;component/Resources/Images/errorIcon.png", UriKind.Relative));
         private GlobalUser currentUser = CurrentUser.Instance.UserData;
 
         private serverDBEntities context;
@@ -49,7 +48,6 @@ namespace CommonScheduler.Authentication.Controls
                 if (passwordBox1.SecurePassword.Length < 6)
                 {
                     expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsShort");
-                    expiredMessageControl.MessageImageSource = image;
                 }
                 else
                 {
@@ -60,7 +58,6 @@ namespace CommonScheduler.Authentication.Controls
                     else
                     {
                         expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsConstraint");
-                        expiredMessageControl.MessageImageSource = image;
                     }
                 }                
             }
@@ -76,7 +73,6 @@ namespace CommonScheduler.Authentication.Controls
                 else
                 {
                     expiredMessageControl.MessageText = (String)FindResource("authLabelPasswordsSame");
-                    expiredMessageControl.MessageImageSource = image;
                 }
             }
         }               

@@ -16,7 +16,7 @@ using CommonScheduler.DAL;
 using CommonScheduler.Authentication.Windows;
 using CommonScheduler.Authorization;
 using CommonScheduler.MenuComponents.Controls;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -35,7 +35,7 @@ namespace CommonScheduler
 
         public MainWindow()
         {
-            //// TESTING WITHOUT LOGIN, ERASE IN RELEASE
+            //// TESTING WITHOUT LOGIN, ERASE IN RELEASE --
             //using (serverDBEntities context = new serverDBEntities())
             //{
             //    CurrentUser.Instance.UserData = new GlobalUser(context).GetUserDataForLoginAttempt("sa");

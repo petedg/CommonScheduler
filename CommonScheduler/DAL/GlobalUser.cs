@@ -17,8 +17,8 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GlobalUser()
         {
-            this.UserRole = new HashSet<UserRole>();
             this.UserDepartment = new HashSet<UserDepartment>();
+            this.UserRole = new HashSet<UserRole>();
         }
     
         public int ID { get; set; }
@@ -35,8 +35,8 @@ namespace CommonScheduler.DAL
         public Nullable<int> ID_MODIFIED { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserRole> UserRole { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDepartment> UserDepartment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

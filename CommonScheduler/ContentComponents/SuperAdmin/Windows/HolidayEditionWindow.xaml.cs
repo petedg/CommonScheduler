@@ -3,6 +3,7 @@ using CommonScheduler.DAL;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit;
 
 namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 {
@@ -25,32 +25,25 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
     public partial class HolidayEditionWindow : MetroWindow
     {
         private serverDBEntities context;
-
         private Holiday holidayBehavior;
-        public List<Holiday> HolidaysSource { get; set; }
+
+        public ObservableCollection<Holiday> HolidaysSource { get; set; }
+        
         private Semester semester;      
 
         public HolidayEditionWindow(Semester semester)
         {
-            InitializeComponent();           
+            InitializeComponent();
+
+            this.semester = semester;
 
             context = new serverDBEntities();
-            holidayBehavior = new Holiday(context);
+            initializeServerModelBehavior();               
+            setColumns();
+            reinitializeList();
 
             string semesterType = new DictionaryValue(context).GetValue("Typy semestrów", (int)semester.SEMESTER_TYPE_DV_ID);
             textBlock.Content += "\t" + semesterType + " (" + semester.START_DATE.ToShortDateString() + " - " + semester.END_DATE.ToShortDateString() + ")";
-
-            this.semester = semester;
-            this.HolidaysSource = holidayBehavior.GetHolidaysForSemester(semester);
-
-            dataGrid.ItemsSource = HolidaysSource;
-            setColumns();
-        }
-
-        private void setColumns()
-        {            
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addDatePickerWithBoundsColumn("DATE", "DATE", semester.START_DATE, semester.END_DATE);
         }
 
         ~HolidayEditionWindow()
@@ -59,74 +52,75 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
                 context.Dispose();
         }
 
-        private void refreshList()
+        private void initializeServerModelBehavior()
         {
-            this.HolidaysSource = holidayBehavior.GetHolidaysForSemester(semester);
-            dataGrid.ItemsSource = null;
+            holidayBehavior = new Holiday(context);
+        }
+
+        private void setColumns()
+        {            
+            dataGrid.addTextColumn("NAME", "NAME", false);
+            dataGrid.addDatePickerWithBoundsColumn("DATE", "DATE", semester.START_DATE, semester.END_DATE);
+        }
+
+        private void reinitializeList()
+        {
+            if (HolidaysSource != null)
+            {
+                HolidaysSource.Clear();
+            }
+            HolidaysSource = new ObservableCollection<Holiday>(holidayBehavior.GetHolidaysForSemester(semester));            
+            HolidaysSource.CollectionChanged += ItemsSource_CollectionChanged;
+            
             dataGrid.ItemsSource = HolidaysSource;
+        }
+
+        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (Holiday holiday in e.NewItems)
+                {
+                    holiday.DATE_CREATED = DateTime.Now;
+                    holiday.ID_CREATED = CurrentUser.Instance.UserData.ID;
+                    holiday.SEMESTER_ID = this.semester.ID;
+
+                    context.Holiday.Add(holiday);
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (Holiday holiday in e.OldItems)
+                {
+                    context.Holiday.Remove(holiday);
+                    context.Holiday.Local.Remove(holiday);
+                }
+            }
+        }           
+
+        void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
+        {
+            ((Holiday)e.NewItem).DATE = semester.START_DATE;
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            //dataGrid.CommitEdit();
-            context.SaveChanges();
-            refreshList();
+            DbTools.SaveChanges(context);
+            reinitializeList();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             context.Dispose();
             context = new serverDBEntities();
-            holidayBehavior = new Holiday(context);
-
-            refreshList();
+            initializeServerModelBehavior();
+            reinitializeList();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            if (e.EditAction == DataGridEditAction.Commit)
-            {
-                if (((Holiday)e.Row.Item).ID == 0)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Holiday newRow = ((Holiday)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.SEMESTER_ID = this.semester.ID;
-
-                        newRow = holidayBehavior.AddHoliday(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Holiday row = ((Holiday)e.Row.DataContext);
-                        holidayBehavior.UpdateHoliday(row);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-            }
-        }
-
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Holiday) || dataGrid.SelectedItem.GetType() == typeof(Holiday)))
-            {
-                //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                holidayBehavior.DeleteHoliday((Holiday)dataGrid.SelectedItem);
-            }
-        }
-
-        void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)
-        {
-            ((Holiday)e.NewItem).DATE = semester.START_DATE;
         }
     }
 }

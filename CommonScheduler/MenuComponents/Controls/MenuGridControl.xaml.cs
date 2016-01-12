@@ -1,6 +1,6 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
@@ -40,10 +40,8 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             GlobalUser currentUser = CurrentUser.Instance.UserData;            
 
-            //labelLogin.Text = "(QWERTYUIOPASDFGHJKLZXCVBNMASDF)";
             labelLogin.Text = '(' + currentUser.LOGIN + ')';
             labelNameSurname.Text = currentUser.NAME + ' ' + currentUser.SURNAME;
-            //labelNameSurname.Text = "QWERTYUIOPASDFGHJKLZXCVBNMASDF";
         }
 
         private void setContentByUserType()

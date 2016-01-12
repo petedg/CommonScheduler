@@ -7,11 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents">
     <Grid Name="grid">
-        <mycomp:DataGridControl x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
-            <!--DataGridTextColumn Header="NAME" Width="Auto" IsReadOnly="False" Binding="{Binding NAME}"/>
-        <DataGridTextColumn Header="SURNAME" Width="Auto" IsReadOnly="False" Binding="{Binding SURNAME}"/>
-        <DataGridTextColumn Header="LOGIN" Width="Auto" IsReadOnly="True" Binding="{Binding LOGIN}" /-->
+        <mycomp:DataGridControl x:Name="dataGrid" SelectionMode="Extended" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
         </mycomp:DataGridControl>
     </Grid>
 </UserControl>

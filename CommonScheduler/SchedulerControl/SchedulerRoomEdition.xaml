@@ -61,7 +61,7 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type self:RoomWithDescriptionDataType}">
+                <HierarchicalDataTemplate DataType="{x:Type self:RoomWithDescriptionClass}">
                     <StackPanel Orientation="Horizontal" Margin="4" >
                         <Rectangle Width="15" Height="15"  Margin="2">
                             <Rectangle.Fill>

@@ -1,6 +1,6 @@
 ﻿using CommonScheduler.ContentComponents.Admin.Windows;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

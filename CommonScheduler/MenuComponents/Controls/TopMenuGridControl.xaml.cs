@@ -1,5 +1,5 @@
 ﻿using CommonScheduler.Authorization;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

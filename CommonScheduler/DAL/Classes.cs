@@ -40,10 +40,10 @@ namespace CommonScheduler.DAL
         public virtual Room Room { get; set; }
         public virtual SpecialLocation SpecialLocation { get; set; }
         public virtual Teacher Teacher { get; set; }
+        public virtual ExternalTeacher ExternalTeacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassesWeek> ClassesWeek { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassesGroup> ClassesGroup { get; set; }
-        public virtual ExternalTeacher ExternalTeacher { get; set; }
     }
 }

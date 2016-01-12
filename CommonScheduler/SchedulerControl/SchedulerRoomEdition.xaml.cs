@@ -62,9 +62,9 @@ namespace CommonScheduler.SchedulerControl
 
         private void trvRooms_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (e.NewValue != null && (e.NewValue.GetType() == typeof(RoomWithDescriptionDataType) || e.NewValue.GetType().BaseType == typeof(RoomWithDescriptionDataType)))
+            if (e.NewValue != null && (e.NewValue.GetType() == typeof(RoomWithDescriptionClass) || e.NewValue.GetType().BaseType == typeof(RoomWithDescriptionClass)))
             {
-                TempRoomID = ((RoomWithDescriptionDataType)e.NewValue).Room.ID;
+                TempRoomID = ((RoomWithDescriptionClass)e.NewValue).Room.ID;
             }
             else
             {

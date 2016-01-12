@@ -7,10 +7,8 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents">
     <Grid Name="grid">
-        <mycomp:DataGridControl x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem"
-                                SelectedCellsChanged="dataGrid_SelectedCellsChanged">
-            
+        <mycomp:DataGridControl x:Name="dataGrid" SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem"
+                                SelectedCellsChanged="dataGrid_SelectedCellsChanged">            
         </mycomp:DataGridControl>
     </Grid>
 </UserControl>

@@ -27,9 +27,5 @@
         <ToggleButton Padding="20" Click="ButtonMenu_Click" x:Name="menuButton">
             <Image Source="/Resources/Images/iconMenu.png"/>
         </ToggleButton>       
-
-        <!--myAuthControl:MenuGridControl Grid.Row="1" Margin="2" /-->
-        <!--myAuthControl:LeftMenuGridControl Grid.Row="1" Margin="2" /-->
-        <!--DataGrid Grid.Row="1" Grid.Column="1" Name="gridControl" /-->
     </Grid>
 </Metro:MetroWindow>

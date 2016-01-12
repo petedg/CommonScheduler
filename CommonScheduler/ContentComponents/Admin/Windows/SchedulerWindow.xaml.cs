@@ -1,6 +1,6 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
-using CommonScheduler.Events.Data;
+using CommonScheduler.Events.CustomEventArgs;
 using CommonScheduler.MenuComponents.Controls;
 using CommonScheduler.SchedulerControl;
 using System;
@@ -99,10 +99,14 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
             }
             else if (e.SenderType == SenderType.CANCEL_BUTTON)
             {
-                foreach (var entry in context.ChangeTracker.Entries())
-                {
-                    entry.State = EntityState.Unchanged;
-                }
+                context.Dispose();
+                context = new serverDBEntities();
+                weekBehavior = new Week(context);
+                
+                //foreach (var entry in context.ChangeTracker.Entries())
+                //{
+                //    entry.State = EntityState.Unchanged;
+                //}
 
                 refreshContent(weekComboBox_getSelectedItemWeek());
             }

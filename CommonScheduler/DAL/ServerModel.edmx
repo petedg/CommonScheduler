@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classes">
           <Key>
             <PropertyRef Name="ID" />
@@ -696,7 +696,8 @@
             <End Role="Week" EntitySet="Week" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="serverDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -717,14 +718,14 @@
           <Property Name="ID_MODIFIED" Type="Int32" />
           <Property Name="TEACHER_ID" Type="Int32" Nullable="false" />
           <Property Name="SPECIALLOCATION_ID" Type="Int32" />
+          <Property Name="DAY_OF_WEEK" Type="Int32" Nullable="false" />
+          <Property Name="EXTERNALTEACHER_ID" Type="Int32" />
           <NavigationProperty Name="Room" Relationship="Self.Classes_Room_FK" FromRole="Classes" ToRole="Room" />
           <NavigationProperty Name="SpecialLocation" Relationship="Self.Classes_SpecialLocation_FK" FromRole="Classes" ToRole="SpecialLocation" />
           <NavigationProperty Name="Teacher" Relationship="Self.Classes_Teacher_FK" FromRole="Classes" ToRole="Teacher" />
+          <NavigationProperty Name="ExternalTeacher" Relationship="Self.FK__Classes__EXTERNA__6FE99F9F" FromRole="Classes" ToRole="ExternalTeacher" />
           <NavigationProperty Name="ClassesWeek" Relationship="Self.FK_ASS_12" FromRole="Classes" ToRole="ClassesWeek" />
           <NavigationProperty Name="ClassesGroup" Relationship="Self.FK_ASS_3" FromRole="Classes" ToRole="ClassesGroup" />
-          <Property Name="DAY_OF_WEEK" Type="Int32" Nullable="false" />
-          <Property Name="EXTERNALTEACHER_ID" Type="Int32" />
-          <NavigationProperty Name="ExternalTeacher" Relationship="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" FromRole="Classes" ToRole="ExternalTeacher" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -757,11 +758,11 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
+          <NavigationProperty Name="UserDepartment" Relationship="Self.FK__UserDepar__Depar__4F7CD00D" FromRole="Department" ToRole="UserDepartment" />
           <NavigationProperty Name="DepartmentTeacher" Relationship="Self.FK_ASS_10" FromRole="Department" ToRole="DepartmentTeacher" />
           <NavigationProperty Name="Location" Relationship="Self.Location_Department_FK" FromRole="Department" ToRole="Location" />
           <NavigationProperty Name="Major" Relationship="Self.Major_Department_FK" FromRole="Department" ToRole="Major" />
           <NavigationProperty Name="Role" Relationship="Self.Role_Department_FK" FromRole="Department" ToRole="Role" />
-          <NavigationProperty Name="UserDepartment" Relationship="serverDBModel.FK__UserDepar__Depar__4BAC3F29" FromRole="Department" ToRole="UserDepartment" />
         </EntityType>
         <EntityType Name="DepartmentTeacher">
           <Key>
@@ -801,6 +802,21 @@
           <Property Name="DICTIONARY_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Dictionary" Relationship="Self.DictionaryValue_Dictionary_FK" FromRole="DictionaryValue" ToRole="Dictionary" />
         </EntityType>
+        <EntityType Name="ExternalTeacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SURNAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
+          <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
+          <Property Name="ID_MODIFIED" Type="Int32" />
+          <Property Name="NAME_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK__Classes__EXTERNA__6FE99F9F" FromRole="ExternalTeacher" ToRole="Classes" />
+        </EntityType>
         <EntityType Name="GlobalUser">
           <Key>
             <PropertyRef Name="ID" />
@@ -817,8 +833,8 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" />
           <Property Name="ID_MODIFIED" Type="Int32" />
+          <NavigationProperty Name="UserDepartment" Relationship="Self.FK__UserDepar__Globa__4E88ABD4" FromRole="GlobalUser" ToRole="UserDepartment" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_ASS_17" FromRole="GlobalUser" ToRole="UserRole" />
-          <NavigationProperty Name="UserDepartment" Relationship="serverDBModel.FK__UserDepar__Globa__4AB81AF0" FromRole="GlobalUser" ToRole="UserDepartment" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
@@ -911,9 +927,9 @@
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
+          <Property Name="NUMBER_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_Room_FK" FromRole="Room" ToRole="Classes" />
           <NavigationProperty Name="Location" Relationship="Self.Room_Location_FK" FromRole="Room" ToRole="Location" />
-          <Property Name="NUMBER_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -927,10 +943,10 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
-          <NavigationProperty Name="Holiday" Relationship="Self.Holiday_Semester_FK" FromRole="Semester" ToRole="Holiday" />
-          <NavigationProperty Name="Week" Relationship="Self.Week_Semester_FK" FromRole="Semester" ToRole="Week" />
           <Property Name="IS_ACTIVE" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Subgroup" Relationship="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Semester" ToRole="Subgroup" />
+          <NavigationProperty Name="Holiday" Relationship="Self.Holiday_Semester_FK" FromRole="Semester" ToRole="Holiday" />
+          <NavigationProperty Name="Subgroup" Relationship="Self.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Semester" ToRole="Subgroup" />
+          <NavigationProperty Name="Week" Relationship="Self.Week_Semester_FK" FromRole="Semester" ToRole="Week" />
         </EntityType>
         <EntityType Name="SpecialLocation">
           <Key>
@@ -946,8 +962,8 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
+          <Property Name="NAME_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_SpecialLocation_FK" FromRole="SpecialLocation" ToRole="Classes" />
-          <Property Name="NAME_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Subgroup">
           <Key>
@@ -963,10 +979,10 @@
           <Property Name="ID_MODIFIED" Type="Int32" />
           <Property Name="MAJOR_ID" Type="Int32" Nullable="false" />
           <Property Name="SUBGROUP_ID" Type="Int32" />
+          <Property Name="SEMESTER_ID" Type="Int32" />
           <NavigationProperty Name="Group" Relationship="Self.Group_Subgroup_FK" FromRole="Subgroup" ToRole="Group" />
           <NavigationProperty Name="Major" Relationship="Self.Subgroup_Major_FK" FromRole="Subgroup" ToRole="Major" />
-          <Property Name="SEMESTER_ID" Type="Int32" />
-          <NavigationProperty Name="Semester" Relationship="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Subgroup" ToRole="Semester" />
+          <NavigationProperty Name="Semester" Relationship="Self.FK__Subgroup__SEMEST__5AEE82B9" FromRole="Subgroup" ToRole="Semester" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -981,9 +997,19 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
           <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="Int32" />
+          <Property Name="NAME_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Classes" Relationship="Self.Classes_Teacher_FK" FromRole="Teacher" ToRole="Classes" />
           <NavigationProperty Name="DepartmentTeacher" Relationship="Self.FK_ASS_11" FromRole="Teacher" ToRole="DepartmentTeacher" />
-          <Property Name="NAME_SHORT" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDepartment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GlobalUser_ID" Type="Int32" Nullable="false" />
+          <Property Name="Department_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__UserDepar__Depar__4F7CD00D" FromRole="UserDepartment" ToRole="Department" />
+          <NavigationProperty Name="GlobalUser" Relationship="Self.FK__UserDepar__Globa__4E88ABD4" FromRole="UserDepartment" ToRole="GlobalUser" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -1042,6 +1068,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Classes__EXTERNA__6FE99F9F">
+          <End Role="ExternalTeacher" Type="Self.ExternalTeacher" Multiplicity="0..1" />
+          <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExternalTeacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Classes">
+              <PropertyRef Name="EXTERNALTEACHER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ASS_12">
           <End Role="Classes" Type="Self.Classes" Multiplicity="1" />
           <End Role="ClassesWeek" Type="Self.ClassesWeek" Multiplicity="*" />
@@ -1087,6 +1125,18 @@
             </Principal>
             <Dependent Role="ClassesWeek">
               <PropertyRef Name="Week_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserDepar__Depar__4F7CD00D">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="UserDepartment" Type="Self.UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="Department_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1162,6 +1212,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__UserDepar__Globa__4E88ABD4">
+          <End Role="GlobalUser" Type="Self.GlobalUser" Multiplicity="1" />
+          <End Role="UserDepartment" Type="Self.UserDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlobalUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDepartment">
+              <PropertyRef Name="GlobalUser_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ASS_17">
           <End Role="GlobalUser" Type="Self.GlobalUser" Multiplicity="1" />
           <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
@@ -1234,6 +1296,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Subgroup__SEMEST__5AEE82B9">
+          <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+          <End Role="Subgroup" Type="Self.Subgroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Subgroup">
+              <PropertyRef Name="SEMESTER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Week_Semester_FK">
           <End Role="Semester" Type="Self.Semester" Multiplicity="1" />
           <End Role="Week" Type="Self.Week" Multiplicity="*" />
@@ -1254,6 +1328,7 @@
           <EntitySet Name="DepartmentTeacher" EntityType="Self.DepartmentTeacher" />
           <EntitySet Name="Dictionary" EntityType="Self.Dictionary" />
           <EntitySet Name="DictionaryValue" EntityType="Self.DictionaryValue" />
+          <EntitySet Name="ExternalTeacher" EntityType="Self.ExternalTeacher" />
           <EntitySet Name="GlobalUser" EntityType="Self.GlobalUser" />
           <EntitySet Name="Group" EntityType="Self.Group" />
           <EntitySet Name="Holiday" EntityType="Self.Holiday" />
@@ -1265,6 +1340,7 @@
           <EntitySet Name="SpecialLocation" EntityType="Self.SpecialLocation" />
           <EntitySet Name="Subgroup" EntityType="Self.Subgroup" />
           <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <EntitySet Name="UserDepartment" EntityType="Self.UserDepartment" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" />
           <EntitySet Name="Week" EntityType="Self.Week" />
           <AssociationSet Name="Classes_Room_FK" Association="Self.Classes_Room_FK">
@@ -1277,6 +1353,10 @@
           </AssociationSet>
           <AssociationSet Name="Classes_Teacher_FK" Association="Self.Classes_Teacher_FK">
             <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Classes__EXTERNA__6FE99F9F" Association="Self.FK__Classes__EXTERNA__6FE99F9F">
+            <End Role="ExternalTeacher" EntitySet="ExternalTeacher" />
             <End Role="Classes" EntitySet="Classes" />
           </AssociationSet>
           <AssociationSet Name="FK_ASS_12" Association="Self.FK_ASS_12">
@@ -1294,6 +1374,10 @@
           <AssociationSet Name="FK_ASS_13" Association="Self.FK_ASS_13">
             <End Role="Week" EntitySet="Week" />
             <End Role="ClassesWeek" EntitySet="ClassesWeek" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserDepar__Depar__4F7CD00D" Association="Self.FK__UserDepar__Depar__4F7CD00D">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
           </AssociationSet>
           <AssociationSet Name="FK_ASS_10" Association="Self.FK_ASS_10">
             <End Role="Department" EntitySet="Department" />
@@ -1319,6 +1403,10 @@
             <End Role="Dictionary" EntitySet="Dictionary" />
             <End Role="DictionaryValue" EntitySet="DictionaryValue" />
           </AssociationSet>
+          <AssociationSet Name="FK__UserDepar__Globa__4E88ABD4" Association="Self.FK__UserDepar__Globa__4E88ABD4">
+            <End Role="GlobalUser" EntitySet="GlobalUser" />
+            <End Role="UserDepartment" EntitySet="UserDepartment" />
+          </AssociationSet>
           <AssociationSet Name="FK_ASS_17" Association="Self.FK_ASS_17">
             <End Role="GlobalUser" EntitySet="GlobalUser" />
             <End Role="UserRole" EntitySet="UserRole" />
@@ -1343,102 +1431,15 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
+          <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="Self.FK__Subgroup__SEMEST__5AEE82B9">
+            <End Role="Semester" EntitySet="Semester" />
+            <End Role="Subgroup" EntitySet="Subgroup" />
+          </AssociationSet>
           <AssociationSet Name="Week_Semester_FK" Association="Self.Week_Semester_FK">
             <End Role="Semester" EntitySet="Semester" />
             <End Role="Week" EntitySet="Week" />
           </AssociationSet>
-          <EntitySet Name="UserDepartment" EntityType="serverDBModel.UserDepartment" />
-          <AssociationSet Name="FK__UserDepar__Depar__4BAC3F29" Association="serverDBModel.FK__UserDepar__Depar__4BAC3F29">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="UserDepartment" EntitySet="UserDepartment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__UserDepar__Globa__4AB81AF0" Association="serverDBModel.FK__UserDepar__Globa__4AB81AF0">
-            <End Role="GlobalUser" EntitySet="GlobalUser" />
-            <End Role="UserDepartment" EntitySet="UserDepartment" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="serverDBModel.FK__Subgroup__SEMEST__5AEE82B9">
-            <End Role="Semester" EntitySet="Semester" />
-            <End Role="Subgroup" EntitySet="Subgroup" />
-          </AssociationSet>
-          <EntitySet Name="ExternalTeacher" EntityType="serverDBModel.ExternalTeacher" />
-          <AssociationSet Name="FK__Classes__EXTERNA__6FE99F9F" Association="serverDBModel.FK__Classes__EXTERNA__6FE99F9F">
-            <End Role="ExternalTeacher" EntitySet="ExternalTeacher" />
-            <End Role="Classes" EntitySet="Classes" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="UserDepartment">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="GlobalUser_ID" Type="Int32" Nullable="false" />
-          <Property Name="Department_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="serverDBModel.FK__UserDepar__Depar__4BAC3F29" FromRole="UserDepartment" ToRole="Department" />
-          <NavigationProperty Name="GlobalUser" Relationship="serverDBModel.FK__UserDepar__Globa__4AB81AF0" FromRole="UserDepartment" ToRole="GlobalUser" />
-        </EntityType>
-        <Association Name="FK__UserDepar__Depar__4BAC3F29">
-          <End Type="serverDBModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="serverDBModel.UserDepartment" Role="UserDepartment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDepartment">
-              <PropertyRef Name="Department_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__UserDepar__Globa__4AB81AF0">
-          <End Type="serverDBModel.GlobalUser" Role="GlobalUser" Multiplicity="1" />
-          <End Type="serverDBModel.UserDepartment" Role="UserDepartment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GlobalUser">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDepartment">
-              <PropertyRef Name="GlobalUser_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Subgroup__SEMEST__5AEE82B9">
-          <End Type="serverDBModel.Semester" Role="Semester" Multiplicity="0..1" />
-          <End Type="serverDBModel.Subgroup" Role="Subgroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Semester">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Subgroup">
-              <PropertyRef Name="SEMESTER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ExternalTeacher">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NAME" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="SURNAME" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="EMAIL" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
-          <Property Name="ID_CREATED" Type="Int32" Nullable="false" />
-          <Property Name="ID_MODIFIED" Type="Int32" />
-          <NavigationProperty Name="Classes" Relationship="serverDBModel.FK__Classes__EXTERNA__6FE99F9F" FromRole="ExternalTeacher" ToRole="Classes" />
-          <Property Name="NAME_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK__Classes__EXTERNA__6FE99F9F">
-          <End Type="serverDBModel.ExternalTeacher" Role="ExternalTeacher" Multiplicity="0..1" />
-          <End Type="serverDBModel.Classes" Role="Classes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ExternalTeacher">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Classes">
-              <PropertyRef Name="EXTERNALTEACHER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1448,8 +1449,6 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="serverDBModel.Classes">
               <MappingFragment StoreEntitySet="Classes">
-                <ScalarProperty Name="EXTERNALTEACHER_ID" ColumnName="EXTERNALTEACHER_ID" />
-                <ScalarProperty Name="DAY_OF_WEEK" ColumnName="DAY_OF_WEEK" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
@@ -1463,6 +1462,8 @@
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
                 <ScalarProperty Name="TEACHER_ID" ColumnName="TEACHER_ID" />
                 <ScalarProperty Name="SPECIALLOCATION_ID" ColumnName="SPECIALLOCATION_ID" />
+                <ScalarProperty Name="DAY_OF_WEEK" ColumnName="DAY_OF_WEEK" />
+                <ScalarProperty Name="EXTERNALTEACHER_ID" ColumnName="EXTERNALTEACHER_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1530,6 +1531,21 @@
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
                 <ScalarProperty Name="DICTIONARY_ID" ColumnName="DICTIONARY_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExternalTeacher">
+            <EntityTypeMapping TypeName="serverDBModel.ExternalTeacher">
+              <MappingFragment StoreEntitySet="ExternalTeacher">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
+                <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
+                <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
+                <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1629,7 +1645,6 @@
           <EntitySetMapping Name="Room">
             <EntityTypeMapping TypeName="serverDBModel.Room">
               <MappingFragment StoreEntitySet="Room">
-                <ScalarProperty Name="NUMBER_SHORT" ColumnName="NUMBER_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NUMBER" ColumnName="NUMBER" />
                 <ScalarProperty Name="NUMBER_OF_PLACES" ColumnName="NUMBER_OF_PLACES" />
@@ -1638,13 +1653,13 @@
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="NUMBER_SHORT" ColumnName="NUMBER_SHORT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Semester">
             <EntityTypeMapping TypeName="serverDBModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
-                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
@@ -1653,13 +1668,13 @@
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SpecialLocation">
             <EntityTypeMapping TypeName="serverDBModel.SpecialLocation">
               <MappingFragment StoreEntitySet="SpecialLocation">
-                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="CITY" ColumnName="CITY" />
@@ -1670,13 +1685,13 @@
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Subgroup">
             <EntityTypeMapping TypeName="serverDBModel.Subgroup">
               <MappingFragment StoreEntitySet="Subgroup">
-                <ScalarProperty Name="SEMESTER_ID" ColumnName="SEMESTER_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="SHORT_NAME" ColumnName="SHORT_NAME" />
@@ -1687,13 +1702,13 @@
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
                 <ScalarProperty Name="MAJOR_ID" ColumnName="MAJOR_ID" />
                 <ScalarProperty Name="SUBGROUP_ID" ColumnName="SUBGROUP_ID" />
+                <ScalarProperty Name="SEMESTER_ID" ColumnName="SEMESTER_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Teacher">
             <EntityTypeMapping TypeName="serverDBModel.Teacher">
               <MappingFragment StoreEntitySet="Teacher">
-                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
@@ -1703,6 +1718,16 @@
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
                 <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
+                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDepartment">
+            <EntityTypeMapping TypeName="serverDBModel.UserDepartment">
+              <MappingFragment StoreEntitySet="UserDepartment">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GlobalUser_ID" ColumnName="GlobalUser_ID" />
+                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1722,30 +1747,6 @@
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
                 <ScalarProperty Name="SEMESTER_ID" ColumnName="SEMESTER_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserDepartment">
-            <EntityTypeMapping TypeName="serverDBModel.UserDepartment">
-              <MappingFragment StoreEntitySet="UserDepartment">
-                <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
-                <ScalarProperty Name="GlobalUser_ID" ColumnName="GlobalUser_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ExternalTeacher">
-            <EntityTypeMapping TypeName="serverDBModel.ExternalTeacher">
-              <MappingFragment StoreEntitySet="ExternalTeacher">
-                <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
-                <ScalarProperty Name="ID_MODIFIED" ColumnName="ID_MODIFIED" />
-                <ScalarProperty Name="ID_CREATED" ColumnName="ID_CREATED" />
-                <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
-                <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

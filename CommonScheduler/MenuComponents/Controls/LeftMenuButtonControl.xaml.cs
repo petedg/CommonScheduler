@@ -23,7 +23,6 @@ namespace CommonScheduler.MenuComponents.Controls
         public static readonly DependencyProperty LeftMenuButtonTextProperty = DependencyProperty.Register("LeftMenuButtonText", typeof(String), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(string.Empty));
         public static readonly DependencyProperty LeftMenuButtonImageSourceProperty = DependencyProperty.Register("LeftMenuButtonImageSource", typeof(ImageSource), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty LeftMenuButtonIconResourceProperty = DependencyProperty.Register("LeftMenuButtonIconResource", typeof(Canvas), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));
-        //public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("LeftMenuButtonMargin", typeof(ImageSource), typeof(LeftMenuButtonControl), new FrameworkPropertyMetadata(null));                
 
         public LeftMenuButtonControl()
         {
@@ -47,12 +46,6 @@ namespace CommonScheduler.MenuComponents.Controls
             get { return GetValue(LeftMenuButtonIconResourceProperty) as Canvas; }
             set { SetValue(LeftMenuButtonIconResourceProperty, value); }
         }
-
-        //public ImageSource ButtonMargin
-        //{
-        //    get { return GetValue(ButtonMarginProperty) as ImageSource; }
-        //    set { SetValue(ButtonMarginProperty, value); }
-        //}
 
         public static readonly RoutedEvent LeftMenuButtonClickEvent = EventManager.RegisterRoutedEvent("LeftMenuButtonClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LeftMenuButtonControl));
 

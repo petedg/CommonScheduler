@@ -18,8 +18,8 @@ namespace CommonScheduler.DAL
         public Semester()
         {
             this.Holiday = new HashSet<Holiday>();
-            this.Week = new HashSet<Week>();
             this.Subgroup = new HashSet<Subgroup>();
+            this.Week = new HashSet<Week>();
         }
     
         public int ID { get; set; }
@@ -35,8 +35,8 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Holiday> Holiday { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Week> Week { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subgroup> Subgroup { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Week> Week { get; set; }
     }
 }
