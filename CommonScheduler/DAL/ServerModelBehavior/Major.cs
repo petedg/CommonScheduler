@@ -10,10 +10,12 @@ namespace CommonScheduler.DAL
     public partial class Major
     {
         private serverDBEntities context;
+        private Subgroup subgroupBehavior;
 
         public Major(serverDBEntities context)
         {
             this.context = context;
+            subgroupBehavior = new Subgroup(context);
         }
 
         public List<Major> GetMajorsForDepartment(Department department)
@@ -38,9 +40,10 @@ namespace CommonScheduler.DAL
         }
 
         public Major DeleteMajor(Major major)
-        {
-            new Subgroup(context).RemoveSubgroupsForMajor(major);
-            context.Entry(major).State = EntityState.Deleted;
+        {            
+            subgroupBehavior.RemoveSubgroupsForMajor(major);
+            context.Major.Remove(major);
+            context.Major.Local.Remove(major);
             return major;
         }
 
@@ -54,7 +57,7 @@ namespace CommonScheduler.DAL
             {                
                 DeleteMajor(m);
             }
-        }
+        }        
 
         public List<object> SubgroupsList { get; set; }
         public List<CompositeCollectionSubgroupsAndGroups> CompositeSubgroupsList { get; set; }

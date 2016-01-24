@@ -48,7 +48,8 @@ namespace CommonScheduler.DAL
 
         public Room DeleteRoom(Room room)
         {
-            context.Entry(room).State = EntityState.Deleted;
+            context.Room.Remove(room);
+            context.Room.Local.Remove(room);
             return room;
         }
 

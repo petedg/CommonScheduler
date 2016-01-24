@@ -50,8 +50,7 @@
             PODGRUPY KIERUNKU
         </Label>
 
-        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem" Height="220" VerticalAlignment="Top"
+        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem" Height="220" VerticalAlignment="Top"
                                 SelectedCellsChanged="dataGrid_SelectedCellsChanged">
 
         </mycomp:DataGridControl>

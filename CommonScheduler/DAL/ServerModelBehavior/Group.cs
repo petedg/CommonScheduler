@@ -39,7 +39,8 @@ namespace CommonScheduler.DAL
 
         public Group DeleteGroup(Group group)
         {
-            context.Entry(group).State = EntityState.Deleted;
+            context.Group.Remove(group);
+            context.Group.Local.Remove(group);
             return group;
         }
 

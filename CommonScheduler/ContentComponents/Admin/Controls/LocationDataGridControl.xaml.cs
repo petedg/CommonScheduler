@@ -5,6 +5,7 @@ using CommonScheduler.Events.CustomEventArgs;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +27,9 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
     public partial class LocationDataGridControl : UserControl
     {
         private serverDBEntities context;
-
         private Location locationBehavior;
-        public List<Location> LocationsSource { get; set; }
+
+        public ObservableCollection<Location> LocationsSource { get; set; }
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
@@ -37,18 +38,26 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             InitializeComponent();           
 
             context = new serverDBEntities();
-            locationBehavior = new Location(context);
-
-            this.LocationsSource = locationBehavior.GetLocationsForDepartment(CurrentUser.Instance.AdminCurrentDepartment);
-
-            dataGrid.ItemsSource = LocationsSource;
+            initializeServerModelBehavior();
             setColumns();
+            reinitializeList();
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
             AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
 
             Application.Current.MainWindow.Title += " (" + CurrentUser.Instance.AdminCurrentDepartment.NAME + ")";
+        }
+
+        ~LocationDataGridControl()
+        {
+            if (context != null)
+                context.Dispose();
+        }
+
+        private void initializeServerModelBehavior()
+        {
+            locationBehavior = new Location(context);
         }
 
         private void setColumns()
@@ -60,16 +69,14 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             dataGrid.addTextColumn("POSTAL_CODE", "POSTAL_CODE", true);
         }
 
-        ~LocationDataGridControl()
+        private void reinitializeList()
         {
-            if (context != null)
-                context.Dispose();
-        }
+            if (LocationsSource != null)
+            {
+                LocationsSource.Clear();
+            }            
+            LocationsSource = new ObservableCollection<Location>(locationBehavior.GetLocationsForDepartment(CurrentUser.Instance.AdminCurrentDepartment));
 
-        private void refreshList()
-        {
-            this.LocationsSource = locationBehavior.GetLocationsForDepartment(CurrentUser.Instance.AdminCurrentDepartment);
-            dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = LocationsSource;
         }
 

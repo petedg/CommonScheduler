@@ -3,6 +3,7 @@ using CommonScheduler.DAL;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,23 +25,33 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
     {
         private serverDBEntities context;
         private Room roomBehavior;
-        public List<Room> RoomSource { get; set; }
+
+        public ObservableCollection<Room> RoomSource { get; set; }
         private Location location;
 
         public RoomEditionWindow(Location location)
         {
-            InitializeComponent();           
-
-            context = new serverDBEntities();
-            roomBehavior = new Room(context);
+            InitializeComponent();
 
             this.location = location;
-            this.RoomSource = roomBehavior.GetListForLocation(location);
 
-            textBlock.Content += "\t" + location.NAME;
-
-            dataGrid.ItemsSource = RoomSource;
+            context = new serverDBEntities();
+            initializeServerModelBehavior();
             setColumns();
+            reinitializeList();           
+            
+            textBlock.Content += "\t" + location.NAME;
+        }
+
+        ~RoomEditionWindow()
+        {
+            if (context != null)
+                context.Dispose();
+        }
+
+        private void initializeServerModelBehavior()
+        {
+            roomBehavior = new Room(context);
         }
 
         private void setColumns()
@@ -50,74 +61,58 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
             dataGrid.addTextColumn("NUMBER_OF_PLACES", "NUMBER_OF_PLACES", false);            
         }
 
-        ~RoomEditionWindow()
+        private void reinitializeList()
         {
-            if (context != null)
-                context.Dispose();
+            if (RoomSource != null)
+            {
+                RoomSource.Clear();
+            }
+            RoomSource = new ObservableCollection<Room>(roomBehavior.GetListForLocation(location));
+            RoomSource.CollectionChanged += RoomSource_CollectionChanged;
+
+            dataGrid.ItemsSource = RoomSource;
         }
 
-        private void refreshList()
+        void RoomSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.RoomSource = roomBehavior.GetListForLocation(location);
-            dataGrid.ItemsSource = null;
-            dataGrid.ItemsSource = RoomSource;
+            if (e.NewItems != null)
+            {
+                foreach (Room room in e.NewItems)
+                {
+                    room.DATE_CREATED = DateTime.Now;
+                    room.ID_CREATED = CurrentUser.Instance.UserData.ID;
+                    room.Location_ID = location.ID;
+
+                    context.Room.Add(room);
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (Room room in e.OldItems)
+                {
+                    roomBehavior.DeleteRoom(room);
+                }
+            }
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            context.SaveChanges();
-            refreshList();
+            DbTools.SaveChanges(context);
+            reinitializeList();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             context.Dispose();
             context = new serverDBEntities();
-            roomBehavior = new Room(context);
-
-            refreshList();
+            initializeServerModelBehavior();
+            reinitializeList();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            if (e.EditAction == DataGridEditAction.Commit)
-            {
-                if (((Room)e.Row.Item).ID == 0)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Room newRow = ((Room)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.Location_ID = location.ID;
-
-                        newRow = roomBehavior.AddRoom(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Room row = ((Room)e.Row.DataContext);
-                        roomBehavior.UpdateRoom(row);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-            }
-        }
-
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Room) || dataGrid.SelectedItem.GetType() == typeof(Room)))
-            {
-                //roleBehavior.DeleteUserRoles(((GlobalUser)dataGrid.SelectedItem).ID);
-                roomBehavior.DeleteRoom((Room)dataGrid.SelectedItem);
-            }
         }
 
         void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)

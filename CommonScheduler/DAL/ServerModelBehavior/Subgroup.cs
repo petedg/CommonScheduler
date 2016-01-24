@@ -55,7 +55,8 @@ namespace CommonScheduler.DAL
         public Subgroup DeleteSubgroup(Subgroup subgroup)
         {
             groupBehavior.RemoveGroupsForSubgroup(subgroup);
-            context.Entry(subgroup).State = EntityState.Deleted;
+            context.Subgroup.Remove(subgroup);
+            context.Subgroup.Local.Remove(subgroup);
             return subgroup;
         }
 

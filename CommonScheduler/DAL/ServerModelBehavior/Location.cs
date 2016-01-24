@@ -53,7 +53,9 @@ namespace CommonScheduler.DAL
 
         public Location DeleteLocation(Location location)
         {
-            context.Entry(location).State = EntityState.Deleted;
+            roomBehavior.RemoveRoomsForLocation(location);
+            context.Location.Remove(location);
+            context.Location.Local.Remove(location);
             return location;
         }
 

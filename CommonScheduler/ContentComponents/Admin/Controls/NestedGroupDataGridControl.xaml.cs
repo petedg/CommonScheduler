@@ -2,6 +2,7 @@
 using CommonScheduler.DAL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,31 +24,23 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
     public partial class NestedGroupDataGridControl : UserControl
     {
         private serverDBEntities context;
-
         private Group groupBehavior;
-        public List<Group> GroupSource { get; set; }
+
+        public ObservableCollection<Group> GroupSource { get; set; }
         private Subgroup parentSubgroup;
 
         public NestedGroupDataGridControl(Subgroup parentSubgroup)
         {
             InitializeComponent();
 
-            context = new serverDBEntities();
-            groupBehavior = new Group(context);
-
             this.parentSubgroup = parentSubgroup;
-            this.GroupSource = groupBehavior.GetGroupsForParentSubgroup(parentSubgroup).Cast<Group>().ToList();
+
+            context = new serverDBEntities();
+            initializeServerModelBehavior();
+            setColumns();
+            reinitializeList();                     
 
             textBlock.Content += "\t" + parentSubgroup.NAME;
-
-            dataGrid.ItemsSource = GroupSource;
-            setColumns();
-        }
-
-        private void setColumns()
-        {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
         }
 
         ~NestedGroupDataGridControl()
@@ -56,74 +49,69 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
                 context.Dispose();
         }
 
-        private void refreshList()
+        private void initializeServerModelBehavior()
         {
-            this.GroupSource = groupBehavior.GetGroupsForParentSubgroup(parentSubgroup).Cast<Group>().ToList();
-            dataGrid.ItemsSource = null;
+            groupBehavior = new Group(context);
+        }
+
+        private void setColumns()
+        {
+            dataGrid.addTextColumn("NAME", "NAME", false);
+            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
+        }
+
+        private void reinitializeList()
+        {
+            if (GroupSource != null)
+            {
+                GroupSource.Clear();
+            }
+            GroupSource = new ObservableCollection<Group>(groupBehavior.GetGroupsForParentSubgroup(parentSubgroup).Cast<Group>().ToList());
+            GroupSource.CollectionChanged += GroupSource_CollectionChanged;
+
             dataGrid.ItemsSource = GroupSource;               
+        }
+
+        void GroupSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (Group group in e.NewItems)
+                {
+                    group.DATE_CREATED = DateTime.Now;
+                    group.ID_CREATED = CurrentUser.Instance.UserData.ID;
+                    group.SUBGROUP_ID = this.parentSubgroup.ID;
+
+                    context.Group.Add(group);
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (Group group in e.OldItems)
+                {
+                    groupBehavior.DeleteGroup(group);
+                }
+            }
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            try
-            {
-                context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            refreshList();
+            DbTools.SaveChanges(context);
+            reinitializeList();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             context.Dispose();
             context = new serverDBEntities();
-            groupBehavior = new Group(context);
-
-            refreshList();
+            initializeServerModelBehavior();
+            reinitializeList();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             
-        }
-
-        private void dataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            if (e.EditAction == DataGridEditAction.Commit)
-            {
-                if (((Group)e.Row.Item).ID == 0)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Group newRow = ((Group)e.Row.DataContext);
-                        newRow.DATE_CREATED = DateTime.Now;
-                        newRow.ID_CREATED = CurrentUser.Instance.UserData.ID;
-                        newRow.SUBGROUP_ID = parentSubgroup.ID;
-
-                        newRow = groupBehavior.AddGroup(newRow);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        Group row = ((Group)e.Row.DataContext);
-                        groupBehavior.UpdateGroup(row);
-                    }), System.Windows.Threading.DispatcherPriority.Normal);
-                }
-            }
-        }
-
-        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete && (dataGrid.SelectedItem.GetType().BaseType == typeof(Group) || dataGrid.SelectedItem.GetType() == typeof(Group)))
-            {
-                groupBehavior.DeleteGroup((Group)dataGrid.SelectedItem);
-            }
         }
 
         void dataGrid_InitializingNewItem(object sender, InitializingNewItemEventArgs e)

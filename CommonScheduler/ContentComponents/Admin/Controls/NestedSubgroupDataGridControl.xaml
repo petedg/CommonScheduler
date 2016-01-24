@@ -47,8 +47,7 @@
             PODGRUPY (2 POZIOM) DLA
         </Label>
 
-        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" RowEditEnding="dataGrid_RowEditEnding" PreviewKeyDown="dataGrid_PreviewKeyDown" 
-                                SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem">
+        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem">
 
         </mycomp:DataGridControl>
     </Grid>

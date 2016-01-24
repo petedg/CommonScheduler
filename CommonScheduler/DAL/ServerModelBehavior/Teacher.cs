@@ -66,7 +66,8 @@ namespace CommonScheduler.DAL
 
         public Teacher DeleteTeacher(Teacher teacher)
         {
-            context.Entry(teacher).State = EntityState.Deleted;
+            context.Teacher.Remove(teacher);
+            context.Teacher.Local.Remove(teacher);
             return teacher;
         }
     }

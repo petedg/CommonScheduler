@@ -4,6 +4,7 @@ using CommonScheduler.DAL;
 using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,9 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
     public partial class MajorDataGridControl : UserControl
     {
         private serverDBEntities context;
-
         private Major majorBehavior;
-        public List<Major> MajorSource { get; set; }
+
+        public ObservableCollection<Major> MajorSource { get; set; }
 
         private DictionaryValue dictionaryValueBehavior;
         public List<DictionaryValue> MajorDegrees { get; set; }
@@ -40,23 +41,29 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             InitializeComponent();           
 
             context = new serverDBEntities();
-            majorBehavior = new Major(context);
-            dictionaryValueBehavior = new DictionaryValue(context);
-
-            this.MajorSource = majorBehavior.GetMajorsForDepartment(CurrentUser.Instance.AdminCurrentDepartment);
-
-            dataGrid.ItemsSource = MajorSource;            
-
-            this.MajorDegrees = dictionaryValueBehavior.GetMajorDegrees();
-            this.MajorTypes = dictionaryValueBehavior.GetMajorTypes();
-
+            initializeServerModelBehavior();
+            MajorDegrees = dictionaryValueBehavior.GetMajorDegrees();
+            MajorTypes = dictionaryValueBehavior.GetMajorTypes();
             setColumns();
+            reinitializeList();            
 
             AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
             AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
             AddHandler(MainWindow.TopMenuButtonClickEvent, new RoutedEventHandler(topButtonClickHandler));
 
             Application.Current.MainWindow.Title += " (" + CurrentUser.Instance.AdminCurrentDepartment.NAME + ")";
+        }
+
+        ~MajorDataGridControl()
+        {
+            if (context != null)
+                context.Dispose();
+        }
+
+        private void initializeServerModelBehavior()
+        {
+            majorBehavior = new Major(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
         }
 
         private void setColumns()
@@ -68,16 +75,14 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             dataGrid.addSemesterComboBoxColumn("MAJOR_TYPE", "MAJOR_TYPE_DV_ID", MajorTypes, "DV_ID", "VALUE", true);
         }
 
-        ~MajorDataGridControl()
+        private void reinitializeList()
         {
-            if (context != null)
-                context.Dispose();
-        }
+            if (MajorSource != null)
+            {
+                MajorSource.Clear();
+            }
+            MajorSource = new ObservableCollection<Major>(majorBehavior.GetMajorsForDepartment(CurrentUser.Instance.AdminCurrentDepartment));
 
-        private void refreshList()
-        {
-            this.MajorSource = majorBehavior.GetMajorsForDepartment(CurrentUser.Instance.AdminCurrentDepartment);
-            dataGrid.ItemsSource = null;
             dataGrid.ItemsSource = MajorSource;
         }
 

@@ -26,6 +26,8 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private TreeViewData majorTreeView;
 
+        private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
+
         public GroupDataGridControl()
         {
             InitializeComponent();
@@ -37,6 +39,9 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             trvSubgroups.ItemsSource = majorTreeView.MajorList;
 
             Application.Current.MainWindow.Title += " (" + CurrentUser.Instance.AdminCurrentDepartment.NAME + ")";
+
+            AddHandler(MainWindow.ShowMenuEvent, new RoutedEventHandler(disableContent));
+            AddHandler(MainWindow.HideMenuEvent, new RoutedEventHandler(enableContent));
         }
 
         private void trvSubgroups_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -49,6 +54,18 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             {
                 groupPresenter.Content = null;
             }
+        }
+
+        void disableContent(object sender, RoutedEventArgs e)
+        {
+            rect.SetValue(Grid.RowSpanProperty, 2);
+            rect.SetValue(Grid.ColumnSpanProperty, 2);
+            grid.Children.Add(rect);
+        }
+
+        void enableContent(object sender, RoutedEventArgs e)
+        {
+            grid.Children.Remove(rect);
         }
     }
 }
