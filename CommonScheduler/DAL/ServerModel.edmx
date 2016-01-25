@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="serverDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classes">
           <Key>
             <PropertyRef Name="ID" />
@@ -24,6 +24,7 @@
           <Property Name="SPECIALLOCATION_ID" Type="int" />
           <Property Name="DAY_OF_WEEK" Type="int" Nullable="false" />
           <Property Name="EXTERNALTEACHER_ID" Type="int" />
+          <Property Name="SCOPE_LEVEL" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -696,8 +697,7 @@
             <End Role="Week" EntitySet="Week" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="serverDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -726,6 +726,7 @@
           <NavigationProperty Name="ExternalTeacher" Relationship="Self.FK__Classes__EXTERNA__6FE99F9F" FromRole="Classes" ToRole="ExternalTeacher" />
           <NavigationProperty Name="ClassesWeek" Relationship="Self.FK_ASS_12" FromRole="Classes" ToRole="ClassesWeek" />
           <NavigationProperty Name="ClassesGroup" Relationship="Self.FK_ASS_3" FromRole="Classes" ToRole="ClassesGroup" />
+          <Property Name="SCOPE_LEVEL" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="ClassesGroup">
           <Key>
@@ -1449,6 +1450,7 @@
           <EntitySetMapping Name="Classes">
             <EntityTypeMapping TypeName="serverDBModel.Classes">
               <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="SCOPE_LEVEL" ColumnName="SCOPE_LEVEL" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />

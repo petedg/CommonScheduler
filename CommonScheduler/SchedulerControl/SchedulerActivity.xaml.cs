@@ -94,6 +94,8 @@ namespace CommonScheduler.SchedulerControl
             }
 
             setActivityDescription();
+            this.ActivityType = selectActivityTypeValue(Classes.CLASSESS_TYPE_DV_ID);
+            setBackground();
         }
 
         private void setBackground()
@@ -102,15 +104,15 @@ namespace CommonScheduler.SchedulerControl
             {
                 if (ActivityType.Equals("laboratoria"))
                 {
-                    this.Background = new SolidColorBrush(Color.FromArgb(255, 209, 209, 183));
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 209, 233, 242));
                 }
                 else if (ActivityType.Equals("ćwiczenia"))
                 {
-                    this.Background = new SolidColorBrush(Color.FromArgb(255, 229, 219, 217));
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 163, 181, 217));
                 }
                 else
                 {
-                    this.Background = new SolidColorBrush(Color.FromArgb(255, 205, 215, 240));
+                    this.Background = new SolidColorBrush(Color.FromArgb(255, 212, 196, 165));                   
                 }
             }
             else
@@ -177,14 +179,21 @@ namespace CommonScheduler.SchedulerControl
             {
                 using(serverDBEntities con = new serverDBEntities())
                 {
-                    con.Classes.Attach(Classes);
+                    con.Classes.Attach(Classes);                    
                     con.Entry(Classes).State = System.Data.Entity.EntityState.Modified;
                     con.SaveChanges();
                 }                  
             }
-
-            context.Classes.Attach(Classes);
+            
+            context.Classes.Attach(Classes);                     
             context.Entry(Classes).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public void refreshActivityTimeSpan()
+        {
+            ClassesStartHour = Classes.START_DATE;
+            ClassesEndHour = Classes.END_DATE;
+            Day = (DayOfWeek)Classes.DAY_OF_WEEK;
         }
 
         public void setActivityDescription()
@@ -197,7 +206,11 @@ namespace CommonScheduler.SchedulerControl
             }
             else
             {
-                teacherTextBlock.Text = externalTeacherBehavior.GetExternalTeacherById((int)Classes.EXTERNALTEACHER_ID).NAME_SHORT + ",";
+                using (serverDBEntities extraContext = new serverDBEntities())
+                {
+                    externalTeacherBehavior = new ExternalTeacher(extraContext);
+                    teacherTextBlock.Text = externalTeacherBehavior.GetExternalTeacherById((int)Classes.EXTERNALTEACHER_ID).NAME_SHORT + ",";
+                }                
             }
 
             if (Classes.Room_ID != 4)
@@ -206,7 +219,11 @@ namespace CommonScheduler.SchedulerControl
             }
             else
             {
-                roomTextBlock.Text = specialLocationBehavior.GetSpecialLocationById((int)Classes.SPECIALLOCATION_ID).NAME_SHORT;
+                using (serverDBEntities extraContext = new serverDBEntities())
+                {
+                    specialLocationBehavior = new SpecialLocation(extraContext);
+                    roomTextBlock.Text = specialLocationBehavior.GetSpecialLocationById((int)Classes.SPECIALLOCATION_ID).NAME_SHORT;
+                }                 
             }                      
         }
 

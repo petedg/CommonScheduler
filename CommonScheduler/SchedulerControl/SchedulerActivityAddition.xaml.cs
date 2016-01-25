@@ -3,6 +3,7 @@ using CommonScheduler.DAL;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,13 +42,19 @@ namespace CommonScheduler.SchedulerControl
         public SpecialLocation SpecialLocation;
         private List<ClassesWeek> ClassesWeekAssociations = new List<ClassesWeek>();
 
+        public List<DictionaryValue> ClassesTypes { get; set; }
+
         private SchedulerGroupType groupType;
         private int groupId;
 
         private int rowNumber;
         private int columnNumber;
 
-        public SchedulerActivityAddition(SchedulerGroupType groupType, int groupID)
+        private int scheduleTimeLineStart;
+        private int scheduleTimeLineEnd;
+        private int timePortion;
+
+        public SchedulerActivityAddition(SchedulerGroupType groupType, int groupID, DateTime classesStartDate, int timePortion, int scheduleTimeLineStart, int scheduleTimeLineEnd)
         {
             InitializeComponent();
 
@@ -62,6 +69,13 @@ namespace CommonScheduler.SchedulerControl
             //this.specialLocationBehavior = new SpecialLocation(context);
             this.classesGroupBehavior = new ClassesGroup(context);
 
+            ClassesTypes = dictionaryValueBehavior.GetClassesTypes();
+            classesType.ItemsSource = ClassesTypes;
+
+            this.scheduleTimeLineStart = scheduleTimeLineStart;
+            this.scheduleTimeLineEnd = scheduleTimeLineEnd;
+            this.timePortion = timePortion;            
+
             this.groupType = groupType;
             this.groupId = groupID;
 
@@ -69,18 +83,26 @@ namespace CommonScheduler.SchedulerControl
             {
                 DATE_CREATED = DateTime.Now,
                 ID_CREATED = CurrentUser.Instance.UserData.ID,
-                CLASSESS_TYPE_DV_ID = getActivityType(groupType),
+                CLASSESS_TYPE_DV_ID = ClassesTypes[0].DV_ID,
                 DAY_OF_WEEK = (int)DayOfWeek.Monday,
-                END_DATE = DateTime.Now,
-                START_DATE = DateTime.Now,
+                END_DATE = classesStartDate.AddMinutes(15),
+                START_DATE = classesStartDate,
                 SUBJECT_NAME = "",
                 SUBJECT_SHORT = "",
                 TEACHER_ID = -1,
-                Room_ID = -1
-            };
+                Room_ID = -1,
+                SCOPE_LEVEL = (int)groupType
+            };           
             ExternalTeacher = new ExternalTeacher { DATE_CREATED = DateTime.Now, NAME_SHORT = "", NAME = "", SURNAME = "", EMAIL = "", ID_CREATED = CurrentUser.Instance.UserData.ID };
             SpecialLocation = new SpecialLocation { DATE_CREATED = DateTime.Now, ID_CREATED = CurrentUser.Instance.UserData.ID, NAME_SHORT = "", NAME = "", STREET = "", POSTAL_CODE = "", STREET_NUMBER = "", CITY = "" };
-           
+
+            timeSpan.Minimum = timePortion / 60d;
+            int minutesFromMidnightToClassesStart = classesStartDate.Hour * 60 + classesStartDate.Minute;
+            double maximumValue = (scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d;
+            timeSpan.Maximum = maximumValue;
+            timeSpan.Increment = timePortion / 60d;
+            timeSpan.DefaultValue = timePortion / 60d;
+
             //initializeClasses(groupType);
             initializeTeachersList();            
             initializeWeeksList();
@@ -141,8 +163,7 @@ namespace CommonScheduler.SchedulerControl
         private void addExternalTeacher()
         {
             using (serverDBEntities externalTeacherContext = new serverDBEntities())            
-            {
-                
+            {                
                 externalTeacherContext.ExternalTeacher.Add(ExternalTeacher);
                 externalTeacherContext.SaveChanges();
                 EditedClasses.EXTERNALTEACHER_ID = ExternalTeacher.ID;
@@ -204,103 +225,67 @@ namespace CommonScheduler.SchedulerControl
         {
             weeksListBox.SelectedItems.Clear();
 
-            for (int index = indexOfFirstOddWeek(); index < weeksListBox.Items.Count; index += 2)
+            DateTime weekStart = ((Week)((dynamic)weeksListBox.Items[0]).Week).START_DATE;
+
+            if (GetIso8601WeekOfYear(weekStart) % 2 == 1)
             {
-                weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                for (int index = 0; index < weeksListBox.Items.Count; index += 2)
+                {
+                    weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                }
             }
+            else
+            {
+                for (int index = 1; index < weeksListBox.Items.Count; index += 2)
+                {
+                    weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                }
+            }            
         }
 
         private void selectEvenItems_Click(object sender, RoutedEventArgs e)
         {
             weeksListBox.SelectedItems.Clear();
 
-            for (int index = indexOfFirstEvenWeek(); index < weeksListBox.Items.Count; index += 2)
+            DateTime weekStart = ((Week)((dynamic)weeksListBox.Items[0]).Week).START_DATE;
+
+            if (GetIso8601WeekOfYear(weekStart) % 2 == 0)
             {
-                weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                for (int index = 0; index < weeksListBox.Items.Count; index += 2)
+                {
+                    weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                }
             }
+            else
+            {
+                for (int index = 1; index < weeksListBox.Items.Count; index += 2)
+                {
+                    weeksListBox.SelectedItems.Add(weeksListBox.Items.GetItemAt(index));
+                }
+            } 
         }
 
         private void unselectAllItems_Click(object sender, RoutedEventArgs e)
         {
             weeksListBox.SelectedItems.Clear();
-        }
+        }       
 
-        private int indexOfFirstOddWeek()
+        // This presumes that weeks start with Monday.
+        // Week 1 is the 1st week of the year with a Thursday in it.
+        public static int GetIso8601WeekOfYear(DateTime time)
         {
-            DayOfWeek dayOfWeek = (DayOfWeek)EditedClasses.DAY_OF_WEEK;
-
-            DateTime weekStart = ((Week)((dynamic)weeksListBox.Items[0]).Week).START_DATE;
-            DateTime weekEnd = ((Week)((dynamic)weeksListBox.Items[0]).Week).END_DATE;
-
-            DateTime firstDateTimeInSemester = getFirstDateTimeOfSpecifiedDayOfWeek(weekStart, dayOfWeek);
-            if (firstDateTimeInSemester < weekEnd)
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
+            // be the same week# as whatever Thursday, Friday or Saturday are,
+            // and we always get those right
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
             {
-                if (firstDateTimeInSemester.Day % 2 == 1)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-            else
-            {
-                if (firstDateTimeInSemester.Day % 2 == 1)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
-        private int indexOfFirstEvenWeek()
-        {
-            DayOfWeek dayOfWeek = (DayOfWeek)EditedClasses.DAY_OF_WEEK;
-
-            DateTime weekStart = ((Week)((dynamic)weeksListBox.Items[0]).Week).START_DATE;
-            DateTime weekEnd = ((Week)((dynamic)weeksListBox.Items[0]).Week).END_DATE;
-
-            DateTime firstDateTimeInSemester = getFirstDateTimeOfSpecifiedDayOfWeek(weekStart, dayOfWeek);
-            if (firstDateTimeInSemester < weekEnd)
-            {
-                if (firstDateTimeInSemester.Day % 2 == 0)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-            else
-            {
-                if (firstDateTimeInSemester.Day % 2 == 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
-        private DateTime getFirstDateTimeOfSpecifiedDayOfWeek(DateTime weekStart, DayOfWeek dayOfWeek)
-        {
-            for (DateTime start = weekStart; start <= new DateTime(3000, 1, 1); start = start.AddDays(1))
-            {
-                if (start.DayOfWeek == dayOfWeek)
-                {
-                    return start;
-                }
+                time = time.AddDays(3);
             }
 
-            return new DateTime(3000, 1, 1);
-        }
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        } 
 
         private void specialLocationCheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -393,6 +378,25 @@ namespace CommonScheduler.SchedulerControl
             else
             {
                 return 44;
+            }
+        }
+
+        private void timeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (((double)e.NewValue*60) % 15 != 0)
+            {
+                if (e.OldValue != null)
+                {
+                    timeSpan.Value = (double)e.OldValue;
+                }
+                else
+                {
+                    timeSpan.Value = timeSpan.DefaultValue;
+                }                
+            }
+            else
+            {
+                EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);                          
             }
         }
     }

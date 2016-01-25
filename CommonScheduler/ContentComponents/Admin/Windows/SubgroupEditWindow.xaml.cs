@@ -127,7 +127,7 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
         {
             if (dataGrid.SelectedItem != null)
             {
-                if ((dataGrid.SelectedItem.GetType() == typeof(Subgroup) || dataGrid.SelectedItem.GetType().BaseType == typeof(Subgroup))
+                if (dataGrid.SelectedItems.Count == 1 && (dataGrid.SelectedItem.GetType() == typeof(Subgroup) || dataGrid.SelectedItem.GetType().BaseType == typeof(Subgroup))
                     && ((Subgroup)dataGrid.SelectedItem).ID != 0)
                 {
                     nestedSubgroupPresenter.Content = new NestedSubgroupDataGridControl(((Subgroup)dataGrid.SelectedItem));

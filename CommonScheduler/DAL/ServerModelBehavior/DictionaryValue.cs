@@ -89,6 +89,16 @@ namespace CommonScheduler.DAL
             return dictionaryValues.ToList();
         }
 
+        public List<DictionaryValue> GetClassesTypes()
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                               join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                               where dictionary.NAME.Equals("Typy zajęć")
+                               select dictionaryValue;
+
+            return dictionaryValues.ToList();
+        }
+
         public string GetTeacherDegree(Teacher teacher)
         {
             var dictionaryValues = from dictionaryValue in context.DictionaryValue

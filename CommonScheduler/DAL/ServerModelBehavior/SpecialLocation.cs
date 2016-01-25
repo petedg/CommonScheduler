@@ -24,6 +24,26 @@ namespace CommonScheduler.DAL
             return specialLocations.FirstOrDefault();
         }
 
+        public SpecialLocation GetSpecialLocationByIdWithLocalSearch(int specialLocationId)
+        {
+            var specialLocationsLocal = from specialLocation in context.SpecialLocation
+                                        where specialLocation.ID == specialLocationId
+                                        select specialLocation;
+
+            SpecialLocation l = specialLocationsLocal.FirstOrDefault();
+
+            if (l != null)
+            {
+                return l;
+            }
+
+            var specialLocations = from specialLocation in context.SpecialLocation
+                                   where specialLocation.ID == specialLocationId
+                                   select specialLocation;
+
+            return specialLocations.FirstOrDefault();
+        }
+
         public void DeleteSpecialLocationForClasses(Classes classes)
         {
             var specialLocations = from specialLocation in context.SpecialLocation

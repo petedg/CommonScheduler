@@ -36,6 +36,7 @@ namespace CommonScheduler.DAL
         public Nullable<int> SPECIALLOCATION_ID { get; set; }
         public int DAY_OF_WEEK { get; set; }
         public Nullable<int> EXTERNALTEACHER_ID { get; set; }
+        public int SCOPE_LEVEL { get; set; }
     
         public virtual Room Room { get; set; }
         public virtual SpecialLocation SpecialLocation { get; set; }

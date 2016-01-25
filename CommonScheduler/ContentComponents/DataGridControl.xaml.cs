@@ -44,16 +44,27 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(textColumn); 
         }
 
-        public void addCheckBoxColumn(string header, string binding, bool isReadOnly)
+        public void addCheckBoxColumn(string header, string binding, bool isReadOnly, RoutedEventHandler checkedEventHandler, RoutedEventHandler uncheckedEventHandler)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
-            DataGridCheckBoxColumn checkBoxColumn = new DataGridCheckBoxColumn();
+            DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
             checkBoxColumn.Header = header;
-            checkBoxColumn.Binding = bind;
-            checkBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
-            checkBoxColumn.IsReadOnly = isReadOnly;
+            checkBoxColumn.Width = DataGridLength.Auto;
+            checkBoxColumn.IsReadOnly = isReadOnly;            
+
+            FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(RadioButton));
+            radioButton.AddHandler(RadioButton.CheckedEvent, checkedEventHandler);
+            radioButton.AddHandler(RadioButton.UncheckedEvent, uncheckedEventHandler);            
+            radioButton.SetBinding(RadioButton.IsCheckedProperty, bind);
+
+            radioButton.SetValue(RadioButton.GroupNameProperty, "BtnGroup");
+            DataTemplate textTemplate = new DataTemplate();
+            textTemplate.VisualTree = radioButton;
+
+            // Set the Templates to the Column
+            checkBoxColumn.CellTemplate = textTemplate;
             dataGrid.Columns.Add(checkBoxColumn);
         }
 

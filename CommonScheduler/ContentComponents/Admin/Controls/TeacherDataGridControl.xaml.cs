@@ -156,7 +156,7 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             }
             else if (MainWindow.TopMenuButtonType == SenderType.DEPARTMENT_TEACHER_MANAGEMENT_BUTTON)
             {
-                if (dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(Teacher) || dataGrid.SelectedItem.GetType().BaseType == typeof(Teacher)))
+                if (dataGrid.SelectedItems.Count == 1 && dataGrid.SelectedItem != null && (dataGrid.SelectedItem.GetType() == typeof(Teacher) || dataGrid.SelectedItem.GetType().BaseType == typeof(Teacher)))
                 {
                     TeacherDepartmentWindow userDepartmentWindow = new TeacherDepartmentWindow(((Teacher)dataGrid.SelectedItem));
                     userDepartmentWindow.Owner = Application.Current.MainWindow;

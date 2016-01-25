@@ -45,7 +45,7 @@
             LISTA KIERUNKóW WYDZIAŁU
         </Label>
 
-        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" SelectionMode="Single" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem">
+        <mycomp:DataGridControl Margin="0,70,0,0" x:Name="dataGrid" SelectionMode="Extended" CanUserAddRows="true" InitializingNewItem="dataGrid_InitializingNewItem">
 
         </mycomp:DataGridControl>
     </Grid>

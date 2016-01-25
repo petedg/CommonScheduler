@@ -79,7 +79,17 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false);
             dataGrid.addDatePickerColumn("START_DATE", "START_DATE");
             dataGrid.addDatePickerColumn("END_DATE", "END_DATE");
-            dataGrid.addCheckBoxColumn("IS_ACTIVE", "IS_ACTIVE", false);
+            dataGrid.addCheckBoxColumn("IS_ACTIVE", "IS_ACTIVE", false, semesterCheckBox_Checked, semesterCheckBox_Unchecked);
+        }
+
+        void semesterCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        void semesterCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void initializeDictionaries()
@@ -188,12 +198,17 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
                     dataGrid.Columns[1].IsReadOnly = false;
                     dataGrid.Columns[2].IsReadOnly = false;
                     dataGrid.Columns[3].IsReadOnly = false;
+                    dataGrid.Columns[4].Visibility = System.Windows.Visibility.Hidden;
+
+                    //RadioButton rb = (RadioButton)(((DataGridTemplateColumn)(dataGrid.Columns[4])).CellTemplate.LoadContent());
+                    //rb.Visibility = Visibility.Hidden;
                 }
                 else
                 {
                     dataGrid.Columns[1].IsReadOnly = true;
                     dataGrid.Columns[2].IsReadOnly = true;
                     dataGrid.Columns[3].IsReadOnly = true;
+                    dataGrid.Columns[4].Visibility = System.Windows.Visibility.Visible;
                 }
             }
         }

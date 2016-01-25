@@ -24,6 +24,26 @@ namespace CommonScheduler.DAL
             return externalTeachers.FirstOrDefault();
         }
 
+        public ExternalTeacher GetExternalTeacherByIdWithLocalSearch(int externalTeacherId)
+        {
+            var externalTeachersLocal = from externalTeacher in context.ExternalTeacher.Local
+                                        where externalTeacher.ID == externalTeacherId
+                                        select externalTeacher;
+
+            ExternalTeacher t = externalTeachersLocal.FirstOrDefault();
+
+            if (t != null)
+            {
+                return t;
+            }
+
+            var externalTeachers = from externalTeacher in context.ExternalTeacher
+                                   where externalTeacher.ID == externalTeacherId
+                                   select externalTeacher;
+
+            return externalTeachers.FirstOrDefault();
+        }
+
         public void DeleteExternalTeacherForClasses(Classes classes)
         {
             var externalTeachers = from externalTeacher in context.ExternalTeacher

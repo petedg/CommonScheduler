@@ -65,7 +65,7 @@ namespace CommonScheduler.DAL
                               join group_g in context.Group on classesGroup.Group_ID equals group_g.ID
                               join subgroup_s1 in context.Subgroup on group_g.SUBGROUP_ID equals subgroup_s1.ID
                               join subgoup_s2 in context.Subgroup on subgroup_s1.SUBGROUP_ID equals subgoup_s2.ID
-                              where subgoup_s2.ID == subgroup.ID && classes.CLASSESS_TYPE_DV_ID == 42               // wykład
+                              where subgoup_s2.ID == subgroup.ID && /*classes.CLASSESS_TYPE_DV_ID == 42*/ classes.SCOPE_LEVEL == (int)SchedulerGroupType.SUBGROUP_S1    // wykład
                                     && classesWeek.Week_ID == week.ID
                               select new ClassesWithClassesGroup_ClassesId { Classes = classes, ClassesGroup_ClassesId = classesGroup.Classes_ID };
 
@@ -81,7 +81,8 @@ namespace CommonScheduler.DAL
                               join classesWeek in context.ClassesWeek on classes.ID equals classesWeek.Classes_ID
                               join group_g in context.Group on classesGroup.Group_ID equals group_g.ID
                               join subgroup_s1 in context.Subgroup on group_g.SUBGROUP_ID equals subgroup_s1.ID
-                              where subgroup_s1.ID == subgroup.ID && (classes.CLASSESS_TYPE_DV_ID == 42 || classes.CLASSESS_TYPE_DV_ID == 43)     // wykład lub ćwiczenia
+                              where subgroup_s1.ID == subgroup.ID && /*(classes.CLASSESS_TYPE_DV_ID == 42 || classes.CLASSESS_TYPE_DV_ID == 43)*/
+                                                                  (classes.SCOPE_LEVEL == (int)SchedulerGroupType.SUBGROUP_S1 || classes.SCOPE_LEVEL == (int)SchedulerGroupType.SUBGROUP_S2)  // wykład lub ćwiczenia
                                     && classesWeek.Week_ID == week.ID
                               select new ClassesWithClassesGroup_ClassesId { Classes = classes, ClassesGroup_ClassesId = classesGroup.Classes_ID };
 

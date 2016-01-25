@@ -297,15 +297,15 @@ namespace CommonScheduler.SchedulerControl
 
         private bool isActivityEditable(Classes classes)
         {
-            if (classes.CLASSESS_TYPE_DV_ID == 42 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S1) //wykład
+            if (classes.SCOPE_LEVEL == (int)SchedulerGroupType.SUBGROUP_S1 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S1) //wykład
             {
                 return true;
             }
-            else if (classes.CLASSESS_TYPE_DV_ID == 43 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S2) //ćwiczenia
+            else if (classes.SCOPE_LEVEL == (int)SchedulerGroupType.SUBGROUP_S2 && SchedulerGroupType == SchedulerGroupType.SUBGROUP_S2) //ćwiczenia
             {
                 return true;
             }
-            else if(classes.CLASSESS_TYPE_DV_ID == 44 && SchedulerGroupType == SchedulerGroupType.GROUP) //laboratoria
+            else if (classes.SCOPE_LEVEL == (int)SchedulerGroupType.GROUP && SchedulerGroupType == SchedulerGroupType.GROUP) //laboratoria
             {
                 return true;
             }
@@ -320,15 +320,29 @@ namespace CommonScheduler.SchedulerControl
                 int rowNumber = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
                 int columnNumber = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
 
-                SchedulerActivityAddition activityEditionWindow = new SchedulerActivityAddition(SchedulerGroupType, GroupId);
+                DateTime nextClassesStartDate = scheduleTimeLineStart.AddMinutes((double)(rowNumber * timePortion));
+
+                SchedulerActivityAddition activityEditionWindow = new SchedulerActivityAddition(SchedulerGroupType, GroupId, nextClassesStartDate, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
                 activityEditionWindow.Owner = Application.Current.MainWindow;
                 activityEditionWindow.Title = "Dodawanie zajęć";
                 activityEditionWindow.ShowDialog();
 
                 if (activityEditionWindow.NewClasses != null)
-                {                    
-                    SchedulerActivity nextActivity = addActivity(ActivityStatus.INSERTED, activityEditionWindow.NewClasses);
-                    nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, rowNumber, true);
+                {                      
+                    SchedulerActivity nextActivity = addActivity(ActivityStatus.INSERTED, activityEditionWindow.NewClasses);     
+                    int minutesBetweenStartAndEnd = (activityEditionWindow.NewClasses.END_DATE - activityEditionWindow.NewClasses.START_DATE).Hours * 60 +
+                        (activityEditionWindow.NewClasses.END_DATE - activityEditionWindow.NewClasses.START_DATE).Minutes;
+                    int  endRowNumber = rowNumber + ((minutesBetweenStartAndEnd / timePortion) -1);                   
+                    if (!activityConflictOccurrence(columnNumber, rowNumber, endRowNumber))
+                    {
+                        nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, endRowNumber, true);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Podany termin koliduje z uprzednio wprowadzonymi zajęciami. Czas trwania dodanych zajęć został skrócony. Aby ponownie ustawić termin"
+                            + " konieczna jest edycja zajęć.", "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                        nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, rowNumber, true);
+                    }                    
                 }                
 
                 repaintActivities();
@@ -343,12 +357,13 @@ namespace CommonScheduler.SchedulerControl
 
                 if (activity.IsEditable)
                 {
-                    SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(activity.Classes);
+                    SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(activity.Classes, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
                     activityEditionWindow.Owner = Application.Current.MainWindow;
                     activityEditionWindow.Title = "Edycja zajęć";
                     activityEditionWindow.ShowDialog();
                     
                     activity.Classes = activityEditionWindow.EditedClasses;
+                    activity.refreshActivityTimeSpan();
                     repaintActivities();                  
                 }                
             }
@@ -525,14 +540,15 @@ namespace CommonScheduler.SchedulerControl
         void editionItem_Click(object sender, RoutedEventArgs e)
         {
             ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
-            SchedulerActivity current = ((SchedulerActivity)menu.PlacementTarget);
+            SchedulerActivity currentActivity = ((SchedulerActivity)menu.PlacementTarget);
 
-            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(current.Classes);
+            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(currentActivity.Classes, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
             activityEditionWindow.Owner = Application.Current.MainWindow;
             activityEditionWindow.Title = "Edycja zajęć";
             activityEditionWindow.ShowDialog();
-
-            current.Classes = activityEditionWindow.EditedClasses;
+            
+            currentActivity.Classes = activityEditionWindow.EditedClasses;
+            currentActivity.refreshActivityTimeSpan();
             repaintActivities();
         }
     }
