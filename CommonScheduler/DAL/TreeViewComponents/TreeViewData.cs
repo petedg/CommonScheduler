@@ -42,7 +42,11 @@ namespace CommonScheduler.DAL
             else if (treeViewType == TreeViewType.ROOM_LIST)
             {
                 initializeRoomList();
-            }   
+            }
+            else if (treeViewType == TreeViewType.MAJOR_LIST_FOR_SUBJECTS)
+            {
+                initializeMajorListForSubjectManagement();
+            }
         }
 
         private void initializeMajorList()
@@ -63,6 +67,20 @@ namespace CommonScheduler.DAL
                     if (s.NestedSubgroupsList.Count == 0)
                         s.NestedSubgroupsList = new List<object>();
                 }
+            }
+        }
+
+        private void initializeMajorListForSubjectManagement()
+        {
+            MajorList = majorBehavior.GetMajorsForDepartment(CurrentUser.Instance.AdminCurrentDepartment);
+            if (MajorList.Count == 0)
+                MajorList = new List<Major>();
+
+            foreach (Major m in MajorList)
+            {
+                m.SubgroupsList = subgroupBehavior.GetSubgroupsForMajor(m);
+                if (m.SubgroupsList.Count == 0)
+                    m.SubgroupsList = new List<object>();
             }
         }
 

@@ -12,30 +12,21 @@ namespace CommonScheduler.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Subgroup
+    public partial class SubjectDefinition
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subgroup()
-        {
-            this.Group = new HashSet<Group>();
-        }
-    
         public int ID { get; set; }
         public string NAME { get; set; }
-        public string SHORT_NAME { get; set; }
-        public Nullable<int> SUBGROUP_TYPE_DV_ID { get; set; }
+        public string NAME_SHORT { get; set; }
+        public double DURATION { get; set; }
+        public int CLASSES_TYPE_DV_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public int ID_CREATED { get; set; }
         public Nullable<int> ID_MODIFIED { get; set; }
         public int MAJOR_ID { get; set; }
-        public Nullable<int> SUBGROUP_ID { get; set; }
-        public Nullable<int> SEMESTER_ID { get; set; }
         public string YEAR_OF_STUDY { get; set; }
+        public int SEMESTER_TYPE_DV_ID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Group { get; set; }
         public virtual Major Major { get; set; }
-        public virtual Semester Semester { get; set; }
     }
 }

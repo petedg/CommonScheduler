@@ -34,6 +34,9 @@ namespace CommonScheduler.SchedulerControl
         private ClassesGroup classesGroupBehavior;
         private Room roomBehavior;
         //private SpecialLocation specialLocationBehavior;
+        private Group groupBehavior;
+        private Subgroup subgroupBehavior;
+        private SubjectDefinition subjectDefinitionBehavior;
 
         public Classes NewClasses { get; set; }
         public Classes EditedClasses { get; set; }
@@ -43,6 +46,7 @@ namespace CommonScheduler.SchedulerControl
         private List<ClassesWeek> ClassesWeekAssociations = new List<ClassesWeek>();
 
         public List<DictionaryValue> ClassesTypes { get; set; }
+        public List<SubjectDefinition> SubjectDefinitions { get; set; }
 
         private SchedulerGroupType groupType;
         private int groupId;
@@ -68,6 +72,9 @@ namespace CommonScheduler.SchedulerControl
             this.roomBehavior = new Room(context);
             //this.specialLocationBehavior = new SpecialLocation(context);
             this.classesGroupBehavior = new ClassesGroup(context);
+            this.groupBehavior = new Group(context);
+            this.subgroupBehavior = new Subgroup(context);
+            this.subjectDefinitionBehavior = new SubjectDefinition(context);
 
             ClassesTypes = dictionaryValueBehavior.GetClassesTypes();
             classesType.ItemsSource = ClassesTypes;
@@ -104,10 +111,62 @@ namespace CommonScheduler.SchedulerControl
             timeSpan.DefaultValue = timePortion / 60d;
 
             //initializeClasses(groupType);
+            initializeClassesChooser();
             initializeTeachersList();            
             initializeWeeksList();
 
             initBinding();
+        }
+
+        private void initializeClassesChooser()
+        {
+            if (groupType == SchedulerGroupType.SUBGROUP_S1)
+            {
+                Subgroup s = subgroupBehavior.GetSubgroupById(groupId);
+                SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s);
+            }
+            else if (groupType == SchedulerGroupType.SUBGROUP_S2)
+            {
+                Subgroup s2 = subgroupBehavior.GetSubgroupById(groupId);
+                Subgroup s1 = subgroupBehavior.GetSubgroupById((int)s2.SUBGROUP_ID);
+                SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s1);
+            }
+            else if (groupType == SchedulerGroupType.GROUP)
+            {
+                Group g = groupBehavior.GetGroupById(groupId);
+                Subgroup s2 = subgroupBehavior.GetSubgroupById(g.SUBGROUP_ID);
+                if (s2.SUBGROUP_ID != null)
+                {
+                    Subgroup s1 = subgroupBehavior.GetSubgroupById((int)s2.SUBGROUP_ID);
+                    SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s1);
+                }
+                else
+                {
+                    SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s2);
+                }               
+            }
+
+            List<dynamic> preparedList = new List<dynamic>();
+
+            foreach(SubjectDefinition sd in SubjectDefinitions)
+            {
+                preparedList.Add(new { SubjectDef = sd, Description = sd.NAME + " (" + dictionaryValueBehavior.GetValue("Typy zajęć", sd.CLASSES_TYPE_DV_ID) + ")" });
+            }
+
+            classesChooser.ItemsSource = preparedList;
+        }
+
+        private void classesChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
+            {
+                SubjectDefinition subjectDef = ((dynamic)e.AddedItems[0]).SubjectDef;
+                classesName.Text = subjectDef.NAME;
+                classesShort.Text = subjectDef.NAME_SHORT;
+                classesType.SelectedValue = subjectDef.CLASSES_TYPE_DV_ID;
+                timeSpan.Value = subjectDef.DURATION;
+                classesChooser.SelectedItem = null;
+            }            
         }
 
         public void initBinding()
@@ -398,6 +457,6 @@ namespace CommonScheduler.SchedulerControl
             {
                 EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);                          
             }
-        }
+        }        
     }
 }

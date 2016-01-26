@@ -99,6 +99,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ContentComponents\Admin\Controls\SubjectDataGridControl.xaml.cs">
+      <DependentUpon>SubjectDataGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentComponents\Admin\Controls\SubjectEditionControl.xaml.cs">
+      <DependentUpon>SubjectEditionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Classes.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -162,10 +168,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServerModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ServerModelBehavior\SubjectDefinition.cs" />
     <Compile Include="DAL\SpecialLocation.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Subgroup.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\SubjectDefinition.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\Teacher.cs">
@@ -255,6 +265,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ContentComponents\Admin\Controls\NestedSubgroupDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Controls\SubjectDataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentComponents\Admin\Controls\SubjectEditionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

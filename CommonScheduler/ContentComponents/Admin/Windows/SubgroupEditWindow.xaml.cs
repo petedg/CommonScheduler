@@ -26,10 +26,13 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
     public partial class SubgroupEditWindow : MetroWindow
     {
         private serverDBEntities context;
-
         private Subgroup subgroupBehavior;
+        private DictionaryValue dictionaryValueBehavior;
+
         public ObservableCollection<Subgroup> SubgroupSource { get; set; }
         private Major major;
+
+        public List<DictionaryValue> YearsOfStudy { get; set; }
 
         public SubgroupEditWindow(Major major)
         {
@@ -39,6 +42,7 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
 
             context = new serverDBEntities();
             initializeServerModelBehavior();
+            YearsOfStudy = dictionaryValueBehavior.GetYearsOfStudy();
             setColumns();
             reinitializeList();              
 
@@ -54,12 +58,14 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
         private void initializeServerModelBehavior()
         {
             subgroupBehavior = new Subgroup(context);
+            dictionaryValueBehavior = new DictionaryValue(context);
         }
 
         private void setColumns()
         {
             dataGrid.addTextColumn("NAME", "NAME", false);
             dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
+            dataGrid.addSemesterComboBoxColumn("YEAR_OF_STUDY", "YEAR_OF_STUDY", YearsOfStudy, "VALUE", "VALUE", false);
         }
 
         private void reinitializeList()

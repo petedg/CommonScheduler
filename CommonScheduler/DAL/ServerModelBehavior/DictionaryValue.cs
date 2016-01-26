@@ -116,5 +116,15 @@ namespace CommonScheduler.DAL
             return "";
         }
 
+        public List<DictionaryValue> GetYearsOfStudy()
+        {
+            var dictionaryValues = from dictionaryValue in context.DictionaryValue
+                                   join dictionary in context.Dictionary on dictionaryValue.DICTIONARY_ID equals dictionary.ID
+                                   where dictionary.NAME.Equals("Lata studiów")
+                                   select dictionaryValue;
+
+            return dictionaryValues.ToList();
+        }
+
     }
 }

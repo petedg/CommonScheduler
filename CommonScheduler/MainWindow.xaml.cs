@@ -197,6 +197,10 @@ namespace CommonScheduler
             {
                 setContent(ContentType.TEACHER_MANAGEMENT, (String)FindResource("mainWindowTitleTeacherManagement"));
             }
+            else if (e.SenderType == SenderType.SUBJECT_MANAGEMENT_BUTTON)
+            {
+                setContent(ContentType.SUBJECT_MANAGEMENT, (String)FindResource("mainWindowTitleSubjectManagement"));
+            }
             else if (e.SenderType == SenderType.SCHEDULE_MANAGEMENT_BUTTON)
             {
                 setContent(ContentType.SCHEDULE_MANAGEMENT, (String)FindResource("mainWindowTitleScheduleManagement"));

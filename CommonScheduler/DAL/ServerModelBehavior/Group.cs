@@ -16,6 +16,15 @@ namespace CommonScheduler.DAL
             this.context = context;
         }
 
+        public Group GetGroupById(int groupId)
+        {
+            var groups = from group_g in context.Group
+                         where group_g.ID == groupId
+                         select group_g;
+
+            return groups.FirstOrDefault();
+        }
+
         public List<object> GetGroupsForParentSubgroup(Subgroup parentSubgroup)
         {
             var groups = from group_1 in context.Group

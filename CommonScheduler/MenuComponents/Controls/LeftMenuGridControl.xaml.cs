@@ -53,7 +53,8 @@ namespace CommonScheduler.MenuComponents.Controls
                 addButtonToList("KIERUNKI", (Canvas)this.FindResource("appbar_draw_pen"), new Thickness(0, 60, 0, 0), buttonAdminSubgroupManagementEventHandler);
                 addButtonToList("GRUPY", (Canvas)this.FindResource("appbar_folder_people"), new Thickness(0, 120, 0, 0), buttonAdminGroupManagementEventHandler);
                 addButtonToList("NAUCZYCIELE", (Canvas)this.FindResource("appbar_people"), new Thickness(0, 180, 0, 0), buttonAdminTeacherManagementEventHandler);
-                addButtonToList("PLANY ZAJĘĆ", (Canvas)this.FindResource("appbar_clipboard_variant"), new Thickness(0, 240, 0, 0), buttonAdminScheduleManagementEventHandler);
+                addButtonToList("PRZEDMIOTY", (Canvas)this.FindResource("appbar_book"), new Thickness(0, 240, 0, 0), buttonSubjectManagementEventHandler);
+                addButtonToList("PLANY ZAJĘĆ", (Canvas)this.FindResource("appbar_clipboard_variant"), new Thickness(0, 300, 0, 0), buttonAdminScheduleManagementEventHandler);
             }
         }
 
@@ -128,6 +129,14 @@ namespace CommonScheduler.MenuComponents.Controls
             if (LeftGridButtonClick != null)
             {
                 LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.TEACHER_MANAGEMENT_BUTTON));
+            }
+        }
+
+        private void buttonSubjectManagementEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (LeftGridButtonClick != null)
+            {
+                LeftGridButtonClick(this, new LeftGridButtonClickEventArgs(SenderType.SUBJECT_MANAGEMENT_BUTTON));
             }
         }
 

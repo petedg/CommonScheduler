@@ -89,6 +89,10 @@ namespace CommonScheduler.Authorization
             {
                 return new TeacherDataGridControl();
             }
+            else if (CurrentContentType == ContentType.SUBJECT_MANAGEMENT)
+            {
+                return new SubjectEditionControl();
+            }
             else if (CurrentContentType == ContentType.DEFAULT)
             {
                 return new Rectangle { Fill = Brushes.LightGray };

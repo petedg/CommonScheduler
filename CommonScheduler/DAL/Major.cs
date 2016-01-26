@@ -18,6 +18,7 @@ namespace CommonScheduler.DAL
         public Major()
         {
             this.Subgroup = new HashSet<Subgroup>();
+            this.SubjectDefinition = new HashSet<SubjectDefinition>();
         }
     
         public int ID { get; set; }
@@ -35,5 +36,7 @@ namespace CommonScheduler.DAL
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subgroup> Subgroup { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubjectDefinition> SubjectDefinition { get; set; }
     }
 }

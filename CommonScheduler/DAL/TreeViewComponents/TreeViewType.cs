@@ -10,6 +10,7 @@ namespace CommonScheduler.DAL
     {
         MAJOR_LIST, 
         GROUP_LIST,
-        ROOM_LIST
+        ROOM_LIST,
+        MAJOR_LIST_FOR_SUBJECTS
     }
 }

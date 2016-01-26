@@ -36,6 +36,9 @@ namespace CommonScheduler.SchedulerControl
         private ClassesWeek classesWeekBehavior;
         private Room roomBehavior;
         private SpecialLocation specialLocationBehavior;
+        private Group groupBehavior;
+        private Subgroup subgroupBehavior;
+        private SubjectDefinition subjectDefinitionBehavior;
 
         public Classes EditedClasses { get; set; }
         private Classes classes;
@@ -44,13 +47,21 @@ namespace CommonScheduler.SchedulerControl
         private List<ClassesWeek> classesWeekAssociations = new List<ClassesWeek>();
         public List<DictionaryValue> ClassesTypes { get; set; }
 
+        private SchedulerGroupType groupType;
+        private int groupId;
+
+        public List<SubjectDefinition> SubjectDefinitions { get; set; }
+
         private int scheduleTimeLineStart;
         private int scheduleTimeLineEnd;
         private int timePortion;
 
-        public SchedulerActivityEdition(Classes editedClasses, int timePortion, int scheduleTimeLineStart, int scheduleTimeLineEnd)
+        public SchedulerActivityEdition(SchedulerGroupType groupType, int groupID, Classes editedClasses, int timePortion, int scheduleTimeLineStart, int scheduleTimeLineEnd)
         {
             InitializeComponent();
+
+            this.groupType = groupType;
+            this.groupId = groupID;
 
             this.context = new serverDBEntities();
             this.classesBehavior = new Classes(context);
@@ -61,6 +72,9 @@ namespace CommonScheduler.SchedulerControl
             this.classesWeekBehavior = new ClassesWeek(context);
             this.roomBehavior = new Room(context);
             this.specialLocationBehavior = new SpecialLocation(context);
+            this.groupBehavior = new Group(context);
+            this.subgroupBehavior = new Subgroup(context);
+            this.subjectDefinitionBehavior = new SubjectDefinition(context);
 
             this.EditedClasses = editedClasses;
             this.classes = classesBehavior.GetClassesById(editedClasses.ID);
@@ -88,8 +102,9 @@ namespace CommonScheduler.SchedulerControl
             timeSpan.Value = ((double)(EditedClasses.END_DATE - EditedClasses.START_DATE).Hours) + ((EditedClasses.END_DATE - EditedClasses.START_DATE).Minutes) / 60d;
 
             windowLabel.Content = editedClasses.SUBJECT_NAME + " (" + editedClasses.SUBJECT_SHORT + ") - "
-                + DayOfWeekTranslator.TranslateDayOfWeek(((DayOfWeek)editedClasses.DAY_OF_WEEK)) + " " + editedClasses.START_DATE.ToShortTimeString() + " - " + editedClasses.END_DATE.ToShortTimeString();  
+                + DayOfWeekTranslator.TranslateDayOfWeek(((DayOfWeek)editedClasses.DAY_OF_WEEK)) + " " + editedClasses.START_DATE.ToShortTimeString() + " - " + editedClasses.END_DATE.ToShortTimeString();
 
+            initializeClassesChooser();
             initBinding();
             initializeWeeksList();
             initializeSpecialLocation();
@@ -380,6 +395,57 @@ namespace CommonScheduler.SchedulerControl
             else
             {
                 classes.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);
+            }
+        }
+
+        private void initializeClassesChooser()
+        {
+            if (groupType == SchedulerGroupType.SUBGROUP_S1)
+            {
+                Subgroup s = subgroupBehavior.GetSubgroupById(groupId);
+                SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s);
+            }
+            else if (groupType == SchedulerGroupType.SUBGROUP_S2)
+            {
+                Subgroup s2 = subgroupBehavior.GetSubgroupById(groupId);
+                Subgroup s1 = subgroupBehavior.GetSubgroupById((int)s2.SUBGROUP_ID);
+                SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s1);
+            }
+            else if (groupType == SchedulerGroupType.GROUP)
+            {
+                Group g = groupBehavior.GetGroupById(groupId);
+                Subgroup s2 = subgroupBehavior.GetSubgroupById(g.SUBGROUP_ID);
+                if (s2.SUBGROUP_ID != null)
+                {
+                    Subgroup s1 = subgroupBehavior.GetSubgroupById((int)s2.SUBGROUP_ID);
+                    SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s1);
+                }
+                else
+                {
+                    SubjectDefinitions = subjectDefinitionBehavior.GetSubjectsForYearIncludingSemesterType(s2);
+                }
+            }
+
+            List<dynamic> preparedList = new List<dynamic>();
+
+            foreach (SubjectDefinition sd in SubjectDefinitions)
+            {
+                preparedList.Add(new { SubjectDef = sd, Description = sd.NAME + " (" + dictionaryValueBehavior.GetValue("Typy zajęć", sd.CLASSES_TYPE_DV_ID) + ")" });
+            }
+
+            classesChooser.ItemsSource = preparedList;
+        }
+
+        private void classesChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
+            {
+                SubjectDefinition subjectDef = ((dynamic)e.AddedItems[0]).SubjectDef;
+                classesName.Text = subjectDef.NAME;
+                classesShort.Text = subjectDef.NAME_SHORT;
+                classesType.SelectedValue = subjectDef.CLASSES_TYPE_DV_ID;
+                timeSpan.Value = subjectDef.DURATION;
+                classesChooser.SelectedItem = null;
             }
         }
     }

@@ -51,21 +51,21 @@ namespace CommonScheduler.MenuComponents.Controls
             {
                 addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.ADMIN_MANAGEMENT)
             {
                 addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
                 addButtonToList("Uprawnienia", (Canvas)this.FindResource("appbar_key"), new Thickness(280, 0, 0, 0), editRoleEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.SEMESTER_MANAGEMENT)
             {
                 addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
                 addButtonToList("Dni wolne", (Canvas)this.FindResource("appbar_man_suitcase"), new Thickness(280, 0, 0, 0), editHolidaysEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.DEPARTMENT_MANAGEMENT)
             {
@@ -73,28 +73,32 @@ namespace CommonScheduler.MenuComponents.Controls
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
                 addButtonToList("Lokalizacje", (Canvas)this.FindResource("appbar_globe"), new Thickness(280, 0, 0, 0), editLocationsEventHandler);
                 addButtonToList("Kierunki", (Canvas)this.FindResource("appbar_draw_pen"), new Thickness(420, 0, 0, 0), editMajorsEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(560, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(560, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.ROOM_MANAGEMENT)
             {
                 addButtonToList("Sale zajęciowe", (Canvas)this.FindResource("appbar_layout"), new Thickness(0, 0, 0, 0), editRoomEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(140, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(140, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.SUBGROUP_MANAGEMENT)
             {
                 addButtonToList("Podgrupy", (Canvas)this.FindResource("appbar_tiles_nine"), new Thickness(0, 0, 0, 0), editSubgroupEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(140, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(140, 0, 0, 0), exitEventHandler);
             }
             else if (currentContentType == ContentType.GROUP_MANAGEMENT)
             {
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(0, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(0, 0, 0, 0), exitEventHandler);
             }   
             else if (currentContentType == ContentType.TEACHER_MANAGEMENT)
             {
                 addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
                 addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
                 addButtonToList("Przyporządkowane wydziały", (Canvas)this.FindResource("appbar_home"), new Thickness(280, 0, 0, 0), departmentTeacherEventHandler);
-                addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+            }
+            else if (currentContentType == ContentType.SUBJECT_MANAGEMENT)
+            {
+                addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(0, 0, 0, 0), exitEventHandler);
             }
             
         }        
@@ -113,7 +117,7 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
             addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
-            addButtonToList("Wyjscie", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
+            addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(280, 0, 0, 0), exitEventHandler);
         }
 
         private void saveEventHandler(object sender, RoutedEventArgs e)

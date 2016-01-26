@@ -357,7 +357,8 @@ namespace CommonScheduler.SchedulerControl
 
                 if (activity.IsEditable)
                 {
-                    SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(activity.Classes, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
+                    SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(SchedulerGroupType, GroupId, activity.Classes, timePortion, 
+                        scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
                     activityEditionWindow.Owner = Application.Current.MainWindow;
                     activityEditionWindow.Title = "Edycja zajęć";
                     activityEditionWindow.ShowDialog();
@@ -542,7 +543,8 @@ namespace CommonScheduler.SchedulerControl
             ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
             SchedulerActivity currentActivity = ((SchedulerActivity)menu.PlacementTarget);
 
-            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(currentActivity.Classes, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
+            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(SchedulerGroupType, GroupId, currentActivity.Classes, timePortion, 
+                scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
             activityEditionWindow.Owner = Application.Current.MainWindow;
             activityEditionWindow.Title = "Edycja zajęć";
             activityEditionWindow.ShowDialog();

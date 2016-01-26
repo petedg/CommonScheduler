@@ -39,6 +39,7 @@
     <s:String x:Key="mainWindowTitleGroupManagement">Scheduler - ADMINISTRATOR - Grupy</s:String>
     <s:String x:Key="mainWindowTitleRoomManagement">Scheduler - ADMINISTRATOR - Lokalizacje</s:String>
     <s:String x:Key="mainWindowTitleTeacherManagement">Scheduler - ADMINISTRATOR - Nauczyciele akademiccy</s:String>
+    <s:String x:Key="mainWindowTitleSubjectManagement">Scheduler - ADMINISTRATOR - Przedmioty</s:String>
     <s:String x:Key="mainWindowTitleScheduleManagement">Scheduler - ADMINISTRATOR - Edycja planu zajęć</s:String>
 
     <s:String x:Key="menuWelcomeMessage">Witaj,</s:String>

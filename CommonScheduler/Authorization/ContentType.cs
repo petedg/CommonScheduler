@@ -18,6 +18,7 @@ namespace CommonScheduler.Authorization
         GROUP_MANAGEMENT,
         ROOM_MANAGEMENT,
         TEACHER_MANAGEMENT,
-        SCHEDULE_MANAGEMENT
+        SCHEDULE_MANAGEMENT,
+        SUBJECT_MANAGEMENT
     }
 }

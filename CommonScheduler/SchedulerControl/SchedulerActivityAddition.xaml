@@ -55,8 +55,8 @@
         <Grid Grid.Row="2" Margin="5" Name="subjectGrid">
             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
                Content="WYBÓR ZAJĘĆ"  Margin="0"/>
-            <ComboBox Name="classesChooser" SelectedValuePath="{Binding ID}" DisplayMemberPath="{Binding SUBJECT_NAME}" HorizontalAlignment="Stretch"
-                     VerticalAlignment="Top" Margin="10,30,10,0"/>
+            <ComboBox Name="classesChooser" SelectedValue="{Binding SubjectDef.ID}" DisplayMemberPath="Description" HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top" Margin="10,30,10,0" SelectionChanged="classesChooser_SelectionChanged"/>
             
             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
                Content="PRZEDMIOT ZAJĘĆ"  Margin="0,80,0,0"/>

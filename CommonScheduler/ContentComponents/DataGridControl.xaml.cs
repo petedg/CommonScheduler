@@ -85,6 +85,34 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(comboBoxColumn);
         }
 
+        public void addDurationDoubleUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler)
+        {
+            Binding bind = new Binding(binding);
+            bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
+            DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
+            checkBoxColumn.Header = header;
+            checkBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            checkBoxColumn.IsReadOnly = isReadOnly;
+
+            FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(Xceed.Wpf.Toolkit.DoubleUpDown));            
+            radioButton.SetBinding(Xceed.Wpf.Toolkit.DoubleUpDown.ValueProperty, bind);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.FormatStringProperty, "F2");
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.DisplayDefaultValueOnEmptyTextProperty, true);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.MinimumProperty, 0.25d);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.MaximumProperty, 15.0d);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.IncrementProperty, 0.25d);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.DoubleUpDown.DefaultValueProperty, 1.5d);
+            radioButton.AddHandler(Xceed.Wpf.Toolkit.DoubleUpDown.ValueChangedEvent, valueChangedEventHandler);
+
+            DataTemplate textTemplate = new DataTemplate();
+            textTemplate.VisualTree = radioButton;
+
+            // Set the Templates to the Column
+            checkBoxColumn.CellTemplate = textTemplate;
+            dataGrid.Columns.Add(checkBoxColumn);
+        }
+
         public void addButtonColumn(string header, string content, RoutedEventHandler clickEventHandler)
         {
             DataGridTemplateColumn buttonColumn = new DataGridTemplateColumn();

@@ -18,6 +18,15 @@ namespace CommonScheduler.DAL
             groupBehavior = new Group(context);
         }
 
+        public Subgroup GetSubgroupById(int subgroupId)
+        {
+            var subgroups = from subgroup in context.Subgroup
+                            where subgroup.ID == subgroupId
+                            select subgroup;
+
+            return subgroups.FirstOrDefault();
+        }
+
         public List<object> GetSubgroupsForMajor(Major major)
         {
             int activeSemesterID = new Semester(context).GetActiveSemester().ID;
