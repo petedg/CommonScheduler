@@ -6,6 +6,7 @@ using CommonScheduler.SchedulerControl;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -109,6 +111,37 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
                 //}
 
                 refreshContent(weekComboBox_getSelectedItemWeek());
+            }
+            else if (e.SenderType == SenderType.EXPORT_IMG)
+            {
+                if (contentControl.Content != null)
+                {
+                    SaveFileDialog savefile = new SaveFileDialog();
+
+                    object currentGroup = ((Scheduler)contentControl.Content).Group;
+
+                    if (currentGroup.GetType() == typeof(Group) || currentGroup.GetType().BaseType == typeof(Group))
+                    {
+                        savefile.FileName = "Plan zajęć " + ((Group)currentGroup).NAME;
+                    }
+                    else if (currentGroup.GetType() == typeof(Subgroup) || currentGroup.GetType().BaseType == typeof(Subgroup))
+                    {
+                        savefile.FileName = "Plan zajęć " + ((Subgroup)currentGroup).NAME;
+                    }
+
+                    savefile.Filter = "(*.png)|*.png";
+
+                    if (savefile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        PngBitmapEncoder pngImage = ((Scheduler)contentControl.Content).CreateImgFile();                        
+
+                        using (Stream fileStream = File.Create(savefile.FileName))
+                        {
+                            pngImage.Save(fileStream);
+                        }
+
+                    }
+                }
             }
         }
 

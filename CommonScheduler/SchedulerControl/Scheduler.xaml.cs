@@ -3,6 +3,7 @@ using CommonScheduler.DAL;
 using CommonScheduler.Events.CustomEventArgs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,22 @@ namespace CommonScheduler.SchedulerControl
             }
 
             grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, groupId, classesList));
+        }
+
+        public PngBitmapEncoder CreateImgFile()
+        {
+            ((SchedulerGrid)grid.Children[0]).PrepareImageExport(1039, 768);
+
+            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(1024, 768, 96, 96, PixelFormats.Pbgra32);
+            renderTargetBitmap.Render(grid.Children[0]);
+            PngBitmapEncoder pngImage = new PngBitmapEncoder();
+            pngImage.Frames.Add(BitmapFrame.Create(renderTargetBitmap));
+
+            UIElement temp = grid.Children[0];
+            grid.Children.Clear();
+            grid.Children.Add(temp);
+            //((SchedulerGrid)grid.Children[0]).AfterImageExport();            
+            return pngImage;       
         }
     }
 }

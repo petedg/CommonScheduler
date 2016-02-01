@@ -84,7 +84,7 @@ namespace CommonScheduler.SchedulerControl
             classesBehavior = new Classes(context);
         }
 
-        public void repaintActivity()
+        public void repaintActivity(bool isImgExport = false)
         {
             //this.Children.Clear();            
 
@@ -95,12 +95,12 @@ namespace CommonScheduler.SchedulerControl
 
             setActivityDescription();
             this.ActivityType = selectActivityTypeValue(Classes.CLASSESS_TYPE_DV_ID);
-            setBackground();
+            setBackground(isImgExport);
         }
 
-        private void setBackground()
+        private void setBackground(bool isImgExport = false)
         {
-            if (IsEditable)
+            if (IsEditable || isImgExport)
             {
                 if (ActivityType.Equals("laboratoria"))
                 {

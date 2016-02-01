@@ -30,6 +30,8 @@ namespace CommonScheduler.Events.CustomEventArgs
         EDIT_ROLE_BUTTON,
         EDIT_HOLIDAYS_BUTTON,
 
+        EXPORT_IMG,
+
         CLOSE_CONTENT,
         LOGOUT
     }

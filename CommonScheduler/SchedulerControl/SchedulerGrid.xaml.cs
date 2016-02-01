@@ -97,7 +97,7 @@ namespace CommonScheduler.SchedulerControl
             addBorders();            
         }
 
-        public void repaintActivities()
+        public void repaintActivities(bool isImgExport = false)
         {
             removeActivities();
 
@@ -106,7 +106,7 @@ namespace CommonScheduler.SchedulerControl
                 if (activity.Status != ActivityStatus.DELETED && !activity.IsBeingStreched)
                 {
                     mainGrid.Children.Add(activity);
-                    activity.repaintActivity();
+                    activity.repaintActivity(isImgExport);
                 }
             }
         }
@@ -552,6 +552,34 @@ namespace CommonScheduler.SchedulerControl
             currentActivity.Classes = activityEditionWindow.EditedClasses;
             currentActivity.refreshActivityTimeSpan();
             repaintActivities();
+        }
+
+        private void prepareGridImgExport(double width, double height)
+        {
+            bool verticalScrollbarVisible = currentHeight / numberOfRows < 12;
+
+            this.currentWidth = width - 30;
+            this.currentHeight = height - 30;
+
+            mainGrid.Children.Clear();
+            mainGrid.ColumnDefinitions.Clear();
+            mainGrid.RowDefinitions.Clear();
+            repaintGrid();
+            repaintActivities(true);            
+
+            topBar.Content = new SchedulerTopBar(numberOfColumns, startDay, verticalScrollbarVisible);
+            leftBar.Content = new SchedulerLeftBar(currentHeight, numberOfRows, scheduleTimeLineStart.Hour, timePortion);
+        }
+
+        public void PrepareImageExport(double width, double height)
+        {
+            prepareGridImgExport(width, height);
+            this.Arrange(new Rect(0, 0, width, height));                    
+        }
+
+        public void AfterImageExport()
+        {
+            
         }
     }
 }
