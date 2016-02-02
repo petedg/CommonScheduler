@@ -1,8 +1,10 @@
 ﻿using CommonScheduler.ContentComponents.Admin.Windows;
 using CommonScheduler.DAL;
 using CommonScheduler.Events.CustomEventArgs;
+using CommonScheduler.Exporting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Xps.Packaging;
 
 namespace CommonScheduler.SchedulerControl
 {
@@ -68,7 +71,7 @@ namespace CommonScheduler.SchedulerControl
 
                 groupId = ((Subgroup)group).ID;
             }
-
+                
             grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, groupId, classesList));
         }
 
@@ -84,8 +87,39 @@ namespace CommonScheduler.SchedulerControl
             UIElement temp = grid.Children[0];
             grid.Children.Clear();
             grid.Children.Add(temp);
-            //((SchedulerGrid)grid.Children[0]).AfterImageExport();            
-            return pngImage;       
+            return pngImage;
+        }
+
+        public void CreatePdfFile(string fileName)
+        {
+            Scheduler ccc = new Scheduler(context, Group, Week);
+            ccc.Width = 1055;
+            ccc.Height = 750;
+            ((SchedulerGrid)ccc.grid.Children[0]).IsExport = true;
+
+            FixedDocument fixedDoc = SchedulerExport.CreateXpsFile(ccc, 1055, 750);
+
+            //string pdfPath = System.IO.Path.GetTempPath() + "scheduler_pdf_tmp.pdf";// Path to place PDF file
+
+            string xpsPath = System.IO.Path.GetTempPath() + "scheduler_xps_tmp.xps";            
+            using(XpsDocument doc = new XpsDocument(xpsPath, FileAccess.Write))
+              XpsDocument.CreateXpsDocumentWriter(doc).Write(fixedDoc);
+
+            fileName = fileName.Replace(" ", "_");
+
+            using (PdfSharp.Xps.XpsModel.XpsDocument pdfXpsDoc = PdfSharp.Xps.XpsModel.XpsDocument.Open(xpsPath))
+            {
+                PdfSharp.Xps.XpsConverter.Convert(pdfXpsDoc, fileName, 0);
+            } 
+
+            //Process process = Process.Start(@"gxps.exe", "-sDEVICE=pdfwrite -sOutputFile=" + fileName + " " + xpsPath);
+            //process.WaitForExit();                  
+
+            //ZAPIS
+            //XpsDocument xpsd = new XpsDocument(filename, FileAccess.ReadWrite);
+            //System.Windows.Xps.XpsDocumentWriter xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
+            //xw.Write(fixedDoc);
+            //xpsd.Close();
         }
     }
 }

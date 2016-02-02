@@ -50,6 +50,7 @@ namespace CommonScheduler.SchedulerControl
         public List<SchedulerActivity> Activities { get; set; }
 
         private ContextMenu schedulerContextMenu;
+        public bool IsExport { get; set; }
 
         public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, int groupId, List<Classes> classesList)
         {
@@ -57,6 +58,7 @@ namespace CommonScheduler.SchedulerControl
 
             initializeContextMenu();
 
+            IsExport = false;
             this.context = context;
             this.SchedulerGroupType = schedulerGroupType;
             this.GroupId = groupId;
@@ -144,13 +146,13 @@ namespace CommonScheduler.SchedulerControl
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.currentWidth = e.NewSize.Width - 30;
-            this.currentHeight = e.NewSize.Height - 30;
+            this.currentHeight = e.NewSize.Height - 30;            
 
             mainGrid.Children.Clear();
             mainGrid.ColumnDefinitions.Clear();
             mainGrid.RowDefinitions.Clear();
-            repaintGrid();
-            repaintActivities();
+            repaintGrid();            
+            repaintActivities(IsExport);
 
             bool verticalScrollbarVisible = currentHeight / numberOfRows < 12;
 
@@ -554,9 +556,18 @@ namespace CommonScheduler.SchedulerControl
             repaintActivities();
         }
 
-        private void prepareGridImgExport(double width, double height)
+        private void prepareGridImgExport(double width, double height, bool scrolBarVisibilityCheck)
         {
-            bool verticalScrollbarVisible = currentHeight / numberOfRows < 12;
+            bool verticalScrollbarVisible;
+
+            if (scrolBarVisibilityCheck == false)
+            {
+                verticalScrollbarVisible = false;
+            }
+            else
+            {
+                verticalScrollbarVisible = currentHeight / numberOfRows < 12;
+            }            
 
             this.currentWidth = width - 30;
             this.currentHeight = height - 30;
@@ -573,9 +584,15 @@ namespace CommonScheduler.SchedulerControl
 
         public void PrepareImageExport(double width, double height)
         {
-            prepareGridImgExport(width, height);
+            prepareGridImgExport(width, height, true);
             this.Arrange(new Rect(0, 0, width, height));                    
         }
+
+        public void PrepareImageExport_v2(double width, double height)
+        {
+            prepareGridImgExport(width, height, false);
+            this.Arrange(new Rect(0, 0, width, height));                    
+        }        
 
         public void AfterImageExport()
         {

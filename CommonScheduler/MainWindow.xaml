@@ -7,7 +7,7 @@
         xmlns:myComp="clr-namespace:CommonScheduler.SchedulerControl"
         x:Class="CommonScheduler.MainWindow"           
         Title="{DynamicResource mainWindowTitle}" Height="640"  Width="1024" MinWidth="1024" MinHeight="640" WindowStartupLocation="CenterScreen">
-    <Grid x:Name="mainGrid">
+    <Grid x:Name="mainGrid">        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170" />
             <ColumnDefinition />
@@ -20,6 +20,11 @@
         <Rectangle Fill="Transparent" Stroke="DarkGray" StrokeThickness="2" Grid.Row="1"/>
         <Rectangle Fill="Transparent" Stroke="DarkGray" StrokeThickness="2" Grid.Row="0"/>
 
+        <!--Metro:ProgressRing Name="progressRing" IsActive="False" Grid.RowSpan="2" Grid.ColumnSpan="2" Panel.ZIndex="2"/-->
+
+        <!--Label HorizontalAlignment="Center" VerticalAlignment="Center" Name="progress" Grid.RowSpan="2" Grid.ColumnSpan="2" Panel.ZIndex="2" Content="Operacja w toku. Proszę czekać..."
+               Visibility="Hidden" Padding="10" Background="Black" Foreground="White" FontSize="30"/-->
+        
         <ContentControl x:Name="contentControl" Grid.Column="1" Grid.Row="1" />        
         <ContentControl x:Name="leftMenuContentControl" Grid.Column="0" Grid.Row="1"/>
         <ContentControl x:Name="topMenuContentControl" Grid.Column="1" Grid.Row="0" />

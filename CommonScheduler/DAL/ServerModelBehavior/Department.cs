@@ -84,6 +84,26 @@ namespace CommonScheduler.DAL
             return department;
         }
 
+        public List<Group> GetGroupsForDepartment(Department department)
+        {
+            var groups = from group_g in context.Group
+                         join subgroup in context.Subgroup on group_g.SUBGROUP_ID equals subgroup.ID
+                         join major in context.Major on subgroup.MAJOR_ID equals major.ID
+                         join dep in context.Department on major.DEPARTMENT_ID equals dep.ID
+                         where subgroup.SUBGROUP_ID == null && department.ID == dep.ID
+                         select group_g;
+
+            var groups2 = from group_g in context.Group
+                         join subgroup in context.Subgroup on group_g.SUBGROUP_ID equals subgroup.ID
+                         join subgroup_s1 in context.Subgroup on subgroup.SUBGROUP_ID equals subgroup_s1.ID
+                         join major in context.Major on subgroup.MAJOR_ID equals major.ID
+                         join dep in context.Department on major.DEPARTMENT_ID equals dep.ID
+                         where subgroup.SUBGROUP_ID != null && department.ID == dep.ID
+                         select group_g;
+
+            return groups.ToList().Concat(groups2.ToList()).ToList();
+        }
+
         public List<Location> LocationsList { get; set; }
     }
 }

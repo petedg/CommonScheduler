@@ -18,6 +18,7 @@ namespace CommonScheduler.DAL
         public Group()
         {
             this.ClassesGroup = new HashSet<ClassesGroup>();
+            this.CurrentSchedule = new HashSet<CurrentSchedule>();
         }
     
         public int ID { get; set; }
@@ -32,5 +33,7 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassesGroup> ClassesGroup { get; set; }
         public virtual Subgroup Subgroup { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CurrentSchedule> CurrentSchedule { get; set; }
     }
 }

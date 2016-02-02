@@ -31,7 +31,7 @@ namespace CommonScheduler
 
         string previousTitle = null;
 
-        public static SenderType TopMenuButtonType { get; set; }
+        public static SenderType TopMenuButtonType { get; set; }      
 
         public MainWindow()
         {

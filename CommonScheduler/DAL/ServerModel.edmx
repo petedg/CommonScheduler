@@ -42,6 +42,16 @@
           <Property Name="Classes_ID" Type="int" Nullable="false" />
           <Property Name="Week_ID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="CurrentSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GROUP_ID" Type="int" Nullable="false" />
+          <Property Name="WEEK_ID" Type="int" Nullable="false" />
+          <Property Name="SCHEDULE_PNG" Type="varbinary(max)" />
+          <Property Name="SCHEDULE_PDF" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="ID" />
@@ -367,6 +377,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__CurrentSc__GROUP__114A936A">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="CurrentSchedule" Type="Self.CurrentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CurrentSchedule">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CurrentSc__WEEK___123EB7A3">
+          <End Role="Week" Type="Self.Week" Multiplicity="1" />
+          <End Role="CurrentSchedule" Type="Self.CurrentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CurrentSchedule">
+              <PropertyRef Name="WEEK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Subgroup__SEMEST__5AEE82B9">
           <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
           <End Role="Subgroup" Type="Self.Subgroup" Multiplicity="*" />
@@ -611,6 +645,7 @@
           <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClassesGroup" EntityType="Self.ClassesGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClassesWeek" EntityType="Self.ClassesWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrentSchedule" EntityType="Self.CurrentSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepartmentTeacher" EntityType="Self.DepartmentTeacher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dictionary" EntityType="Self.Dictionary" Schema="dbo" store:Type="Tables" />
@@ -650,6 +685,14 @@
           <AssociationSet Name="FK__Classes__EXTERNA__6FE99F9F" Association="Self.FK__Classes__EXTERNA__6FE99F9F">
             <End Role="ExternalTeacher" EntitySet="ExternalTeacher" />
             <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CurrentSc__GROUP__114A936A" Association="Self.FK__CurrentSc__GROUP__114A936A">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="CurrentSchedule" EntitySet="CurrentSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CurrentSc__WEEK___123EB7A3" Association="Self.FK__CurrentSc__WEEK___123EB7A3">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="CurrentSchedule" EntitySet="CurrentSchedule" />
           </AssociationSet>
           <AssociationSet Name="FK__Subgroup__SEMEST__5AEE82B9" Association="Self.FK__Subgroup__SEMEST__5AEE82B9">
             <End Role="Semester" EntitySet="Semester" />
@@ -886,6 +929,7 @@
           <Property Name="SUBGROUP_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ClassesGroup" Relationship="Self.FK_ASS_2" FromRole="Group" ToRole="ClassesGroup" />
           <NavigationProperty Name="Subgroup" Relationship="Self.Group_Subgroup_FK" FromRole="Group" ToRole="Subgroup" />
+          <NavigationProperty Name="CurrentSchedule" Relationship="serverDBModel.FK__CurrentSc__GROUP__0D7A0286" FromRole="Group" ToRole="CurrentSchedule" />
         </EntityType>
         <EntityType Name="Holiday">
           <Key>
@@ -1069,6 +1113,7 @@
           <Property Name="SEMESTER_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ClassesWeek" Relationship="Self.FK_ASS_13" FromRole="Week" ToRole="ClassesWeek" />
           <NavigationProperty Name="Semester" Relationship="Self.Week_Semester_FK" FromRole="Week" ToRole="Semester" />
+          <NavigationProperty Name="CurrentSchedule" Relationship="serverDBModel.FK__CurrentSc__WEEK___0E6E26BF" FromRole="Week" ToRole="CurrentSchedule" />
         </EntityType>
         <Association Name="Classes_Room_FK">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
@@ -1482,6 +1527,15 @@
             <End Role="Major" EntitySet="Major" />
             <End Role="SubjectDefinition" EntitySet="SubjectDefinition" />
           </AssociationSet>
+          <EntitySet Name="CurrentSchedule" EntityType="serverDBModel.CurrentSchedule" />
+          <AssociationSet Name="FK__CurrentSc__GROUP__0D7A0286" Association="serverDBModel.FK__CurrentSc__GROUP__0D7A0286">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="CurrentSchedule" EntitySet="CurrentSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CurrentSc__WEEK___0E6E26BF" Association="serverDBModel.FK__CurrentSc__WEEK___0E6E26BF">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="CurrentSchedule" EntitySet="CurrentSchedule" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="SubjectDefinition">
           <Key>
@@ -1510,6 +1564,42 @@
             </Principal>
             <Dependent Role="SubjectDefinition">
               <PropertyRef Name="MAJOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CurrentSchedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GROUP_ID" Type="Int32" Nullable="false" />
+          <Property Name="WEEK_ID" Type="Int32" Nullable="false" />
+          <Property Name="SCHEDULE_PNG" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="SCHEDULE_PDF" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Group" Relationship="serverDBModel.FK__CurrentSc__GROUP__0D7A0286" FromRole="CurrentSchedule" ToRole="Group" />
+          <NavigationProperty Name="Week" Relationship="serverDBModel.FK__CurrentSc__WEEK___0E6E26BF" FromRole="CurrentSchedule" ToRole="Week" />
+        </EntityType>
+        <Association Name="FK__CurrentSc__GROUP__0D7A0286">
+          <End Type="serverDBModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="serverDBModel.CurrentSchedule" Role="CurrentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CurrentSchedule">
+              <PropertyRef Name="GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CurrentSc__WEEK___0E6E26BF">
+          <End Type="serverDBModel.Week" Role="Week" Multiplicity="1" />
+          <End Type="serverDBModel.CurrentSchedule" Role="CurrentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CurrentSchedule">
+              <PropertyRef Name="WEEK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1839,6 +1929,17 @@
                 <ScalarProperty Name="DURATION" ColumnName="DURATION" />
                 <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrentSchedule">
+            <EntityTypeMapping TypeName="serverDBModel.CurrentSchedule">
+              <MappingFragment StoreEntitySet="CurrentSchedule">
+                <ScalarProperty Name="SCHEDULE_PDF" ColumnName="SCHEDULE_PDF" />
+                <ScalarProperty Name="SCHEDULE_PNG" ColumnName="SCHEDULE_PNG" />
+                <ScalarProperty Name="WEEK_ID" ColumnName="WEEK_ID" />
+                <ScalarProperty Name="GROUP_ID" ColumnName="GROUP_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

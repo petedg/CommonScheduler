@@ -47,6 +47,14 @@
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Utility\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Xps, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Utility\PdfSharp.Xps.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
@@ -114,6 +122,9 @@
     <Compile Include="DAL\ClassesWeek.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\CurrentSchedule.cs">
+      <DependentUpon>ServerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Department.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
@@ -168,6 +179,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ServerModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ServerModelBehavior\CurrentSchedule.cs" />
     <Compile Include="DAL\ServerModelBehavior\SubjectDefinition.cs" />
     <Compile Include="DAL\SpecialLocation.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
@@ -199,6 +211,7 @@
     <Compile Include="DAL\Week.cs">
       <DependentUpon>ServerModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Exporting\SchedulerExport.cs" />
     <Compile Include="SchedulerControl\ActivityStatus.cs" />
     <Compile Include="SchedulerControl\AdornerButton.xaml.cs">
       <DependentUpon>AdornerButton.xaml</DependentUpon>
@@ -635,13 +648,29 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentComponents\GlobalAdmin\Windows\" />
-    <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gxps.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utility\PdfSharp-WPF.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Utility\PdfSharp-WPF.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Utility\PdfSharp.Xps.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Utility\PdfSharp.Xps.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

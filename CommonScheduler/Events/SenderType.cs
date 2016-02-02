@@ -31,6 +31,7 @@ namespace CommonScheduler.Events.CustomEventArgs
         EDIT_HOLIDAYS_BUTTON,
 
         EXPORT_IMG,
+        EXPORT_PDF,
 
         CLOSE_CONTENT,
         LOGOUT

@@ -18,6 +18,7 @@ namespace CommonScheduler.DAL
         public Week()
         {
             this.ClassesWeek = new HashSet<ClassesWeek>();
+            this.CurrentSchedule = new HashSet<CurrentSchedule>();
         }
     
         public int ID { get; set; }
@@ -28,5 +29,7 @@ namespace CommonScheduler.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassesWeek> ClassesWeek { get; set; }
         public virtual Semester Semester { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CurrentSchedule> CurrentSchedule { get; set; }
     }
 }

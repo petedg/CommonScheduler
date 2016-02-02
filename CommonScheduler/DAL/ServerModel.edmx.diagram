@@ -53,6 +53,9 @@
         <AssociationConnector Association="serverDBModel.Week_Semester_FK" ManuallyRouted="false" />
         <EntityTypeShape EntityType="serverDBModel.SubjectDefinition" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="serverDBModel.FK__SubjectDe__MAJOR__02FC7413" />
+        <EntityTypeShape EntityType="serverDBModel.CurrentSchedule" Width="1.5" PointX="12.75" PointY="20.5" />
+        <AssociationConnector Association="serverDBModel.FK__CurrentSc__GROUP__0D7A0286" />
+        <AssociationConnector Association="serverDBModel.FK__CurrentSc__WEEK___0E6E26BF" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

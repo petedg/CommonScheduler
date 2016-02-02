@@ -1,6 +1,7 @@
 ﻿using CommonScheduler.Authorization;
 using CommonScheduler.DAL;
 using CommonScheduler.Events.CustomEventArgs;
+using CommonScheduler.Exporting;
 using CommonScheduler.MenuComponents.Controls;
 using CommonScheduler.SchedulerControl;
 using System;
@@ -129,11 +130,11 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
                         savefile.FileName = "Plan zajęć " + ((Subgroup)currentGroup).NAME;
                     }
 
-                    savefile.Filter = "(*.png)|*.png";
+                    savefile.Filter = "*.png|*.png";
 
                     if (savefile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        PngBitmapEncoder pngImage = ((Scheduler)contentControl.Content).CreateImgFile();                        
+                        PngBitmapEncoder pngImage = ((Scheduler)contentControl.Content).CreateImgFile();                                             
 
                         using (Stream fileStream = File.Create(savefile.FileName))
                         {
@@ -141,6 +142,31 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
                         }
 
                     }
+                }
+            }
+            else if (e.SenderType == SenderType.EXPORT_PDF)
+            {
+                if (contentControl.Content != null)
+                {
+                    SaveFileDialog savefile = new SaveFileDialog();
+
+                    object currentGroup = ((Scheduler)contentControl.Content).Group;
+
+                    if (currentGroup.GetType() == typeof(Group) || currentGroup.GetType().BaseType == typeof(Group))
+                    {
+                        savefile.FileName = "Plan zajęć " + ((Group)currentGroup).NAME;
+                    }
+                    else if (currentGroup.GetType() == typeof(Subgroup) || currentGroup.GetType().BaseType == typeof(Subgroup))
+                    {
+                        savefile.FileName = "Plan zajęć " + ((Subgroup)currentGroup).NAME;
+                    }
+
+                    savefile.Filter = "*.pdf|*.pdf";
+
+                    if (savefile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        ((Scheduler)contentControl.Content).CreatePdfFile(savefile.FileName);
+                    }                    
                 }
             }
         }

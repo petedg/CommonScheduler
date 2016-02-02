@@ -117,8 +117,9 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             addButtonToList("Zapisz zmiany", (Canvas)this.FindResource("appbar_save"), new Thickness(0, 0, 0, 0), saveEventHandler);
             addButtonToList("Anuluj zmiany", (Canvas)this.FindResource("appbar_cancel"), new Thickness(140, 0, 0, 0), cancelEventHandler);
-            addButtonToList("Eksport IMG", (Canvas)this.FindResource("appbar_cancel"), new Thickness(280, 0, 0, 0), exportImgEventHandler);
-            addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(420, 0, 0, 0), exitEventHandler);
+            addButtonToList("Eksport do pliku PNG", (Canvas)this.FindResource("appbar_page_png"), new Thickness(280, 0, 0, 0), exportImgEventHandler);
+            addButtonToList("Eksport do pliku PDF", (Canvas)this.FindResource("appbar_page_file_pdf_tag"), new Thickness(420, 0, 0, 0), exportPdfEventHandler);
+            addButtonToList("Wyjście", (Canvas)this.FindResource("appbar_close"), new Thickness(560, 0, 0, 0), exitEventHandler);
         }
 
         private void saveEventHandler(object sender, RoutedEventArgs e)
@@ -174,6 +175,11 @@ namespace CommonScheduler.MenuComponents.Controls
         private void exportImgEventHandler(object sender, RoutedEventArgs e)
         {
             raiseButtonClickEvent(SenderType.EXPORT_IMG);
+        }
+
+        private void exportPdfEventHandler(object sender, RoutedEventArgs e)
+        {
+            raiseButtonClickEvent(SenderType.EXPORT_PDF);
         }
 
         private void raiseButtonClickEvent(SenderType senderType)

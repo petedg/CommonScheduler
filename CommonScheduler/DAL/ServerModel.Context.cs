@@ -48,5 +48,6 @@ namespace CommonScheduler.DAL
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Week> Week { get; set; }
         public virtual DbSet<SubjectDefinition> SubjectDefinition { get; set; }
+        public virtual DbSet<CurrentSchedule> CurrentSchedule { get; set; }
     }
 }
