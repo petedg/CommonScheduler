@@ -169,7 +169,7 @@ namespace CommonScheduler.MenuComponents.Controls
                         {
                             currentScheduleBehavior.DeletePreviousSchedule(group, week);
 
-                            string fileNamePdf = SchedulerExport.CreateTemporaryPdfFile(context, group, week);
+                            string fileNamePdf = SchedulerExport.CreatePdfFile(context, null, group, week);
                             string fileNamePng = System.IO.Path.GetTempPath() + "scheduler_png_tmp.png";
                             
                             PngBitmapEncoder pngImage = SchedulerExport.CreatePngFile(context, group, week);

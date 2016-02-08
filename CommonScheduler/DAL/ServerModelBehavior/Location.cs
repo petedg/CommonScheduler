@@ -18,6 +18,15 @@ namespace CommonScheduler.DAL
             roomBehavior = new Room(context);
         }
 
+        public Location GetLocationById(int locationID)
+        {
+            var locations = from location in context.Location
+                            where location.ID == locationID
+                            select location;
+
+            return locations.FirstOrDefault();
+        }
+
         public dynamic GetLocationsWithDepartments()
         {
             var locationsJoinDepartments = from location in context.Location

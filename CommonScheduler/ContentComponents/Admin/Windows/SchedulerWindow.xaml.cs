@@ -165,7 +165,8 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
 
                     if (savefile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        ((Scheduler)contentControl.Content).CreatePdfFile(savefile.FileName);
+                        //((Scheduler)contentControl.Content).CreatePdfFile(savefile.FileName);
+                        SchedulerExport.CreatePdfFile(context, savefile.FileName, ((Scheduler)contentControl.Content).Group, ((Scheduler)contentControl.Content).Week);
                     }                    
                 }
             }

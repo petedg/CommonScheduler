@@ -17,7 +17,6 @@ namespace CommonScheduler.DAL
         public int ID { get; set; }
         public string NAME { get; set; }
         public string NAME_SHORT { get; set; }
-        public double DURATION { get; set; }
         public int CLASSES_TYPE_DV_ID { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
@@ -26,6 +25,7 @@ namespace CommonScheduler.DAL
         public int MAJOR_ID { get; set; }
         public string YEAR_OF_STUDY { get; set; }
         public int SEMESTER_TYPE_DV_ID { get; set; }
+        public int HOURS_IN_SEMESTER { get; set; }
     
         public virtual Major Major { get; set; }
     }

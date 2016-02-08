@@ -28,12 +28,14 @@ namespace CommonScheduler.Authentication.Controls
     public partial class LoginControlTab : UserControl
     {
         private serverDBEntities context;
+        private GlobalUser globalUserBehavior;
 
         public LoginControlTab()
         {
             InitializeComponent();
 
             context = new serverDBEntities();
+            globalUserBehavior = new GlobalUser(context);
         }
 
         ~LoginControlTab()
@@ -43,7 +45,7 @@ namespace CommonScheduler.Authentication.Controls
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (new GlobalUser(context).ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
+            if (globalUserBehavior.ValidateCredentials(textBoxLoginAdmin.Text, passwordBoxAdmin.SecurePassword))
             {
                 errorMessageControl.Visibility = Visibility.Hidden;
                 GlobalUser currentUser = CurrentUser.Instance.UserData;                

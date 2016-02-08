@@ -444,7 +444,7 @@ namespace CommonScheduler.SchedulerControl
                 classesName.Text = subjectDef.NAME;
                 classesShort.Text = subjectDef.NAME_SHORT;
                 classesType.SelectedValue = subjectDef.CLASSES_TYPE_DV_ID;
-                timeSpan.Value = subjectDef.DURATION;
+                timeSpan.Value = subjectDef.HOURS_IN_SEMESTER / 20d;
                 classesChooser.SelectedItem = null;
             }
         }

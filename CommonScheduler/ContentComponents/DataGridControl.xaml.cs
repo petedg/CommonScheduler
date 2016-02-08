@@ -85,6 +85,34 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(comboBoxColumn);
         }
 
+        public void addHoursInMonthIntegerUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler)
+        {
+            Binding bind = new Binding(binding);
+            bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
+            DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
+            checkBoxColumn.Header = header;
+            checkBoxColumn.Width = DataGridLength.Auto;
+            checkBoxColumn.IsReadOnly = isReadOnly;
+
+            FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(Xceed.Wpf.Toolkit.IntegerUpDown));
+            radioButton.SetBinding(Xceed.Wpf.Toolkit.IntegerUpDown.ValueProperty, bind);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.FormatStringProperty, "N0");
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.DisplayDefaultValueOnEmptyTextProperty, true);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.MinimumProperty, 5);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.MaximumProperty, 200);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.IncrementProperty, 5);
+            radioButton.SetValue(Xceed.Wpf.Toolkit.IntegerUpDown.DefaultValueProperty, 30);
+            radioButton.AddHandler(Xceed.Wpf.Toolkit.IntegerUpDown.ValueChangedEvent, valueChangedEventHandler);
+
+            DataTemplate textTemplate = new DataTemplate();
+            textTemplate.VisualTree = radioButton;
+
+            // Set the Templates to the Column
+            checkBoxColumn.CellTemplate = textTemplate;
+            dataGrid.Columns.Add(checkBoxColumn);
+        }
+
         public void addDurationDoubleUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler)
         {
             Binding bind = new Binding(binding);

@@ -66,7 +66,9 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
             dataGrid.addTextColumn("NAME", "NAME", false);
             dataGrid.addTextColumn("SHORT_NAME", "NAME_SHORT", false);
             dataGrid.addSemesterComboBoxColumn("CLASSES_TYPE", "CLASSES_TYPE_DV_ID", ClassesTypes, "DV_ID", "VALUE", false);
-            dataGrid.addDurationDoubleUpDownColumn("DURATION", "DURATION", false, durationTimeSpan_ValueChanged);            
+            //dataGrid.addDurationDoubleUpDownColumn("HOURS_IN_SEMESTER", "HOURS_IN_SEMESTER", false, durationTimeSpan_ValueChanged);   
+            dataGrid.addHoursInMonthIntegerUpDownColumn("HOURS_IN_SEMESTER", "HOURS_IN_SEMESTER", false, hoursInMonth_ValueChanged);
+            
         }        
 
         private void reinitializeList()
@@ -129,22 +131,37 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
         {
             ((SubjectDefinition)e.NewItem).CLASSES_TYPE_DV_ID = 42;
             ((SubjectDefinition)e.NewItem).SEMESTER_TYPE_DV_ID = 23;
-            ((SubjectDefinition)e.NewItem).DURATION = 1.5d;
+            ((SubjectDefinition)e.NewItem).HOURS_IN_SEMESTER = 30;
         }
 
-        private void durationTimeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void hoursInMonth_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (((double)e.NewValue * 60) % 15 != 0)
+            if (((int)e.NewValue) % 5 != 0)
             {
                 if (e.OldValue != null)
                 {
-                    ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).Value = (double)e.OldValue;
+                    ((Xceed.Wpf.Toolkit.IntegerUpDown)e.Source).Value = (int)e.OldValue;
                 }
                 else
                 {
-                    ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).Value = ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).DefaultValue;
+                    ((Xceed.Wpf.Toolkit.IntegerUpDown)e.Source).Value = ((Xceed.Wpf.Toolkit.IntegerUpDown)e.Source).DefaultValue;
                 }
             }
         }
+
+        //private void durationTimeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    if (((double)e.NewValue * 60) % 15 != 0)
+        //    {
+        //        if (e.OldValue != null)
+        //        {
+        //            ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).Value = (double)e.OldValue;
+        //        }
+        //        else
+        //        {
+        //            ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).Value = ((Xceed.Wpf.Toolkit.DoubleUpDown)e.Source).DefaultValue;
+        //        }
+        //    }
+        //}
     }
 }

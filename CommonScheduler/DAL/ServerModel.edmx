@@ -267,7 +267,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="NAME_SHORT" Type="nvarchar" MaxLength="8" Nullable="false" />
-          <Property Name="DURATION" Type="float" Nullable="false" />
           <Property Name="CLASSES_TYPE_DV_ID" Type="int" Nullable="false" />
           <Property Name="SEMESTER_TYPE_DV_ID" Type="int" Nullable="false" />
           <Property Name="MAJOR_ID" Type="int" Nullable="false" />
@@ -276,6 +275,7 @@
           <Property Name="DATE_MODIFIED" Type="datetime2" Precision="7" />
           <Property Name="ID_CREATED" Type="int" Nullable="false" />
           <Property Name="ID_MODIFIED" Type="int" />
+          <Property Name="HOURS_IN_SEMESTER" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -1544,7 +1544,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="NAME" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="NAME_SHORT" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
-          <Property Name="DURATION" Type="Double" Nullable="false" />
           <Property Name="CLASSES_TYPE_DV_ID" Type="Int32" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="7" />
@@ -1554,6 +1553,7 @@
           <Property Name="YEAR_OF_STUDY" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Major" Relationship="serverDBModel.FK__SubjectDe__MAJOR__02FC7413" FromRole="SubjectDefinition" ToRole="Major" />
           <Property Name="SEMESTER_TYPE_DV_ID" Type="Int32" Nullable="false" />
+          <Property Name="HOURS_IN_SEMESTER" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK__SubjectDe__MAJOR__02FC7413">
           <End Type="serverDBModel.Major" Role="Major" Multiplicity="1" />
@@ -1918,6 +1918,7 @@
           <EntitySetMapping Name="SubjectDefinition">
             <EntityTypeMapping TypeName="serverDBModel.SubjectDefinition">
               <MappingFragment StoreEntitySet="SubjectDefinition">
+                <ScalarProperty Name="HOURS_IN_SEMESTER" ColumnName="HOURS_IN_SEMESTER" />
                 <ScalarProperty Name="SEMESTER_TYPE_DV_ID" ColumnName="SEMESTER_TYPE_DV_ID" />
                 <ScalarProperty Name="YEAR_OF_STUDY" ColumnName="YEAR_OF_STUDY" />
                 <ScalarProperty Name="MAJOR_ID" ColumnName="MAJOR_ID" />
@@ -1926,7 +1927,6 @@
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="CLASSES_TYPE_DV_ID" ColumnName="CLASSES_TYPE_DV_ID" />
-                <ScalarProperty Name="DURATION" ColumnName="DURATION" />
                 <ScalarProperty Name="NAME_SHORT" ColumnName="NAME_SHORT" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
