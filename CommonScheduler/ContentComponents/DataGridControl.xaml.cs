@@ -31,27 +31,29 @@ namespace CommonScheduler.ContentComponents
             InitializeComponent();            
         }
 
-        public void addTextColumn(string header, string binding, bool isReadOnly)
+        public void addTextColumn(string header, string binding, bool isReadOnly, DataGridLength columnWidth)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             DataGridTextColumn textColumn = new DataGridTextColumn();
-            textColumn.Header = header;
+            textColumn.Header = header.Replace('_', ' ');
             textColumn.Binding = bind;
-            textColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            //textColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star); DataGridLength.Auto;
+            //checkBoxColumn.Width = 
+            textColumn.Width = columnWidth;
             textColumn.IsReadOnly = isReadOnly;
             dataGrid.Columns.Add(textColumn); 
         }
 
-        public void addCheckBoxColumn(string header, string binding, bool isReadOnly, RoutedEventHandler checkedEventHandler, RoutedEventHandler uncheckedEventHandler)
+        public void addCheckBoxColumn(string header, string binding, bool isReadOnly, RoutedEventHandler checkedEventHandler, RoutedEventHandler uncheckedEventHandler, DataGridLength columnWidth)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
-            checkBoxColumn.Header = header;
-            checkBoxColumn.Width = DataGridLength.Auto;
+            checkBoxColumn.Header = header.Replace('_', ' ');
+            checkBoxColumn.Width = columnWidth;
             checkBoxColumn.IsReadOnly = isReadOnly;            
 
             FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(RadioButton));
@@ -68,31 +70,31 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(checkBoxColumn);
         }
 
-        public void addSemesterComboBoxColumn(string header, string binding, List<DictionaryValue> itemsSource, string selectedValuePath, string displayMemberPath, bool isReadOnly)
+        public void addSemesterComboBoxColumn(string header, string binding, List<DictionaryValue> itemsSource, string selectedValuePath, string displayMemberPath, bool isReadOnly, DataGridLength columnWidth)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             DataGridComboBoxColumn comboBoxColumn = new DataGridComboBoxColumn();
             comboBoxColumn.ItemsSource = itemsSource;
-            comboBoxColumn.Header = header;
+            comboBoxColumn.Header = header.Replace('_', ' ');
             comboBoxColumn.SelectedValueBinding = bind;            
             comboBoxColumn.SelectedValuePath = selectedValuePath;
             comboBoxColumn.DisplayMemberPath = displayMemberPath;
             comboBoxColumn.IsReadOnly = isReadOnly;
-            comboBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            comboBoxColumn.Width = columnWidth;
 
             dataGrid.Columns.Add(comboBoxColumn);
         }
 
-        public void addHoursInMonthIntegerUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler)
+        public void addHoursInMonthIntegerUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler, DataGridLength columnWidth)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
-            checkBoxColumn.Header = header;
-            checkBoxColumn.Width = DataGridLength.Auto;
+            checkBoxColumn.Header = header.Replace('_', ' ');
+            checkBoxColumn.Width = columnWidth;
             checkBoxColumn.IsReadOnly = isReadOnly;
 
             FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(Xceed.Wpf.Toolkit.IntegerUpDown));
@@ -113,14 +115,14 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(checkBoxColumn);
         }
 
-        public void addDurationDoubleUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler)
+        public void addDurationDoubleUpDownColumn(string header, string binding, bool isReadOnly, RoutedPropertyChangedEventHandler<object> valueChangedEventHandler, DataGridLength columnWidth)
         {
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
 
             DataGridTemplateColumn checkBoxColumn = new DataGridTemplateColumn();
-            checkBoxColumn.Header = header;
-            checkBoxColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            checkBoxColumn.Header = header.Replace('_', ' ');
+            checkBoxColumn.Width = columnWidth;
             checkBoxColumn.IsReadOnly = isReadOnly;
 
             FrameworkElementFactory radioButton = new FrameworkElementFactory(typeof(Xceed.Wpf.Toolkit.DoubleUpDown));            
@@ -141,11 +143,11 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(checkBoxColumn);
         }
 
-        public void addButtonColumn(string header, string content, RoutedEventHandler clickEventHandler)
+        public void addButtonColumn(string header, string content, RoutedEventHandler clickEventHandler, DataGridLength columnWidth)
         {
             DataGridTemplateColumn buttonColumn = new DataGridTemplateColumn();
-            buttonColumn.Header = header;
-            buttonColumn.Width = DataGridLength.Auto;           
+            buttonColumn.Header = header.Replace('_', ' ');
+            buttonColumn.Width = columnWidth;
 
             // Create the TextBlock
             FrameworkElementFactory textFactory = new FrameworkElementFactory(typeof(Button));
@@ -159,11 +161,11 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(buttonColumn);
         }
 
-        public void addDatePickerColumn(string header, string binding)
+        public void addDatePickerColumn(string header, string binding, DataGridLength columnWidth)
         {
             DataGridTemplateColumn datePickerColumn = new DataGridTemplateColumn();
-            datePickerColumn.Header = header;
-            datePickerColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);
+            datePickerColumn.Header = header.Replace('_', ' ');
+            datePickerColumn.Width = columnWidth;
 
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -183,11 +185,11 @@ namespace CommonScheduler.ContentComponents
             dataGrid.Columns.Add(datePickerColumn);
         }
 
-        public void addDatePickerWithBoundsColumn(string header, string binding, DateTime displayDateStart, DateTime displayDateEnd)
+        public void addDatePickerWithBoundsColumn(string header, string binding, DateTime displayDateStart, DateTime displayDateEnd, DataGridLength columnWidth)
         {
             DataGridTemplateColumn datePickerColumn = new DataGridTemplateColumn();
-            datePickerColumn.Header = header;
-            datePickerColumn.Width = new DataGridLength(20, DataGridLengthUnitType.Star);      
+            datePickerColumn.Header = header.Replace('_', ' ');
+            datePickerColumn.Width = columnWidth; 
 
             Binding bind = new Binding(binding);
             bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;

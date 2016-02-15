@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents"
-             Height="533" Width="853" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+             xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents" Height="533" Width="853"
+             MinHeight="533" MinWidth="853" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Grid Name="grid">       
         <ToolBarTray>
             <ToolBar Margin="0,2,0,0">

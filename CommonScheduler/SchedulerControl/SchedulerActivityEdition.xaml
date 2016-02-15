@@ -63,7 +63,9 @@
             <Label Content="Nazwa" Margin="5, 110, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Content="Nazwa skrócona" Margin="5, 140, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Content="Typ zajęć" Margin="5, 170, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Content="Czas trwania (h)" Margin="5, 200, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Czas trwania" Margin="5, 200, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="h" Margin="110, 200, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="min" Margin="180, 200, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
             <TextBox Name="classesName" Text="{Binding SUBJECT_NAME, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
                      VerticalAlignment="Top" Margin="110,110,10,0" MaxLength="60"/>
@@ -71,8 +73,13 @@
                      VerticalAlignment="Top" Margin="110,140,10,0" MaxLength="8"/>
             <ComboBox Name="classesType" SelectedValue="{Binding CLASSESS_TYPE_DV_ID, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"
                      VerticalAlignment="Top" Margin="110,170,10,0" SelectedValuePath="DV_ID" DisplayMemberPath="VALUE"/>
-            <wpfTool:DoubleUpDown Name="timeSpan" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="110,204,10,0" ValueChanged="timeSpan_ValueChanged" FormatString="F2"
-                                  DisplayDefaultValueOnEmptyText="True" IsEnabled="False" AllowSpin="False"/>
+            <!--wpfTool:DoubleUpDown Name="timeSpan" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="110,204,10,0" ValueChanged="timeSpan_ValueChanged" FormatString="F2"
+                                  DisplayDefaultValueOnEmptyText="True" IsEnabled="False" AllowSpin="False"/-->
+
+            <wpfTool:IntegerUpDown Name="timeSpanHour" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130,204,10,0" ValueChanged="timeSpanHour_ValueChanged" FormatString="N0"
+                                  DisplayDefaultValueOnEmptyText="True"/>
+            <wpfTool:IntegerUpDown Name="timeSpanMinute" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,204,10,0" ValueChanged="timeSpanMinute_ValueChanged" FormatString="N0"
+                                  DisplayDefaultValueOnEmptyText="True"/>
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="2" Margin="5,15,5,5" Name="teacherGrid">

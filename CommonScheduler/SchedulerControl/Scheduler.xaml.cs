@@ -121,5 +121,10 @@ namespace CommonScheduler.SchedulerControl
             //xw.Write(fixedDoc);
             //xpsd.Close();
         }
+
+        //public void BeforeCancel()
+        //{
+        //    ((SchedulerGrid)grid.Children[0]).BeforeCancel();
+        //}
     }
 }

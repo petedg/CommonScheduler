@@ -117,5 +117,15 @@ namespace CommonScheduler.DAL
                 target += 7;
             return from.AddDays(target - start);
         }
+
+        public List<Week> GetListForClasses(Classes classes)
+        {
+            var weeks = from classesWeek in context.ClassesWeek
+                        join week in context.Week on classesWeek.Week_ID equals week.ID
+                        where classesWeek.Classes_ID == classes.ID
+                        select week;
+
+            return weeks.ToList();
+        }
     }
 }

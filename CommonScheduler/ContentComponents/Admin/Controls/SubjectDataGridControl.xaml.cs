@@ -62,12 +62,12 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private void setColumns()
         {
-            dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false);
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "NAME_SHORT", false);
-            dataGrid.addSemesterComboBoxColumn("CLASSES_TYPE", "CLASSES_TYPE_DV_ID", ClassesTypes, "DV_ID", "VALUE", false);
+            dataGrid.addSemesterComboBoxColumn("RODZAJ_SEMESTRU", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("SKRÓT", "NAME_SHORT", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addSemesterComboBoxColumn("TYP_ZAJĘĆ", "CLASSES_TYPE_DV_ID", ClassesTypes, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
             //dataGrid.addDurationDoubleUpDownColumn("HOURS_IN_SEMESTER", "HOURS_IN_SEMESTER", false, durationTimeSpan_ValueChanged);   
-            dataGrid.addHoursInMonthIntegerUpDownColumn("HOURS_IN_SEMESTER", "HOURS_IN_SEMESTER", false, hoursInMonth_ValueChanged);
+            dataGrid.addHoursInMonthIntegerUpDownColumn("GODZIN_W SEMESTRZE", "HOURS_IN_SEMESTER", false, hoursInMonth_ValueChanged, DataGridLength.Auto);
             
         }        
 

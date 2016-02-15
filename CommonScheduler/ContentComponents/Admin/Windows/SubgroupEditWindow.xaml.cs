@@ -63,9 +63,9 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
-            dataGrid.addSemesterComboBoxColumn("YEAR_OF_STUDY", "YEAR_OF_STUDY", YearsOfStudy, "VALUE", "VALUE", false);
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("SKRÓT", "SHORT_NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addSemesterComboBoxColumn("ROK STUDIÓW", "YEAR_OF_STUDY", YearsOfStudy, "VALUE", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
         }
 
         private void reinitializeList()

@@ -178,7 +178,7 @@ namespace CommonScheduler.SchedulerControl
             if (save)
             {
                 using(serverDBEntities con = new serverDBEntities())
-                {
+                {                    
                     con.Classes.Attach(Classes);                    
                     con.Entry(Classes).State = System.Data.Entity.EntityState.Modified;
                     con.SaveChanges();

@@ -62,11 +62,11 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", true);
-            dataGrid.addTextColumn("CITY", "CITY", true);
-            dataGrid.addTextColumn("STREET", "STREET", true);
-            dataGrid.addTextColumn("STREET_NUMBER", "STREET_NUMBER", true);
-            dataGrid.addTextColumn("POSTAL_CODE", "POSTAL_CODE", true);
+            dataGrid.addTextColumn("NAZWA", "NAME", true, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("MIASTO", "CITY", true, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("ULICA", "STREET", true, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("NUMER_ULICY", "STREET_NUMBER", true, DataGridLength.Auto);
+            dataGrid.addTextColumn("KOD_POCZTOWY", "POSTAL_CODE", true, DataGridLength.Auto);
         }
 
         private void reinitializeList()

@@ -56,8 +56,8 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("SKRÓT", "SHORT_NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
         }
 
         private void reinitializeList()

@@ -68,11 +68,11 @@ namespace CommonScheduler.ContentComponents.Admin.Controls
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SURNAME", "SURNAME", false);
-            dataGrid.addTextColumn("EMAIL", "EMAIL", false);
-            dataGrid.addTextColumn("NAME_SHORT", "NAME_SHORT", false);
-            dataGrid.addSemesterComboBoxColumn("DEGREE", "DEGREE_DV_ID", TeacherDegrees, "DV_ID", "VALUE", false);
+            dataGrid.addTextColumn("IMIĘ", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("NAZWISKO", "SURNAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("ADRES_EMAIL", "EMAIL", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("SKRÓT", "NAME_SHORT", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addSemesterComboBoxColumn("STOPIEŃ_NAUKOWY", "DEGREE_DV_ID", TeacherDegrees, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
         }       
 
         private void reinitializeList()

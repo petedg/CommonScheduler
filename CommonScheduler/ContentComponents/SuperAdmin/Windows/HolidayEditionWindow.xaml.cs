@@ -58,9 +58,9 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
         }
 
         private void setColumns()
-        {            
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addDatePickerWithBoundsColumn("DATE", "DATE", semester.START_DATE, semester.END_DATE);
+        {
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addDatePickerWithBoundsColumn("DATA", "DATE", semester.START_DATE, semester.END_DATE, new DataGridLength(20, DataGridLengthUnitType.Star));
         }
 
         private void reinitializeList()

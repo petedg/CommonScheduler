@@ -248,6 +248,7 @@
     <Compile Include="SchedulerControl\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SchedulerControl\TimeSpanEditionMode.cs" />
     <Page Include="Authentication\Controls\LoginControlTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

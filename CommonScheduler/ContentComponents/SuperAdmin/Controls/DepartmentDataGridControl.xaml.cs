@@ -61,9 +61,9 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
         }
 
         private void setColumns()
-        {            
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("WWW_HOME_PAGE", "WWW_HOME_PAGE", false);
+        {
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("STRONA DOMOWA", "WWW_HOME_PAGE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
         }
 
         private void reinitializeList()

@@ -1,6 +1,7 @@
 ﻿using CommonScheduler.SchedulerControl;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,7 +108,152 @@ namespace CommonScheduler.DAL
 
             return classes;
         }
-    }
+
+        public int GetNumberOfConflictedClasses(Classes checkedClasses, List<Week> weeks)
+        {
+            return getConflicteDirectClassesForTeacher(checkedClasses, weeks).Count + getConflictedDirectClassesForRoom(checkedClasses, weeks).Count;
+        }
+
+        public List<Classes> GetConflictedClassesForTeacher(Classes checkedClasses, List<Week> weeks)
+        {
+            var localConflictedClassesList = from classes in context.Classes.Local
+                                             where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE*/
+                                        select classes;
+
+            var conflictedClassesList = from classes in context.Classes
+                                        where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE*/
+                                        select classes;
+
+            var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
+
+            var conflictedClassesWithWeekCheck = from classes in bothContextsConflictedClasses.ToList()
+                                                 where GetConflictedWeeksForConflictedClasses(weeks, classes).Count > 0
+                                                 select classes;
+
+            return conflictedClassesWithWeekCheck.ToList();
+        }
+
+        public List<Classes> GetConflictedClassesForRoom(Classes checkedClasses, List<Week> weeks)
+        {
+            var localConflictedClassesList = from classes in context.Classes.Local
+                                             where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE  && checkedClasses.END_DATE > classes.START_DATE*/
+                                        select classes;
+
+            var conflictedClassesList = from classes in context.Classes
+                                        where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE  && checkedClasses.END_DATE > classes.START_DATE*/
+                                        select classes;
+
+            var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
+
+            var conflictedClassesWithWeekCheck = from classes in bothContextsConflictedClasses.ToList()
+                                                 where GetConflictedWeeksForConflictedClasses(weeks, classes).Count > 0
+                                                 select classes;
+
+            return conflictedClassesWithWeekCheck.ToList();
+        }
+
+        public List<Week> GetConflictedWeeksForConflictedClasses(List<Week> weeks, Classes conflictedClasses)
+        {
+            var conflictedWeeks = from checkedClassesWeek in context.ClassesWeek
+                                  join week in context.Week on checkedClassesWeek.Week_ID equals week.ID
+                                  where checkedClassesWeek.Classes_ID == conflictedClasses.ID
+                                  select week;
+
+            var localConflictedWeeks = from checkedClassesWeek in context.ClassesWeek.Local
+                                       join week in context.Week on checkedClassesWeek.Week_ID equals week.ID
+                                       where checkedClassesWeek.Classes_ID == conflictedClasses.ID
+                                       select week;
+
+            var bothContextsConflictedWeeks = conflictedWeeks.Union(localConflictedWeeks);
+
+            return (bothContextsConflictedWeeks.ToList().Intersect(weeks)).ToList();
+        }
+
+        private List<Classes> getConflicteDirectClassesForTeacher(Classes checkedClasses, List<Week> weeks)
+        {
+            var localConflictedClassesList = from classes in context.Classes.Local
+                                             where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                             select classes;
+
+            var conflictedClassesList = from classes in context.Classes
+                                        where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                        select classes;            
+
+            var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
+
+            // coś szwankowało podczas selecta na context.Classes - nie sprawdzało warunków
+            var improvedConflictedClassesList = from classes in bothContextsConflictedClasses
+                                                where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                         && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                select classes;
+
+            var conflictedClassesWithWeekCheck = from classes in improvedConflictedClassesList.ToList()
+                                                 where GetConflictedWeeksForConflictedClasses(weeks, classes).Count > 0
+                                                 select classes;
+
+            return conflictedClassesWithWeekCheck.ToList();
+        }
+
+        private List<Classes> getConflictedDirectClassesForRoom(Classes checkedClasses, List<Week> weeks)
+        {
+            var localConflictedClassesList = from classes in context.Classes.Local
+                                             where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                             select classes;
+
+            var conflictedClassesList = from classes in context.Classes
+                                        where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                  && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                        select classes;
+
+            var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
+
+            // coś szwankowało podczas selecta na context.Classes - nie sprawdzało warunków
+            var improvedConflictedClassesList = from classes in bothContextsConflictedClasses.ToList()
+                                                where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                                         && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                select classes;
+
+            var conflictedClassesWithWeekCheck = from classes in improvedConflictedClassesList.ToList()
+                                                 where GetConflictedWeeksForConflictedClasses(weeks, classes).Count > 0
+                                                 select classes;
+
+            return conflictedClassesWithWeekCheck.ToList();
+        }        
+
+        public List<dynamic> GetUnavailableTimeSpans(DayOfWeek dayOfWeek, List<Classes> conflictedClassesList, List<Week> weeks)
+        {
+            int timePortion = 15;
+            DateTime classesStartTime = new DateTime(1, 1, 1, 6, 0, 0);
+
+            List<dynamic> unavailableTimeSpans = new List<dynamic>();
+
+            foreach (Classes classes in conflictedClassesList)
+            {
+                for (DateTime time = classes.START_DATE; time < classes.END_DATE; time = time.AddMinutes(timePortion))
+                {
+                    //int timeSpanInMinutes = (time - classesStartTime).total
+                    int rowNumber = (int)((time - classesStartTime).TotalMinutes / 15);
+                    
+                    dynamic unavailableTimeSpan = new ExpandoObject();
+                    unavailableTimeSpan.ColumnNumber = (classes.DAY_OF_WEEK - 1) < 0 ? 6 : classes.DAY_OF_WEEK - 1;
+                    unavailableTimeSpan.RowNumber = rowNumber;
+                    unavailableTimeSpan.Classes = classes;                    
+                    unavailableTimeSpan.Weeks = GetConflictedWeeksForConflictedClasses(weeks, classes);
+                    
+                    unavailableTimeSpans.Add(unavailableTimeSpan);
+                }            
+            }
+
+            return unavailableTimeSpans;
+        }        
+    }    
 
     public class ClassesWithClassesGroup_ClassesId
     {

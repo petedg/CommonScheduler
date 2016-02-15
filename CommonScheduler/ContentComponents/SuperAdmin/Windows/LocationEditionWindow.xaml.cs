@@ -56,11 +56,11 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("CITY", "CITY", false);
-            dataGrid.addTextColumn("STREET", "STREET", false);
-            dataGrid.addTextColumn("STREET_NUMBER", "STREET_NUMBER", false);
-            dataGrid.addTextColumn("POSTAL_CODE", "POSTAL_CODE", false);            
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("MIASTO", "CITY", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("ULICA", "STREET", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("NUMER_ULICY", "STREET_NUMBER", false, DataGridLength.Auto);
+            dataGrid.addTextColumn("KOD_POCZTOWY", "POSTAL_CODE", false, DataGridLength.Auto);            
         }        
 
         private void reinitializeList()

@@ -76,10 +76,10 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
 
         private void setColumns()
         {
-            dataGrid.addSemesterComboBoxColumn("SEMESTER_TYPE", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false);
-            dataGrid.addDatePickerColumn("START_DATE", "START_DATE");
-            dataGrid.addDatePickerColumn("END_DATE", "END_DATE");
-            dataGrid.addCheckBoxColumn("IS_ACTIVE", "IS_ACTIVE", false, semesterCheckBox_Checked, semesterCheckBox_Unchecked);
+            dataGrid.addSemesterComboBoxColumn("RODZAJ_SEMESTRU", "SEMESTER_TYPE_DV_ID", SemesterTypes, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addDatePickerColumn("DATA_ROZPOCZĘCIA", "START_DATE",  new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addDatePickerColumn("DATA_ZAKOŃCZENIA", "END_DATE",  new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addCheckBoxColumn("CZY_AKTYWNY", "IS_ACTIVE", false, semesterCheckBox_Checked, semesterCheckBox_Unchecked, DataGridLength.Auto);
         }
 
         void semesterCheckBox_Checked(object sender, RoutedEventArgs e)

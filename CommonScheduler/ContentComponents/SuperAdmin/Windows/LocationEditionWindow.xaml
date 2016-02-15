@@ -2,8 +2,8 @@
         xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents"
-        Title="LocationEditionWindow" Height="480" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        xmlns:mycomp="clr-namespace:CommonScheduler.ContentComponents" Height="480" Width="640"
+        Title="LocationEditionWindow" MinHeight="480" MinWidth="640" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
     <Grid Name="grid">
         <ToolBarTray>
             <ToolBar Margin="0,2,0,0">

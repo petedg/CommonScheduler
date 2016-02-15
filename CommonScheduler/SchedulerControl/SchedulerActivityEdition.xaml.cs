@@ -55,6 +55,8 @@ namespace CommonScheduler.SchedulerControl
         private int scheduleTimeLineStart;
         private int scheduleTimeLineEnd;
         private int timePortion;
+        private int maximumTimeSpanValueHour;
+        private int maximumTimeSpanValueMinute;
 
         public SchedulerActivityEdition(SchedulerGroupType groupType, int groupID, Classes editedClasses, int timePortion, int scheduleTimeLineStart, int scheduleTimeLineEnd)
         {
@@ -77,7 +79,25 @@ namespace CommonScheduler.SchedulerControl
             this.subjectDefinitionBehavior = new SubjectDefinition(context);
 
             this.EditedClasses = editedClasses;
-            this.classes = classesBehavior.GetClassesById(editedClasses.ID);
+            //this.classes = classesBehavior.GetClassesById(editedClasses.ID);
+            this.classes = new Classes { 
+                CLASSESS_TYPE_DV_ID = editedClasses.CLASSESS_TYPE_DV_ID,
+                DATE_CREATED = editedClasses.DATE_CREATED,
+                DATE_MODIFIED = editedClasses.DATE_MODIFIED,
+                DAY_OF_WEEK = editedClasses.DAY_OF_WEEK,
+                END_DATE = editedClasses.END_DATE,
+                EXTERNALTEACHER_ID = editedClasses.EXTERNALTEACHER_ID,
+                ID = editedClasses.ID,
+                ID_CREATED = editedClasses.ID_CREATED,
+                ID_MODIFIED = editedClasses.ID_MODIFIED,
+                Room_ID = editedClasses.Room_ID,
+                SCOPE_LEVEL = editedClasses.SCOPE_LEVEL,
+                SPECIALLOCATION_ID = editedClasses.SPECIALLOCATION_ID,
+                START_DATE = editedClasses.START_DATE,
+                SUBJECT_NAME = editedClasses.SUBJECT_NAME,
+                SUBJECT_SHORT = editedClasses.SUBJECT_SHORT,
+                TEACHER_ID = EditedClasses.TEACHER_ID
+            };
             this.teacher = teacherBehavior.GetTeacherByID(classes.TEACHER_ID);            
 
             initializeTeachersList();
@@ -94,12 +114,18 @@ namespace CommonScheduler.SchedulerControl
             this.scheduleTimeLineEnd = scheduleTimeLineEnd;
             this.timePortion = timePortion;
 
-            timeSpan.Minimum = timePortion / 60d;
+            timeSpanHour.Minimum = 0;
             int minutesFromMidnightToClassesStart = EditedClasses.START_DATE.Hour * 60 + EditedClasses.START_DATE.Minute;
-            double maximumValue = (scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d;
-            timeSpan.Maximum = maximumValue;
-            timeSpan.Increment = timePortion / 60d;
-            timeSpan.Value = ((double)(EditedClasses.END_DATE - EditedClasses.START_DATE).Hours) + ((EditedClasses.END_DATE - EditedClasses.START_DATE).Minutes) / 60d;
+            maximumTimeSpanValueHour = (int)((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d);
+            maximumTimeSpanValueMinute = (int)(((int)(((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d) * 100) % 100) / 100d * 60d);
+            timeSpanHour.Maximum = maximumTimeSpanValueHour;
+            timeSpanHour.Increment = 1;
+            timeSpanHour.DefaultValue = (EditedClasses.END_DATE - EditedClasses.START_DATE).Hours;
+
+            timeSpanMinute.Minimum = 0;
+            timeSpanMinute.Maximum = 45;
+            timeSpanMinute.Increment = 15;
+            timeSpanMinute.DefaultValue = (EditedClasses.END_DATE - EditedClasses.START_DATE).Minutes;
 
             windowLabel.Content = editedClasses.SUBJECT_NAME + " (" + editedClasses.SUBJECT_SHORT + ") - "
                 + DayOfWeekTranslator.TranslateDayOfWeek(((DayOfWeek)editedClasses.DAY_OF_WEEK)) + " " + editedClasses.START_DATE.ToShortTimeString() + " - " + editedClasses.END_DATE.ToShortTimeString();
@@ -194,27 +220,36 @@ namespace CommonScheduler.SchedulerControl
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if(externalTeacher != null)
-                context.Entry(externalTeacher).State = EntityState.Modified;
-
-            foreach (ClassesWeek cw in classesWeekAssociations)
+            if (classesBehavior.GetNumberOfConflictedClasses(classes, weekBehavior.GetListForClasses(classes)) > 0)
             {
-                context.ClassesWeek.Add(cw);
+                MessageBox.Show("Wybrany termin zajęć koliduje z innymi zajęciami nauczyciela lub sali. Aby dodać powyższe zajęcia użyj opcji dodawania nowych zajęć." +
+                    " Niedostępne terminy są tam oznaczone kolorem czerwonym.",
+                                "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            else
+            {
+                if (externalTeacher != null)
+                    context.Entry(externalTeacher).State = EntityState.Modified;
 
-            context.SaveChanges();
-            this.EditedClasses.CLASSESS_TYPE_DV_ID = classes.CLASSESS_TYPE_DV_ID;
-            this.EditedClasses.DATE_MODIFIED = classes.DATE_MODIFIED;
-            this.EditedClasses.END_DATE = classes.END_DATE;
-            this.EditedClasses.EXTERNALTEACHER_ID = classes.EXTERNALTEACHER_ID;
-            this.EditedClasses.ID_MODIFIED = classes.ID_MODIFIED;
-            this.EditedClasses.Room_ID = classes.Room_ID;
-            this.EditedClasses.SPECIALLOCATION_ID = classes.SPECIALLOCATION_ID;
-            this.EditedClasses.START_DATE = classes.START_DATE;
-            this.EditedClasses.SUBJECT_NAME = classes.SUBJECT_NAME;
-            this.EditedClasses.SUBJECT_SHORT = classes.SUBJECT_SHORT;
-            this.EditedClasses.TEACHER_ID = classes.TEACHER_ID;                        
-            this.Close();
+                foreach (ClassesWeek cw in classesWeekAssociations)
+                {
+                    context.ClassesWeek.Add(cw);
+                }
+
+                context.SaveChanges();
+                this.EditedClasses.CLASSESS_TYPE_DV_ID = classes.CLASSESS_TYPE_DV_ID;
+                this.EditedClasses.DATE_MODIFIED = classes.DATE_MODIFIED;
+                this.EditedClasses.END_DATE = classes.END_DATE;
+                this.EditedClasses.EXTERNALTEACHER_ID = classes.EXTERNALTEACHER_ID;
+                this.EditedClasses.ID_MODIFIED = classes.ID_MODIFIED;
+                this.EditedClasses.Room_ID = classes.Room_ID;
+                this.EditedClasses.SPECIALLOCATION_ID = classes.SPECIALLOCATION_ID;
+                this.EditedClasses.START_DATE = classes.START_DATE;
+                this.EditedClasses.SUBJECT_NAME = classes.SUBJECT_NAME;
+                this.EditedClasses.SUBJECT_SHORT = classes.SUBJECT_SHORT;
+                this.EditedClasses.TEACHER_ID = classes.TEACHER_ID;
+                this.Close();
+            }            
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -379,24 +414,24 @@ namespace CommonScheduler.SchedulerControl
             }
         }
 
-        private void timeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (((double)e.NewValue * 60) % 15 != 0)
-            {
-                if (e.OldValue != null)
-                {
-                    timeSpan.Value = (double)e.OldValue;
-                }
-                else
-                {
-                    timeSpan.Value = timeSpan.DefaultValue;
-                }
-            }
-            else
-            {
-                classes.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);
-            }
-        }
+        //private void timeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    if (((double)e.NewValue * 60) % 15 != 0)
+        //    {
+        //        if (e.OldValue != null)
+        //        {
+        //            timeSpan.Value = (double)e.OldValue;
+        //        }
+        //        else
+        //        {
+        //            timeSpan.Value = timeSpan.DefaultValue;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        classes.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);
+        //    }
+        //}
 
         private void initializeClassesChooser()
         {
@@ -444,9 +479,66 @@ namespace CommonScheduler.SchedulerControl
                 classesName.Text = subjectDef.NAME;
                 classesShort.Text = subjectDef.NAME_SHORT;
                 classesType.SelectedValue = subjectDef.CLASSES_TYPE_DV_ID;
-                timeSpan.Value = subjectDef.HOURS_IN_SEMESTER / 20d;
+                timeSpanHour.Value = (int)(subjectDef.HOURS_IN_SEMESTER / 20d);
+                timeSpanMinute.Value = (int)((subjectDef.HOURS_IN_SEMESTER / 20d - (int)(subjectDef.HOURS_IN_SEMESTER / 20d)) * 60d);
+                //timeSpan.Value = subjectDef.HOURS_IN_SEMESTER / 20d;
                 classesChooser.SelectedItem = null;
             }
+        }
+
+        private void timeSpanHour_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
+
+            classes.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);
+
+            if ((int?)timeSpanMinute.Value != null)
+                checkTimeSpanConstraint();
+
+            timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
+        }
+
+        private void timeSpanMinute_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
+
+            if ((int)e.NewValue % 15 != 0)
+            {
+                if (e.OldValue != null)
+                {
+                    timeSpanMinute.Value = (int)e.OldValue;
+                }
+                else
+                {
+                    timeSpanMinute.Value = 0;
+                }
+            }
+            else
+            {
+                classes.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);
+                checkTimeSpanConstraint();
+            }
+
+            timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
+        }
+
+        private void checkTimeSpanConstraint()
+        {
+            if (timeSpanHour.Value == maximumTimeSpanValueHour && timeSpanMinute.Value > maximumTimeSpanValueMinute)
+            {
+                timeSpanHour.Value = maximumTimeSpanValueHour;
+                timeSpanMinute.Value = maximumTimeSpanValueMinute;
+            }
+
+            if (timeSpanHour.Value == 0 && timeSpanMinute.Value == 0)
+            {
+                timeSpanHour.Value = 0;
+                timeSpanMinute.Value = 15;
+            }            
         }
     }
 }

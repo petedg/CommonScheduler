@@ -3,6 +3,7 @@ using CommonScheduler.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace CommonScheduler.SchedulerControl
     public partial class SchedulerGrid : UserControl
     {
         private serverDBEntities context;
+        private Classes classesBehavior;
+        private Week weekBahavior;
 
         private DateTime scheduleTimeLineStart;
         private DateTime scheduleTimeLineEnd;
@@ -60,6 +63,8 @@ namespace CommonScheduler.SchedulerControl
 
             IsExport = false;
             this.context = context;
+            this.classesBehavior = new Classes(context);
+            this.weekBahavior = new Week(context);
             this.SchedulerGroupType = schedulerGroupType;
             this.GroupId = groupId;
 
@@ -327,27 +332,33 @@ namespace CommonScheduler.SchedulerControl
                 SchedulerActivityAddition activityEditionWindow = new SchedulerActivityAddition(SchedulerGroupType, GroupId, nextClassesStartDate, timePortion, scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
                 activityEditionWindow.Owner = Application.Current.MainWindow;
                 activityEditionWindow.Title = "Dodawanie zajęć";
-                activityEditionWindow.ShowDialog();
+                activityEditionWindow.ShowDialog();                
 
                 if (activityEditionWindow.NewClasses != null)
                 {                      
-                    SchedulerActivity nextActivity = addActivity(ActivityStatus.INSERTED, activityEditionWindow.NewClasses);     
+                    SchedulerActivity nextActivity = addActivity(ActivityStatus.INSERTED, activityEditionWindow.NewClasses);                    
+                    
                     int minutesBetweenStartAndEnd = (activityEditionWindow.NewClasses.END_DATE - activityEditionWindow.NewClasses.START_DATE).Hours * 60 +
                         (activityEditionWindow.NewClasses.END_DATE - activityEditionWindow.NewClasses.START_DATE).Minutes;
-                    int  endRowNumber = rowNumber + ((minutesBetweenStartAndEnd / timePortion) -1);                   
-                    if (!activityConflictOccurrence(columnNumber, rowNumber, endRowNumber))
-                    {
-                        nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, endRowNumber, true);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Podany termin koliduje z uprzednio wprowadzonymi zajęciami. Czas trwania dodanych zajęć został skrócony. Aby ponownie ustawić termin"
-                            + " konieczna jest edycja zajęć.", "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-                        nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, rowNumber, true);
-                    }                    
+                    int endRowNumber = rowNumber + ((minutesBetweenStartAndEnd / timePortion) - 1);   
+                    nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, endRowNumber, false);                    
+
+                    timeSpanEditMode = TimeSpanEditionMode.AFTER_ADDITION;
+                    setTimeStartItem_Click(nextActivity, new RoutedEventArgs());
+                    
+                    //if (!activityConflictOccurrence(columnNumber, rowNumber, endRowNumber, nextActivity))
+                    //{
+                    //    nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, endRowNumber, true);
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("Podany termin koliduje z uprzednio wprowadzonymi zajęciami. Czas trwania dodanych zajęć został skrócony. Aby ponownie ustawić termin"
+                    //        + " konieczna jest edycja zajęć.", "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //    nextActivity.SetActivityTimeSpan(columnNumber, rowNumber, rowNumber, true);
+                    //}                    
                 }                
 
-                repaintActivities();
+                //repaintActivities();
             }
         }
 
@@ -355,18 +366,39 @@ namespace CommonScheduler.SchedulerControl
         {
             if (e.ClickCount == 2 && stretchedActivity == null)
             {
-                SchedulerActivity activity = (SchedulerActivity)sender;
+                SchedulerActivity activity = (SchedulerActivity)sender;                
 
-                if (activity.IsEditable)
+                if (activity.IsEditable)               
                 {
+                    int previousRowNumber = (int)((activity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / 15);
+                    int prevMinutesBetweenStartAndEnd = (activity.Classes.END_DATE - activity.Classes.START_DATE).Hours * 60 +
+                        (activity.Classes.END_DATE - activity.Classes.START_DATE).Minutes;
+                    int previousEndRowNumber = previousRowNumber + ((prevMinutesBetweenStartAndEnd / timePortion) - 1);
+
                     SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(SchedulerGroupType, GroupId, activity.Classes, timePortion, 
                         scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
                     activityEditionWindow.Owner = Application.Current.MainWindow;
                     activityEditionWindow.Title = "Edycja zajęć";
                     activityEditionWindow.ShowDialog();
-                    
-                    activity.Classes = activityEditionWindow.EditedClasses;
-                    activity.refreshActivityTimeSpan();
+
+                    int rowNumber = (int)((activity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / 15);
+                    int columnNumber = activity.Classes.DAY_OF_WEEK - 1 < 0 ? 6 : activity.Classes.DAY_OF_WEEK - 1;
+                    int minutesBetweenStartAndEnd = (activity.Classes.END_DATE - activity.Classes.START_DATE).Hours * 60 +
+                        (activity.Classes.END_DATE - activity.Classes.START_DATE).Minutes;
+                    int endRowNumber = rowNumber + ((minutesBetweenStartAndEnd / timePortion) - 1);
+
+                    if (!activityConflictOccurrence(columnNumber, rowNumber, endRowNumber, activity))
+                    {
+                        activity.Classes = activityEditionWindow.EditedClasses;
+                        activity.refreshActivityTimeSpan();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Podany termin koliduje z uprzednio wprowadzonymi zajęciami. Zmiany nie zostały wprowadzone.", "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                        activity.SetActivityTimeSpan(columnNumber, previousRowNumber, previousEndRowNumber, false);
+                    }     
+
+                    //timeSpanEditMode = TimeSpanEditionMode.AFTER_EDITION;
                     repaintActivities();                  
                 }                
             }
@@ -403,9 +435,24 @@ namespace CommonScheduler.SchedulerControl
                         secondTempGridRowProperty = temp_tempGridRowProperty;
                     }
 
-                    if (!activityConflictOccurrence(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty))
+                    if (!activityConflictOccurrence(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, null))
                     {
+                        int tempColumn = stretchedActivity.Classes.DAY_OF_WEEK - 1 < 0 ? 6 : stretchedActivity.Classes.DAY_OF_WEEK - 1;
+                        int tempStartRow = (int)((stretchedActivity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / timePortion);
+                        int tempEndRow = (int)(((stretchedActivity.Classes.END_DATE - scheduleTimeLineStart).TotalMinutes - 15) / timePortion);
+
                         stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, false);
+
+                        if (classesBehavior.GetNumberOfConflictedClasses(stretchedActivity.Classes, weekBahavior.GetListForClasses(stretchedActivity.Classes)) > 0)
+                        {
+                            MessageBox.Show("Wybrany termin zajęć koliduje z innymi zajęciami nauczyciela lub sali. Niedostępne terminy są oznaczone na siatce kolorem czerwonym.",
+                                "Błędny termin zajęć", MessageBoxButton.OK, MessageBoxImage.Error);
+                            stretchedActivity.SetActivityTimeSpan(tempColumn, tempStartRow, tempEndRow, false);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wybrany termin zajęć koliduje z uprzednio wprowadzonymi zajęciami dla grupy.", "Błędny termin zajęć", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
 
@@ -417,13 +464,13 @@ namespace CommonScheduler.SchedulerControl
             }            
         }
 
-        private bool activityConflictOccurrence(int gridColumn, int startGridRow, int endGridRow)
+        private bool activityConflictOccurrence(int gridColumn, int startGridRow, int endGridRow, UIElement addedActivity)
         {
             foreach (UIElement element in mainGrid.Children)
             {
                 if ((int)element.GetValue(Grid.ColumnProperty) == gridColumn && (int)element.GetValue(Grid.RowProperty) >= startGridRow  && (int)element.GetValue(Grid.RowProperty) <= endGridRow)
                 {
-                    if (element.GetType() != typeof(Rectangle) && element.GetType() != typeof(Border))
+                    if (element.GetType() != typeof(Rectangle) && element.GetType() != typeof(Border) && element != addedActivity)
                     {
                         return true;
                     }
@@ -437,13 +484,23 @@ namespace CommonScheduler.SchedulerControl
         {
             if (stretchedActivity != null)
             {
+                toggleContextMenu();
                 stretchedActivity.IsBeingStreched = true;
                 stretchedActivity.toggleAdornerVisibility();
                 repaintActivities();
-                setMouseOver(stretchedActivity);                          
+
+                List<Week> weeksForClasses = weekBahavior.GetListForClasses(stretchedActivity.Classes);
+                List<Classes> conflictedClassesForTeacher = classesBehavior.GetConflictedClassesForTeacher(stretchedActivity.Classes, weeksForClasses);
+                List<Classes> conflictedClassesForRoom = classesBehavior.GetConflictedClassesForRoom(stretchedActivity.Classes, weeksForClasses);
+
+                List<dynamic> unavailableTimeSpansForTeacher = classesBehavior.GetUnavailableTimeSpans(stretchedActivity.Day, conflictedClassesForTeacher, weeksForClasses);
+                List<dynamic> unavailableTimeSpansForRoom = classesBehavior.GetUnavailableTimeSpans(stretchedActivity.Day, conflictedClassesForRoom, weeksForClasses);
+
+                setMouseOver(stretchedActivity, unavailableTimeSpansForTeacher, unavailableTimeSpansForRoom);               
             }
             else
             {
+                toggleContextMenu();
                 repaintActivities();
                 removeMouseOver();
             }
@@ -451,14 +508,40 @@ namespace CommonScheduler.SchedulerControl
             toggleAdorners();
         }
 
-        private void setMouseOver(SchedulerActivity stretchedActivity)
+        private void setMouseOver(SchedulerActivity stretchedActivity, List<dynamic> unavailableTimeSpansForTeacher, List<dynamic> unavailableTimeSpansForRoom)
         {
             foreach (UIElement o in mainGrid.Children)
             {
                 if (o.GetType() == typeof(Rectangle))
                 {
-                    ((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
-                    ((Rectangle)o).Cursor = Cursors.Hand;       
+                    //((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
+                    //((Rectangle)o).Cursor = Cursors.Hand;       
+
+                    int columnProp = (int)o.GetValue(Grid.ColumnProperty);
+                    int rowProp = (int)o.GetValue(Grid.RowProperty);
+
+                    var unavailableForTeacher = from un in unavailableTimeSpansForTeacher
+                                                where un.ColumnNumber == columnProp && un.RowNumber == rowProp
+                                                select un;
+
+                    var unavailableForRoom = from un in unavailableTimeSpansForRoom
+                                             where un.ColumnNumber == columnProp && un.RowNumber == rowProp
+                                             select un;
+
+                    List<dynamic> unavailableT = unavailableForTeacher.ToList();
+                    List<dynamic> unavailableR = unavailableForRoom.ToList();
+
+                    if (unavailableT.Count == 0 && unavailableR.Count == 0)
+                    {
+                        ((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(content_MouseClick);
+                        ((Rectangle)o).Cursor = Cursors.Hand;
+                    }
+                    else
+                    {
+                        //((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(timeStart_Click);
+                        ((Rectangle)o).Fill = Brushes.Red;
+                        ((Rectangle)o).Cursor = Cursors.Arrow;
+                    }                    
                 }
             }
         }
@@ -470,6 +553,7 @@ namespace CommonScheduler.SchedulerControl
                 if (o.GetType() == typeof(Rectangle))
                 {
                     ((Rectangle)o).MouseLeftButtonDown -= new MouseButtonEventHandler(content_MouseClick);
+                    ((Rectangle)o).Fill = Brushes.White;
                     ((Rectangle)o).Cursor = Cursors.Arrow; 
                 }
             }
@@ -498,6 +582,14 @@ namespace CommonScheduler.SchedulerControl
                 Height = 12,
                 Fill = new VisualBrush { Visual = (Canvas)FindResource("appbar_clock") }
             };
+            Rectangle setTimeStartIcon = new Rectangle
+            {
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                Width = 12,
+                Height = 12,
+                Fill = new VisualBrush { Visual = (Canvas)FindResource("appbar_timer_play") }
+            };
             Rectangle deleteItemIcon = new Rectangle
             {
                 VerticalAlignment = System.Windows.VerticalAlignment.Center,
@@ -508,15 +600,18 @@ namespace CommonScheduler.SchedulerControl
             };
 
             MenuItem editionItem = new MenuItem { Header = "Edytuj", Icon = editionIcon };
+            MenuItem setTimeStartItem = new MenuItem { Header = "Ustaw godzinę rozpoczęcia", Icon = setTimeStartIcon };
             MenuItem setTimeSpanItem = new MenuItem { Header = "Zmień termin", Icon = setTimeSpanIcon };
             MenuItem deleteItem = new MenuItem { Header = "Usuń", Icon = deleteItemIcon };
 
             editionItem.Click += editionItem_Click;
+            setTimeStartItem.Click += setTimeStartItem_Click;
             setTimeSpanItem.Click += setTimeSpanItem_Click;
             deleteItem.Click += deleteItem_Click;
 
             schedulerContextMenu = new ContextMenu();
             schedulerContextMenu.Items.Add(editionItem);
+            schedulerContextMenu.Items.Add(setTimeStartItem);
             schedulerContextMenu.Items.Add(setTimeSpanItem);
             schedulerContextMenu.Items.Add(deleteItem);
         }
@@ -531,6 +626,212 @@ namespace CommonScheduler.SchedulerControl
             repaintActivities();
         }
 
+        void setTimeStartItem_Click(object sender, RoutedEventArgs e)
+        {
+            SchedulerActivity current = null;
+
+            if (sender.GetType() == typeof(MenuItem) || sender.GetType().BaseType == typeof(MenuItem))
+            {
+                ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
+                current = ((SchedulerActivity)menu.PlacementTarget);
+                timeSpanEditMode = TimeSpanEditionMode.CONTEXT_MENU;
+            }
+            else if (sender.GetType() == typeof(SchedulerActivity) || sender.GetType().BaseType == typeof(SchedulerActivity))
+            {
+                current = (SchedulerActivity)sender;
+            }
+            
+            toggleContextMenu();
+
+            stretchedActivity = current;
+            stretchedActivity.IsBeingStreched = true;
+            repaintActivities();
+
+            List<Week> weeksForClasses = weekBahavior.GetListForClasses(current.Classes);
+            List<Classes> conflictedClassesForTeacher = classesBehavior.GetConflictedClassesForTeacher(current.Classes, weeksForClasses);
+            List<Classes> conflictedClassesForRoom = classesBehavior.GetConflictedClassesForRoom(current.Classes, weeksForClasses);
+
+            List<dynamic> unavailableTimeSpansForTeacher = classesBehavior.GetUnavailableTimeSpans(current.Day, conflictedClassesForTeacher, weeksForClasses);
+            List<dynamic> unavailableTimeSpansForRoom = classesBehavior.GetUnavailableTimeSpans(current.Day, conflictedClassesForRoom, weeksForClasses);
+
+            setTimeStartMouseOver(stretchedActivity, unavailableTimeSpansForTeacher, unavailableTimeSpansForRoom);
+        }
+
+        private void setTimeStartMouseOver(SchedulerActivity stretchedActivity, List<dynamic> unavailableTimeSpansForTeacher, List<dynamic> unavailableTimeSpansForRoom)
+        {
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if (o.GetType() == typeof(Rectangle))
+                {
+                    int columnProp = (int)o.GetValue(Grid.ColumnProperty);
+                    int rowProp = (int)o.GetValue(Grid.RowProperty);
+
+                    var unavailableForTeacher = from un in unavailableTimeSpansForTeacher
+                                                where un.ColumnNumber == columnProp && un.RowNumber == rowProp
+                                                select un;
+
+                    var unavailableForRoom = from un in unavailableTimeSpansForRoom
+                                                where un.ColumnNumber == columnProp && un.RowNumber == rowProp
+                                                select un;
+
+                    List<dynamic> unavailableT = unavailableForTeacher.ToList();
+                    List<dynamic> unavailableR = unavailableForRoom.ToList();
+
+                    if (unavailableT.Count == 0 && unavailableR.Count == 0)
+                    {
+                        ((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(timeStart_Click);
+                        ((Rectangle)o).Cursor = Cursors.Hand;
+                    }
+                    else
+                    {
+                        //((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(timeStart_Click);
+                        ((Rectangle)o).Fill = Brushes.Red;
+                        ((Rectangle)o).Cursor = Cursors.Arrow;
+                    }                    
+                }
+            }
+        }
+
+        private void removeTimeStartMouseOver()
+        {
+            foreach (UIElement o in mainGrid.Children)
+            {
+                if (o.GetType() == typeof(Rectangle))
+                {
+                    ((Rectangle)o).MouseLeftButtonDown -= new MouseButtonEventHandler(timeStart_Click);
+                    ((Rectangle)o).Fill = Brushes.White;
+                    ((Rectangle)o).Cursor = Cursors.Arrow;
+                }
+            }
+        }
+
+        void timeStart_Click(object sender, MouseButtonEventArgs e)
+        {
+            tempGridRowProperty = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
+            tempGridColumnProperty = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
+
+            double duration = (stretchedActivity.Classes.END_DATE - stretchedActivity.Classes.START_DATE).Hours + 
+                (stretchedActivity.Classes.END_DATE - stretchedActivity.Classes.START_DATE).Minutes / 60d;
+            int secondTempGridRowProperty = tempGridRowProperty + (int)(duration / 0.25d) -1;
+
+            string errorMessage = null;
+
+            if (secondTempGridRowProperty > ((scheduleTimeLineEnd - scheduleTimeLineStart).TotalMinutes / 15 - 1))
+            {
+                errorMessage = "Godzina zakończenia wybranych zajęć wykracza poza ramy czasowe siatki (" + scheduleTimeLineStart.ToShortTimeString() + " - " + scheduleTimeLineEnd.ToShortTimeString() + ").";
+            }
+            else
+            {
+                if (!activityConflictOccurrence(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, null))
+                {
+                    int tempColumn = stretchedActivity.Classes.DAY_OF_WEEK - 1 < 0 ? 6 : stretchedActivity.Classes.DAY_OF_WEEK - 1;
+                    int tempStartRow = (int)((stretchedActivity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / timePortion);
+                    int tempEndRow = (int)(((stretchedActivity.Classes.END_DATE - scheduleTimeLineStart).TotalMinutes - 15) / timePortion);
+
+                    //if (timeSpanEditMode == TimeSpanEditionMode.CONTEXT_MENU)
+                    //{
+                        
+                    //}
+                    //else
+                    //{
+                    stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, false);
+                    //}
+
+                    if (classesBehavior.GetNumberOfConflictedClasses(stretchedActivity.Classes, weekBahavior.GetListForClasses(stretchedActivity.Classes)) > 0)
+                    {
+                        errorMessage = "Wybrany termin zajęć koliduje z innymi zajęciami nauczyciela lub sali. Niedostępne terminy są oznaczone na siatce kolorem czerwonym.";
+                        stretchedActivity.SetActivityTimeSpan(tempColumn, tempStartRow, tempEndRow, false);
+                    }
+                    else
+                    {
+                        if (timeSpanEditMode == TimeSpanEditionMode.AFTER_ADDITION)
+                        {
+                            var adapter = (IObjectContextAdapter)context;
+                            var objectContext = adapter.ObjectContext;
+                            objectContext.Detach(stretchedActivity.Classes);
+
+                            stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, true);
+
+                            context.Classes.Attach(stretchedActivity.Classes);
+                        }
+                        else
+                        {
+                            stretchedActivity.SetActivityTimeSpan(tempGridColumnProperty, tempGridRowProperty, secondTempGridRowProperty, false);
+                        }                        
+                    }
+                }
+                else
+                {
+                    errorMessage = "Wybrany termin zajęć koliduje z uprzednio wprowadzonymi zajęciami dla grupy.";
+                }
+            }
+
+            SchedulerActivity stretchedActivityToReset = stretchedActivity;
+
+            toggleContextMenu();
+            tempGridRowProperty = -1;
+            tempGridColumnProperty = -1;
+            stretchedActivity.IsBeingStreched = false;
+            stretchedActivity = null;
+            repaintActivities();
+            removeTimeStartMouseOver();
+
+            if (errorMessage != null)
+            {
+                processTimeSpanEditError(errorMessage, stretchedActivityToReset);
+            }
+            //else
+            //{
+            //    if (timeSpanEditMode == TimeSpanEditionMode.AFTER_ADDITION)
+            //    {
+            //        addActivity(ActivityStatus.INSERTED, stretchedActivityToReset.Classes);
+            //        repaintActivities();
+            //    }
+            //}
+        }
+
+        private TimeSpanEditionMode timeSpanEditMode;
+
+        private void processTimeSpanEditError(string errorMessage, SchedulerActivity stretchedActivity)
+        {
+            if (errorMessage != null)
+            {
+                switch (timeSpanEditMode)
+                {
+                    case TimeSpanEditionMode.CONTEXT_MENU:
+                        MessageBox.Show(errorMessage, "Błędny termin zajęć", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+
+                    case TimeSpanEditionMode.AFTER_ADDITION:
+                        MessageBoxResult s = MessageBox.Show(errorMessage + "\nCzy wybrać ponownie?", "Błędny termin zajęć.", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                        if (s == MessageBoxResult.Yes)
+                        {
+                            setTimeStartItem_Click(stretchedActivity, new RoutedEventArgs());
+                        }
+                        else if (s == MessageBoxResult.No)
+                        {
+                            removeActivity(stretchedActivity);
+
+                            var adapter = (IObjectContextAdapter)context;
+                            var objectContext = adapter.ObjectContext;
+                            objectContext.Detach(stretchedActivity.Classes);
+
+                            using (serverDBEntities con11 = new serverDBEntities())
+                            {
+                                Classes classBeh = new Classes(con11);
+                                classBeh.RemoveClasses(stretchedActivity.Classes);
+                                con11.SaveChanges();
+                            }
+                            repaintActivities();
+                        }
+                        break;
+
+                    case TimeSpanEditionMode.AFTER_EDITION:
+                        break;
+                }
+            }            
+        }
+
         void setTimeSpanItem_Click(object sender, RoutedEventArgs e)
         {
             ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
@@ -538,22 +839,43 @@ namespace CommonScheduler.SchedulerControl
 
             stretchedActivity = current;
             toggleMouseOver();
-        }
+        }        
 
         void editionItem_Click(object sender, RoutedEventArgs e)
         {
             ContextMenu menu = (ContextMenu)(((MenuItem)sender).Parent);
-            SchedulerActivity currentActivity = ((SchedulerActivity)menu.PlacementTarget);
+            SchedulerActivity activity = ((SchedulerActivity)menu.PlacementTarget);
 
-            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(SchedulerGroupType, GroupId, currentActivity.Classes, timePortion, 
+            int previousRowNumber = (int)((activity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / 15);
+            int prevMinutesBetweenStartAndEnd = (activity.Classes.END_DATE - activity.Classes.START_DATE).Hours * 60 +
+                (activity.Classes.END_DATE - activity.Classes.START_DATE).Minutes;
+            int previousEndRowNumber = previousRowNumber + ((prevMinutesBetweenStartAndEnd / timePortion) - 1);
+
+            SchedulerActivityEdition activityEditionWindow = new SchedulerActivityEdition(SchedulerGroupType, GroupId, activity.Classes, timePortion,
                 scheduleTimeLineStart.Hour, scheduleTimeLineEnd.Hour);
             activityEditionWindow.Owner = Application.Current.MainWindow;
             activityEditionWindow.Title = "Edycja zajęć";
             activityEditionWindow.ShowDialog();
-            
-            currentActivity.Classes = activityEditionWindow.EditedClasses;
-            currentActivity.refreshActivityTimeSpan();
-            repaintActivities();
+
+            int rowNumber = (int)((activity.Classes.START_DATE - scheduleTimeLineStart).TotalMinutes / 15);
+            int columnNumber = activity.Classes.DAY_OF_WEEK - 1 < 0 ? 6 : activity.Classes.DAY_OF_WEEK - 1;
+            int minutesBetweenStartAndEnd = (activity.Classes.END_DATE - activity.Classes.START_DATE).Hours * 60 +
+                (activity.Classes.END_DATE - activity.Classes.START_DATE).Minutes;
+            int endRowNumber = rowNumber + ((minutesBetweenStartAndEnd / timePortion) - 1);
+
+            if (!activityConflictOccurrence(columnNumber, rowNumber, endRowNumber, activity))
+            {
+                activity.Classes = activityEditionWindow.EditedClasses;
+                activity.refreshActivityTimeSpan();
+            }
+            else
+            {
+                MessageBox.Show("Podany termin koliduje z uprzednio wprowadzonymi zajęciami. Zmiany nie zostały wprowadzone.", "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                activity.SetActivityTimeSpan(columnNumber, previousRowNumber, previousEndRowNumber, false);
+            }
+
+            //timeSpanEditMode = TimeSpanEditionMode.AFTER_EDITION;
+            repaintActivities();                        
         }
 
         private void prepareGridImgExport(double width, double height, bool scrolBarVisibilityCheck)
@@ -598,5 +920,41 @@ namespace CommonScheduler.SchedulerControl
         {
             
         }
+
+        private void toggleContextMenu()
+        {
+            foreach (SchedulerActivity activity in Activities)
+            {
+                if (activity.IsEditable == true)
+                {
+                    if (activity.ContextMenu == null)
+                    {
+                        activity.ContextMenu = schedulerContextMenu;
+                    }
+                    else
+                    {
+                        activity.ContextMenu = null;
+                    }
+                }                
+            }
+        }
+
+        //public void BeforeCancel()
+        //{
+        //    List<SchedulerActivity> activitiesToRemove = new List<SchedulerActivity>();
+
+        //    foreach (SchedulerActivity activity in Activities)
+        //    {
+        //        if (activity.IsBeingStreched)
+        //        {
+        //            activitiesToRemove.Add(activity);
+        //        }
+        //    }
+
+        //    foreach (SchedulerActivity activity in activitiesToRemove)
+        //    {
+        //        removeActivity(activity);
+        //    }
+        //}
     }
 }

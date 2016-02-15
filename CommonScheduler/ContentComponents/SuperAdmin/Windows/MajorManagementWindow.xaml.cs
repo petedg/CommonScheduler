@@ -65,11 +65,11 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Windows
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SHORT_NAME", "SHORT_NAME", false);
-            dataGrid.addTextColumn("WWW_HOME_PAGE", "WWW_HOME_PAGE", false);
-            dataGrid.addSemesterComboBoxColumn("MAJOR_DEGREE", "MAJOR_DEGREE_DV_ID", MajorDegrees, "DV_ID", "VALUE", false);
-            dataGrid.addSemesterComboBoxColumn("MAJOR_TYPE", "MAJOR_TYPE_DV_ID", MajorTypes, "DV_ID", "VALUE", false);
+            dataGrid.addTextColumn("NAZWA", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("SKRÓT", "SHORT_NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("STRONA_DOMOWA", "WWW_HOME_PAGE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addSemesterComboBoxColumn("STOPIEŃ STUDIÓW", "MAJOR_DEGREE_DV_ID", MajorDegrees, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addSemesterComboBoxColumn("TYP_STUDIÓW", "MAJOR_TYPE_DV_ID", MajorTypes, "DV_ID", "VALUE", false, new DataGridLength(20, DataGridLengthUnitType.Star));
         }
 
         private void reinitializeList()

@@ -68,10 +68,10 @@ namespace CommonScheduler.ContentComponents.GlobalAdmin.Controls
 
         private void setColumns()
         {
-            dataGrid.addTextColumn("NAME", "NAME", false);
-            dataGrid.addTextColumn("SURNAME", "SURNAME", false);
-            dataGrid.addTextColumn("LOGIN", "LOGIN", true);
-            dataGrid.addButtonColumn("PASSWORD", "Zresetuj hasło", dataGridButton_Click);
+            dataGrid.addTextColumn("IMIĘ", "NAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("NAZWISKO", "SURNAME", false, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addTextColumn("LOGIN", "LOGIN", true, new DataGridLength(20, DataGridLengthUnitType.Star));
+            dataGrid.addButtonColumn("HASŁO", "Zresetuj hasło", dataGridButton_Click, DataGridLength.Auto);
         }
 
         private void reinitializeList()

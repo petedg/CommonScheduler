@@ -57,6 +57,8 @@ namespace CommonScheduler.SchedulerControl
         private int scheduleTimeLineStart;
         private int scheduleTimeLineEnd;
         private int timePortion;
+        private int maximumTimeSpanValueHour;
+        private int maximumTimeSpanValueMinute;
 
         public SchedulerActivityAddition(SchedulerGroupType groupType, int groupID, DateTime classesStartDate, int timePortion, int scheduleTimeLineStart, int scheduleTimeLineEnd)
         {
@@ -102,13 +104,20 @@ namespace CommonScheduler.SchedulerControl
             };           
             ExternalTeacher = new ExternalTeacher { DATE_CREATED = DateTime.Now, NAME_SHORT = "", NAME = "", SURNAME = "", EMAIL = "", ID_CREATED = CurrentUser.Instance.UserData.ID };
             SpecialLocation = new SpecialLocation { DATE_CREATED = DateTime.Now, ID_CREATED = CurrentUser.Instance.UserData.ID, NAME_SHORT = "", NAME = "", STREET = "", POSTAL_CODE = "", STREET_NUMBER = "", CITY = "" };
-
-            timeSpan.Minimum = timePortion / 60d;
+                        
+            timeSpanHour.Minimum = 0;
             int minutesFromMidnightToClassesStart = classesStartDate.Hour * 60 + classesStartDate.Minute;
-            double maximumValue = (scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d;
-            timeSpan.Maximum = maximumValue;
-            timeSpan.Increment = timePortion / 60d;
-            timeSpan.DefaultValue = timePortion / 60d;
+            maximumTimeSpanValueHour = (int)((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d);
+            maximumTimeSpanValueMinute = (int)(((int)(((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d) * 100) % 100) / 100d * 60d);
+            timeSpanHour.Maximum = maximumTimeSpanValueHour;
+            timeSpanHour.Increment = 1;
+            timeSpanHour.DefaultValue = 0;
+                      
+
+            timeSpanMinute.Minimum = 0;
+            timeSpanMinute.Maximum = 45;
+            timeSpanMinute.Increment = 15;
+            timeSpanMinute.DefaultValue = 15;
 
             //initializeClasses(groupType);
             initializeClassesChooser();
@@ -164,7 +173,9 @@ namespace CommonScheduler.SchedulerControl
                 classesName.Text = subjectDef.NAME;
                 classesShort.Text = subjectDef.NAME_SHORT;
                 classesType.SelectedValue = subjectDef.CLASSES_TYPE_DV_ID;
-                timeSpan.Value = subjectDef.HOURS_IN_SEMESTER / 20d;
+                timeSpanHour.Value = (int)(subjectDef.HOURS_IN_SEMESTER / 20d);
+                timeSpanMinute.Value = (int)((subjectDef.HOURS_IN_SEMESTER / 20d - (int)(subjectDef.HOURS_IN_SEMESTER / 20d)) * 60d);
+                //timeSpan.Value = subjectDef.HOURS_IN_SEMESTER / 20d;
                 classesChooser.SelectedItem = null;
             }            
         }
@@ -440,23 +451,78 @@ namespace CommonScheduler.SchedulerControl
             }
         }
 
-        private void timeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //private void timeSpan_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    if (((double)e.NewValue * 60) % 15 != 0)
+        //    {
+        //        if (e.OldValue != null)
+        //        {
+        //            timeSpan.Value = (double)e.OldValue;
+        //        }
+        //        else
+        //        {
+        //            timeSpan.Value = timeSpan.DefaultValue;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);
+        //    }
+        //}
+
+        private void timeSpanHour_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (((double)e.NewValue*60) % 15 != 0)
+            timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
+
+            EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);
+
+            if((int?)timeSpanMinute.Value != null)
+                checkTimeSpanConstraint();
+
+            timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
+        }
+
+        private void timeSpanMinute_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
+
+            if ((int)e.NewValue % 15 != 0)
             {
                 if (e.OldValue != null)
                 {
-                    timeSpan.Value = (double)e.OldValue;
+                    timeSpanMinute.Value = (int)e.OldValue;
                 }
                 else
                 {
-                    timeSpan.Value = timeSpan.DefaultValue;
-                }                
+                    timeSpanMinute.Value = 0;
+                }
             }
             else
             {
-                EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((double)e.NewValue);                          
+                EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);
+                checkTimeSpanConstraint();
             }
-        }        
+
+            timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
+            timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
+        }
+
+        private void checkTimeSpanConstraint()
+        {
+            if (timeSpanHour.Value == maximumTimeSpanValueHour && timeSpanMinute.Value > maximumTimeSpanValueMinute)
+            {
+                timeSpanHour.Value = maximumTimeSpanValueHour;
+                timeSpanMinute.Value = maximumTimeSpanValueMinute;
+            }
+
+            if (timeSpanHour.Value == 0 && timeSpanMinute.Value == 0)
+            {
+                timeSpanHour.Value = 0;
+                timeSpanMinute.Value = 15;
+            }
+        }
     }
 }
