@@ -219,6 +219,12 @@
     <Compile Include="SchedulerControl\AdornerButton.xaml.cs">
       <DependentUpon>AdornerButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SchedulerControl\ConflictPopup.xaml.cs">
+      <DependentUpon>ConflictPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerControl\ConflictWindow.xaml.cs">
+      <DependentUpon>ConflictWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SchedulerControl\DayOfWeekTranslator.cs" />
     <Compile Include="SchedulerControl\Scheduler.xaml.cs">
       <DependentUpon>Scheduler.xaml</DependentUpon>
@@ -492,6 +498,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SchedulerControl\AdornerButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\ConflictPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SchedulerControl\ConflictWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

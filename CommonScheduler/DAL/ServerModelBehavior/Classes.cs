@@ -117,12 +117,14 @@ namespace CommonScheduler.DAL
         public List<Classes> GetConflictedClassesForTeacher(Classes checkedClasses, List<Week> weeks)
         {
             var localConflictedClassesList = from classes in context.Classes.Local
-                                             where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                             where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID && classes.TEACHER_ID != 3
+                                                    /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE*/
                                         select classes;
 
             var conflictedClassesList = from classes in context.Classes
-                                        where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                        where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.ID != checkedClasses.ID && classes.TEACHER_ID != 3
+                                                /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE*/
                                         select classes;
 
@@ -138,12 +140,14 @@ namespace CommonScheduler.DAL
         public List<Classes> GetConflictedClassesForRoom(Classes checkedClasses, List<Week> weeks)
         {
             var localConflictedClassesList = from classes in context.Classes.Local
-                                             where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                             where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID && classes.Room_ID != 4
+                                                    /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE  && checkedClasses.END_DATE > classes.START_DATE*/
                                         select classes;
 
             var conflictedClassesList = from classes in context.Classes
-                                        where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
+                                        where classes.Room_ID == checkedClasses.Room_ID && classes.ID != checkedClasses.ID && classes.Room_ID != 4
+                                                    /*&& classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE  && checkedClasses.END_DATE > classes.START_DATE*/
                                         select classes;
 
@@ -178,11 +182,13 @@ namespace CommonScheduler.DAL
             var localConflictedClassesList = from classes in context.Classes.Local
                                              where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                  && classes.TEACHER_ID != 3
                                              select classes;
 
             var conflictedClassesList = from classes in context.Classes
                                         where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                  && classes.TEACHER_ID != 3
                                         select classes;            
 
             var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
@@ -191,6 +197,7 @@ namespace CommonScheduler.DAL
             var improvedConflictedClassesList = from classes in bothContextsConflictedClasses
                                                 where classes.TEACHER_ID == checkedClasses.TEACHER_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                          && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                         && classes.TEACHER_ID != 3
                                                 select classes;
 
             var conflictedClassesWithWeekCheck = from classes in improvedConflictedClassesList.ToList()
@@ -205,11 +212,13 @@ namespace CommonScheduler.DAL
             var localConflictedClassesList = from classes in context.Classes.Local
                                              where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                   && classes.Room_ID != 4
                                              select classes;
 
             var conflictedClassesList = from classes in context.Classes
                                         where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                   && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                   && classes.Room_ID != 4
                                         select classes;
 
             var bothContextsConflictedClasses = localConflictedClassesList.Union(conflictedClassesList);
@@ -218,6 +227,7 @@ namespace CommonScheduler.DAL
             var improvedConflictedClassesList = from classes in bothContextsConflictedClasses.ToList()
                                                 where classes.Room_ID == checkedClasses.Room_ID && classes.DAY_OF_WEEK == checkedClasses.DAY_OF_WEEK
                                                          && checkedClasses.START_DATE < classes.END_DATE && checkedClasses.END_DATE > classes.START_DATE && classes.ID != checkedClasses.ID
+                                                          && classes.Room_ID != 4
                                                 select classes;
 
             var conflictedClassesWithWeekCheck = from classes in improvedConflictedClassesList.ToList()

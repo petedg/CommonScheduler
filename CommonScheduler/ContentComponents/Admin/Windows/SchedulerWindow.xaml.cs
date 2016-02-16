@@ -99,6 +99,7 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
             {
                 context.SaveChanges();
                 refreshContent(weekComboBox_getSelectedItemWeek());
+                System.Windows.MessageBox.Show("Pomyślnie zapisano zmiany.", "Zapisywanie zmian", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else if (e.SenderType == SenderType.CANCEL_BUTTON)
             {

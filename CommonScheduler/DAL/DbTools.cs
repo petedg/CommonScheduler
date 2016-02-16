@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CommonScheduler.DAL
 {
@@ -16,6 +17,7 @@ namespace CommonScheduler.DAL
             try
             {
                 context.SaveChanges();
+                MessageBox.Show("Pomyślnie zapisano zmiany.", "Zapisywanie zmian", MessageBoxButton.OK, MessageBoxImage.Information);
                 return true;
             }
             catch (DbEntityValidationException dbEx)

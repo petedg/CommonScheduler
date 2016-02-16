@@ -25,6 +25,17 @@ namespace CommonScheduler.DAL
             return groups.FirstOrDefault();
         }
 
+        public List<Group> GetListForClasses(Classes classes)
+        {
+            var groups = from classes_c in context.Classes
+                         join classesGroup in context.ClassesGroup on classes_c.ID equals classesGroup.Classes_ID
+                         join group_g in context.Group on classesGroup.Group_ID equals group_g.ID
+                         where classes_c.ID == classes.ID
+                         select group_g;
+
+            return groups.ToList();
+        }
+
         public List<object> GetGroupsForParentSubgroup(Subgroup parentSubgroup)
         {
             var groups = from group_1 in context.Group

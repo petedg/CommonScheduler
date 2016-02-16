@@ -1,0 +1,116 @@
+﻿<Metro:MetroWindow x:Class="CommonScheduler.SchedulerControl.ConflictWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Height="480" Width="640" Title="Lista konfliktów" MinWidth="640" MinHeight="480" ShowInTaskbar="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>        
+
+        <Label Name="headerLabel" Content="LISTA KONFLIKTÓW O GODZINIE " Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="AliceBlue"/>        
+        <Label Name="teacherNameLabel" Content="" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="LemonChiffon"/>
+        <Label Name="roomNumberLabel" Content="" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="Azure"/>
+        <Label Content="GRUPY DLA KTÓRYCH WYSTĘPUJE KONFLIT" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="LemonChiffon"/>        
+        <Label Content="GRUPY DLA KTÓRYCH WYSTĘPUJE KONFLIT" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="Azure"/>
+        <Label Content="TYGODNIE W KTÓRYCH WYSTĘPUJE KONFLIT" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="LemonChiffon"/>
+        <Label Content="TYGODNIE W KTÓRYCH WYSTĘPUJE KONFLIT" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               Background="Azure"/>
+
+        <ListBox Name="teacherConflictsListBox" Grid.Row="2" Grid.Column="0" Margin="10" SelectedValue="ID"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="teacherConflictsListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=DESCRIPTION}" TextWrapping="Wrap" Height="60" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <ListBox Name="roomConflictsListBox" Grid.Row="2" Grid.Column="1" Margin="10" SelectedValue="ID"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="roomConflictsListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=DESCRIPTION}" TextWrapping="Wrap" Height="60" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox Name="groupsForTeacherConflictsListBox" Grid.Row="4" Grid.Column="0" Margin="10" SelectedValue="ID"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="roomConflictsListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=DESCRIPTION}" TextWrapping="Wrap" Height="40" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox Name="groupsForRoomConflictsListBox" Grid.Row="4" Grid.Column="1" Margin="10" SelectedValue="ID"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="roomConflictsListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=DESCRIPTION}" TextWrapping="Wrap" Height="40" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox Name="weeksForTeacherConflictsListBox" Grid.Row="6" Grid.Column="0" Margin="10" SelectedValue="ID" DisplayMemberPath="TIME_SPAN"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="roomConflictsListBox_SelectionChanged">
+            <!--ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=TIME_SPAN}" TextWrapping="Wrap" Height="60" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate-->
+        </ListBox>
+
+        <ListBox Name="weeksForRoomConflictsListBox" Grid.Row="6" Grid.Column="1" Margin="10" SelectedValue="ID" DisplayMemberPath="TIME_SPAN"
+                 HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="roomConflictsListBox_SelectionChanged">
+            <!--ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Path=TIME_SPAN}" TextWrapping="Wrap" Height="60" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate-->
+        </ListBox>
+
+        <Border BorderThickness="1" Grid.RowSpan="1" Grid.ColumnSpan="2" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="1" Grid.Column="0" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="1" Grid.Column="1" BorderBrush="LightGray" />
+        <Border BorderThickness="0,1,0,0" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="LightGray" />
+        <Border BorderThickness="1,0,0,0" Grid.Row="2" Grid.Column="1" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="3" Grid.Column="0" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="3" Grid.Column="1" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="5" Grid.Column="0" BorderBrush="LightGray" />
+        <Border BorderThickness="1" Grid.Row="5" Grid.Column="1" BorderBrush="LightGray" />
+        <Border BorderThickness="0,1,0,0" Grid.Row="4" Grid.ColumnSpan="2" BorderBrush="LightGray" />
+        <Border BorderThickness="1,0,0,0" Grid.Row="4" Grid.Column="1" BorderBrush="LightGray" />
+        <Border BorderThickness="0,1,0,0" Grid.Row="6" Grid.ColumnSpan="2" BorderBrush="LightGray" />
+        <Border BorderThickness="1,0,0,0" Grid.Row="6" Grid.Column="1" BorderBrush="LightGray" />
+    </Grid>
+</Metro:MetroWindow>

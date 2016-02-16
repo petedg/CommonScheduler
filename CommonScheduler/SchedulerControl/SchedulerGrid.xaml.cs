@@ -687,9 +687,24 @@ namespace CommonScheduler.SchedulerControl
                         //((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(timeStart_Click);
                         ((Rectangle)o).Fill = Brushes.Red;
                         ((Rectangle)o).Cursor = Cursors.Arrow;
+                        ((Rectangle)o).MouseRightButtonDown += SchedulerGrid_MouseRightButtonDown;
+                        ((Rectangle)o).ToolTip = "Klikij PPM, aby zobaczyć listę konfliktów";
                     }                    
                 }
             }
+        }
+
+        void SchedulerGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            int rowNumber = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
+            int columnNumber = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
+            DateTime checkedTime = new DateTime(1,1,1,scheduleTimeLineStart.Hour, scheduleTimeLineStart.Minute, 0);
+            checkedTime = checkedTime.AddMinutes(rowNumber * 15);
+            int dayOfWeek = (columnNumber + 1) % 7;
+
+            Window conflictDialog = new ConflictWindow(context, stretchedActivity, checkedTime, dayOfWeek);
+            conflictDialog.Owner = ((Window)((Grid)((ContentControl)((UserControl)((Grid)this.Parent).Parent).Parent).Parent).Parent);
+            conflictDialog.ShowDialog();
         }
 
         private void removeTimeStartMouseOver()
