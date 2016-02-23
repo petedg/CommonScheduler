@@ -103,7 +103,7 @@ namespace CommonScheduler.ContentComponents.Admin.Windows
             }
             else if (e.SenderType == SenderType.CANCEL_BUTTON)
             {
-                //((Scheduler)contentControl.Content).BeforeCancel();
+                ((Scheduler)contentControl.Content).BeforeCancel();
                 context.Dispose();
                 context = new serverDBEntities();
                 weekBehavior = new Week(context);

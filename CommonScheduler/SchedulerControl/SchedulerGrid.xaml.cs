@@ -978,22 +978,20 @@ namespace CommonScheduler.SchedulerControl
             }
         }
 
-        //public void BeforeCancel()
-        //{
-        //    List<SchedulerActivity> activitiesToRemove = new List<SchedulerActivity>();
+        public void BeforeCancel()
+        {
+            if (stretchedActivity != null && timeSpanEditMode == TimeSpanEditionMode.AFTER_ADDITION)
+            {
+                var adapter = (IObjectContextAdapter)context;
+                var objectContext = adapter.ObjectContext;
+                objectContext.Detach(stretchedActivity.Classes);
 
-        //    foreach (SchedulerActivity activity in Activities)
-        //    {
-        //        if (activity.IsBeingStreched)
-        //        {
-        //            activitiesToRemove.Add(activity);
-        //        }
-        //    }
-
-        //    foreach (SchedulerActivity activity in activitiesToRemove)
-        //    {
-        //        removeActivity(activity);
-        //    }
-        //}
+                using (serverDBEntities deleteOnAddFailureContext = new serverDBEntities())
+                {
+                    new Classes(deleteOnAddFailureContext).RemoveClasses(stretchedActivity.Classes);
+                    deleteOnAddFailureContext.SaveChanges();
+                }
+            }
+        }
     }
 }

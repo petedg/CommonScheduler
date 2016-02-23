@@ -122,9 +122,9 @@ namespace CommonScheduler.SchedulerControl
             //xpsd.Close();
         }
 
-        //public void BeforeCancel()
-        //{
-        //    ((SchedulerGrid)grid.Children[0]).BeforeCancel();
-        //}
+        public void BeforeCancel()
+        {
+            ((SchedulerGrid)grid.Children[0]).BeforeCancel();
+        }
     }
 }
