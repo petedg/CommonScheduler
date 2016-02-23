@@ -93,7 +93,10 @@ namespace CommonScheduler.SchedulerControl
                 setPosition();                
             }
 
-            setActivityDescription();
+            //if (isImgExport)
+            //    context = new serverDBEntities();
+
+            setActivityDescription(isImgExport);
             this.ActivityType = selectActivityTypeValue(Classes.CLASSESS_TYPE_DV_ID);
             setBackground(isImgExport);
         }
@@ -196,12 +199,18 @@ namespace CommonScheduler.SchedulerControl
             Day = (DayOfWeek)Classes.DAY_OF_WEEK;
         }
 
-        public void setActivityDescription()
+        public void setActivityDescription(bool isImgExport = false)
         {
-            subjectTextBlock.Text = Classes.SUBJECT_SHORT + ",";
+            subjectTextBlock.Text = Classes.SUBJECT_SHORT + ",";            
 
             if (Classes.TEACHER_ID != 3)
             {
+                //var teach = from ttt in context.Teacher
+                //            where ttt.ID == Classes.TEACHER_ID
+                //            select ttt;
+
+                //teacherTextBlock.Text = teach.ToList()[0].NAME_SHORT + ",";                
+
                 teacherTextBlock.Text = teacherBehavior.GetTeacherByID(Classes.TEACHER_ID).NAME_SHORT + ",";
             }
             else
@@ -210,7 +219,7 @@ namespace CommonScheduler.SchedulerControl
                 {
                     externalTeacherBehavior = new ExternalTeacher(extraContext);
                     teacherTextBlock.Text = externalTeacherBehavior.GetExternalTeacherById((int)Classes.EXTERNALTEACHER_ID).NAME_SHORT + ",";
-                }                
+                }
             }
 
             if (Classes.Room_ID != 4)
@@ -223,8 +232,8 @@ namespace CommonScheduler.SchedulerControl
                 {
                     specialLocationBehavior = new SpecialLocation(extraContext);
                     roomTextBlock.Text = specialLocationBehavior.GetSpecialLocationById((int)Classes.SPECIALLOCATION_ID).NAME_SHORT;
-                }                 
-            }                      
+                }
+            }                                    
         }
 
         public void DeleteActvity()

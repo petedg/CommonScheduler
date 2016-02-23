@@ -148,66 +148,13 @@ namespace CommonScheduler.MenuComponents.Controls
         {
             Department currentDepartment = CurrentUser.Instance.AdminCurrentDepartment;
 
-            MessageBoxResult result = MessageBox.Show("Wykonanie tej operacji spowoduje aktualizację planu zajęć dla"
+            MessageBoxResult result = MessageBox.Show("Wykonanie tej operacji spowoduje aktualizację planu zajęć dla "
                 + currentDepartment.NAME +
                 ", bez możliwości powrotu. Czy kontynuować?", "Ostrzeżenie", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
-                using (serverDBEntities context = new serverDBEntities())
-                {                     
-                    Department departmentBehavior = new Department(context);
-                    Week weekBehavior = new Week(context);
-                    Semester semesterBehavior = new Semester(context);
-                    CurrentSchedule currentScheduleBehavior = new CurrentSchedule(context);
-
-                    
-
-                    foreach(Group group in departmentBehavior.GetGroupsForDepartment(currentDepartment))
-                    {
-                        foreach(Week week in weekBehavior.GetListForSemester(semesterBehavior.GetActiveSemester()))
-                        {
-                            currentScheduleBehavior.DeletePreviousSchedule(group, week);
-
-                            string fileNamePdf = SchedulerExport.CreatePdfFile(context, null, group, week);
-                            string fileNamePng = System.IO.Path.GetTempPath() + "scheduler_png_tmp.png";
-                            
-                            PngBitmapEncoder pngImage = SchedulerExport.CreatePngFile(context, group, week);
-                            using (Stream fileStream = File.Create(fileNamePng))
-                            {
-                                pngImage.Save(fileStream);
-                            }
-
-                            byte[] pdfFile;
-                            using (var stream = new FileStream(fileNamePdf, FileMode.Open, FileAccess.Read))
-                            {
-                                using (var reader = new BinaryReader(stream))
-                                {
-                                    pdfFile = reader.ReadBytes((int)stream.Length);
-                                }
-                            }
-
-                            byte[] pngFile;
-                            using (var stream = new FileStream(fileNamePng, FileMode.Open, FileAccess.Read))
-                            {
-                                using (var reader = new BinaryReader(stream))
-                                {
-                                    pngFile = reader.ReadBytes((int)stream.Length);
-                                }                                
-                            }                           
-                            
-                            context.CurrentSchedule.Add(new CurrentSchedule { GROUP_ID = group.ID, WEEK_ID = week.ID, SCHEDULE_PDF = pdfFile, SCHEDULE_PNG = pngFile } );                            
-                        }
-                    }
-                    try
-                    {
-                        context.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                }
+                SchedulerExport.UpdateActualSchedule();
             }
         }
 

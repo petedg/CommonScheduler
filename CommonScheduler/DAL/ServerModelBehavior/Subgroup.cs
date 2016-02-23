@@ -93,6 +93,21 @@ namespace CommonScheduler.DAL
             }
         }
 
+        public int NumberOfGroups(int subgroupId)
+        {
+            Subgroup preparedSubgroup = GetSubgroupById(subgroupId);
+            int numberOfGroups = 0;
+
+            numberOfGroups += groupBehavior.GetGroupsForParentSubgroup(preparedSubgroup).Count;
+
+            foreach (Subgroup s in GetSubgroupsForParentSubgroup(preparedSubgroup))
+            {
+                numberOfGroups += groupBehavior.GetGroupsForParentSubgroup(s).Count;
+            }
+
+            return numberOfGroups;
+        }
+
         public List<object> NestedSubgroupsList { get; set; }
         public List<object> GroupsList { get; set; }
         public CompositeCollectionSubgroupsAndGroups NestedSubgroupsAndGroups { get; set; }

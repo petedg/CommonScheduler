@@ -37,7 +37,7 @@ namespace CommonScheduler.SchedulerControl
 
         private Rectangle rect = new Rectangle { Fill = Brushes.LightGray };
 
-        public Scheduler(serverDBEntities context, object group, Week week)
+        public Scheduler(serverDBEntities context, object group, Week week, bool isExport = false)
         {
             InitializeComponent();
     
@@ -72,7 +72,7 @@ namespace CommonScheduler.SchedulerControl
                 groupId = ((Subgroup)group).ID;
             }
                 
-            grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, groupId, classesList));
+            grid.Children.Add(new SchedulerGrid(context, schedulerGroupType, groupId, classesList, isExport));
         }
 
         public PngBitmapEncoder CreateImgFile()
@@ -92,10 +92,10 @@ namespace CommonScheduler.SchedulerControl
 
         public void CreatePdfFile(string fileName)
         {
-            Scheduler ccc = new Scheduler(context, Group, Week);
+            Scheduler ccc = new Scheduler(context, Group, Week, true);
             ccc.Width = 1055;
             ccc.Height = 750;
-            ((SchedulerGrid)ccc.grid.Children[0]).IsExport = true;
+            //((SchedulerGrid)ccc.grid.Children[0]).IsExport = true;
 
             FixedDocument fixedDoc = SchedulerExport.CreateXpsFile(ccc, 1055, 750);
 

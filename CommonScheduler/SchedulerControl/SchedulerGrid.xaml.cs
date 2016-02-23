@@ -29,6 +29,7 @@ namespace CommonScheduler.SchedulerControl
         private serverDBEntities context;
         private Classes classesBehavior;
         private Week weekBahavior;
+        private Subgroup subgroupBehavior;
 
         private DateTime scheduleTimeLineStart;
         private DateTime scheduleTimeLineEnd;
@@ -53,18 +54,19 @@ namespace CommonScheduler.SchedulerControl
         public List<SchedulerActivity> Activities { get; set; }
 
         private ContextMenu schedulerContextMenu;
-        public bool IsExport { get; set; }
+        private bool IsExport { get; set; }
 
-        public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, int groupId, List<Classes> classesList)
+        public SchedulerGrid(serverDBEntities context, SchedulerGroupType schedulerGroupType, int groupId, List<Classes> classesList, bool isExport = false)
         {
             InitializeComponent();
 
             initializeContextMenu();
 
-            IsExport = false;
+            this.IsExport = isExport;
             this.context = context;
             this.classesBehavior = new Classes(context);
             this.weekBahavior = new Week(context);
+            this.subgroupBehavior = new Subgroup(context);
             this.SchedulerGroupType = schedulerGroupType;
             this.GroupId = groupId;
 
@@ -150,6 +152,20 @@ namespace CommonScheduler.SchedulerControl
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (IsExport)
+            {
+                try
+                {
+                    var ttt = from tre in context.Teacher
+                              select tre;
+                    ttt.ToList();
+                }
+                catch (Exception ex)
+                {
+                    context = new serverDBEntities();
+                }                
+            }            
+
             this.currentWidth = e.NewSize.Width - 30;
             this.currentHeight = e.NewSize.Height - 30;            
 
@@ -275,7 +291,7 @@ namespace CommonScheduler.SchedulerControl
                     {
                         nextActivity.ContextMenu = schedulerContextMenu;
                     }
-                    nextActivity.repaintActivity();
+                    nextActivity.repaintActivity(IsExport);
                 }                
             }
         }
@@ -324,6 +340,12 @@ namespace CommonScheduler.SchedulerControl
         {
             if (e.ClickCount == 2 && stretchedActivity == null)
             {
+                if (SchedulerGroupType != SchedulerControl.SchedulerGroupType.GROUP && subgroupBehavior.NumberOfGroups(GroupId) == 0)
+                {
+                    MessageBox.Show("Wybrana podgrupa nie posiada grup zajęciowych. Aby rozpocząć edycję planu dodaj grupy zajęciowe.", "Brak grup zajęciowych", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 int rowNumber = (int)((Rectangle)sender).GetValue(Grid.RowProperty);
                 int columnNumber = (int)((Rectangle)sender).GetValue(Grid.ColumnProperty);
 
@@ -541,7 +563,9 @@ namespace CommonScheduler.SchedulerControl
                         //((Rectangle)o).MouseLeftButtonDown += new MouseButtonEventHandler(timeStart_Click);
                         ((Rectangle)o).Fill = Brushes.Red;
                         ((Rectangle)o).Cursor = Cursors.Arrow;
-                    }                    
+                        ((Rectangle)o).MouseRightButtonDown += SchedulerGrid_MouseRightButtonDown;
+                        ((Rectangle)o).ToolTip = "Klikij PPM, aby zobaczyć listę konfliktów";
+                    }
                 }
             }
         }

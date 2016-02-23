@@ -23,7 +23,7 @@ namespace CommonScheduler.SchedulerControl
         private serverDBEntities context;
 
         public int RoomID { get; set; }
-        private int TempRoomID = 0;
+        private int TempRoomID = -1;
 
         public SchedulerRoomEdition(serverDBEntities context, int roomID)
         {
@@ -44,7 +44,7 @@ namespace CommonScheduler.SchedulerControl
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TempRoomID != 0)
+            if (TempRoomID != -1)
             {
                 RoomID = TempRoomID;
                 this.Close();

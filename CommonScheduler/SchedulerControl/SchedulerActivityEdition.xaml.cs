@@ -220,36 +220,68 @@ namespace CommonScheduler.SchedulerControl
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (classesBehavior.GetNumberOfConflictedClasses(classes, weekBehavior.GetListForClasses(classes)) > 0)
+            if (isValidated())
             {
-                MessageBox.Show("Wybrany termin zajęć koliduje z innymi zajęciami nauczyciela lub sali. Aby dodać powyższe zajęcia użyj opcji dodawania nowych zajęć." +
-                    " Niedostępne terminy są tam oznaczone kolorem czerwonym.",
-                                "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-            {
-                if (externalTeacher != null)
-                    context.Entry(externalTeacher).State = EntityState.Modified;
-
-                foreach (ClassesWeek cw in classesWeekAssociations)
+                if (classesBehavior.GetNumberOfConflictedClasses(classes, weekBehavior.GetListForClasses(classes)) > 0)
                 {
-                    context.ClassesWeek.Add(cw);
+                    MessageBox.Show("Wybrany termin zajęć koliduje z innymi zajęciami nauczyciela lub sali. Aby dodać powyższe zajęcia użyj opcji dodawania nowych zajęć." +
+                        " Niedostępne terminy są tam oznaczone kolorem czerwonym.",
+                                    "Wystąpił błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                else
+                {
+                    if (externalTeacher != null)
+                        context.Entry(externalTeacher).State = EntityState.Modified;
 
-                context.SaveChanges();
-                this.EditedClasses.CLASSESS_TYPE_DV_ID = classes.CLASSESS_TYPE_DV_ID;
-                this.EditedClasses.DATE_MODIFIED = classes.DATE_MODIFIED;
-                this.EditedClasses.END_DATE = classes.END_DATE;
-                this.EditedClasses.EXTERNALTEACHER_ID = classes.EXTERNALTEACHER_ID;
-                this.EditedClasses.ID_MODIFIED = classes.ID_MODIFIED;
-                this.EditedClasses.Room_ID = classes.Room_ID;
-                this.EditedClasses.SPECIALLOCATION_ID = classes.SPECIALLOCATION_ID;
-                this.EditedClasses.START_DATE = classes.START_DATE;
-                this.EditedClasses.SUBJECT_NAME = classes.SUBJECT_NAME;
-                this.EditedClasses.SUBJECT_SHORT = classes.SUBJECT_SHORT;
-                this.EditedClasses.TEACHER_ID = classes.TEACHER_ID;
-                this.Close();
-            }            
+                    foreach (ClassesWeek cw in classesWeekAssociations)
+                    {
+                        context.ClassesWeek.Add(cw);
+                    }
+
+                    context.SaveChanges();
+                    this.EditedClasses.CLASSESS_TYPE_DV_ID = classes.CLASSESS_TYPE_DV_ID;
+                    this.EditedClasses.DATE_MODIFIED = classes.DATE_MODIFIED;
+                    this.EditedClasses.END_DATE = classes.END_DATE;
+                    this.EditedClasses.EXTERNALTEACHER_ID = classes.EXTERNALTEACHER_ID;
+                    this.EditedClasses.ID_MODIFIED = classes.ID_MODIFIED;
+                    this.EditedClasses.Room_ID = classes.Room_ID;
+                    this.EditedClasses.SPECIALLOCATION_ID = classes.SPECIALLOCATION_ID;
+                    this.EditedClasses.START_DATE = classes.START_DATE;
+                    this.EditedClasses.SUBJECT_NAME = classes.SUBJECT_NAME;
+                    this.EditedClasses.SUBJECT_SHORT = classes.SUBJECT_SHORT;
+                    this.EditedClasses.TEACHER_ID = classes.TEACHER_ID;
+                    this.Close();
+                }
+            }
+        }
+
+        private bool isValidated()
+        {
+            if (classes.SUBJECT_NAME.Length == 0 || classes.SUBJECT_SHORT.Length == 0)
+            {
+                MessageBox.Show("Nazwa jak i nazwa krótka nie mogą być puste.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (classesWeekAssociations.Count == 0 && classesWeekBehavior.GetLocalClassesWeekList(classes).Count == 0)
+            {
+                MessageBox.Show("Należy wybrać co najmniej jeden tydzień z listy.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (classes.Room_ID == 0)
+            {
+                MessageBox.Show("Lokalizacja zajęć jest obowiązkowa.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (teacherComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Wybranie prowadzącego zajęć jest obowiązkowe.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -491,10 +523,10 @@ namespace CommonScheduler.SchedulerControl
             timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
             timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
 
-            classes.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);
-
             if ((int?)timeSpanMinute.Value != null)
                 checkTimeSpanConstraint();
+
+            classes.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);            
 
             timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
             timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
@@ -518,8 +550,8 @@ namespace CommonScheduler.SchedulerControl
             }
             else
             {
-                classes.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);
                 checkTimeSpanConstraint();
+                classes.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);                
             }
 
             timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;

@@ -105,14 +105,17 @@ namespace CommonScheduler.SchedulerControl
             ExternalTeacher = new ExternalTeacher { DATE_CREATED = DateTime.Now, NAME_SHORT = "", NAME = "", SURNAME = "", EMAIL = "", ID_CREATED = CurrentUser.Instance.UserData.ID };
             SpecialLocation = new SpecialLocation { DATE_CREATED = DateTime.Now, ID_CREATED = CurrentUser.Instance.UserData.ID, NAME_SHORT = "", NAME = "", STREET = "", POSTAL_CODE = "", STREET_NUMBER = "", CITY = "" };
                         
+            
+            //int minutesFromMidnightToClassesStart = classesStartDate.Hour * 60 + classesStartDate.Minute;
+            //maximumTimeSpanValueHour = (int)((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d);
+            //maximumTimeSpanValueMinute = (int)(((int)(((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d) * 100) % 100) / 100d * 60d);
+
             timeSpanHour.Minimum = 0;
-            int minutesFromMidnightToClassesStart = classesStartDate.Hour * 60 + classesStartDate.Minute;
-            maximumTimeSpanValueHour = (int)((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d);
-            maximumTimeSpanValueMinute = (int)(((int)(((scheduleTimeLineEnd * 60 - minutesFromMidnightToClassesStart) / 60d) * 100) % 100) / 100d * 60d);
+            maximumTimeSpanValueHour = 15;
+            maximumTimeSpanValueMinute = 0;
             timeSpanHour.Maximum = maximumTimeSpanValueHour;
             timeSpanHour.Increment = 1;
-            timeSpanHour.DefaultValue = 0;
-                      
+            timeSpanHour.DefaultValue = 0;                      
 
             timeSpanMinute.Minimum = 0;
             timeSpanMinute.Maximum = 45;
@@ -394,20 +397,52 @@ namespace CommonScheduler.SchedulerControl
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            addExternalTeacher();
-            addSpecialLocation();
-            addClasses();
-
-            foreach (ClassesWeek cw in ClassesWeekAssociations)
+            if (isValidated())
             {
-                context.ClassesWeek.Add(new ClassesWeek { Classes_ID = EditedClasses.ID, Week_ID = cw.Week_ID });
-            }     
-       
-            classesGroupBehavior.AddAssociationsForGroup(groupType, groupId, EditedClasses);
+                addExternalTeacher();
+                addSpecialLocation();
+                addClasses();
 
-            context.SaveChanges();
-            NewClasses = EditedClasses;
-            this.Close();
+                foreach (ClassesWeek cw in ClassesWeekAssociations)
+                {
+                    context.ClassesWeek.Add(new ClassesWeek { Classes_ID = EditedClasses.ID, Week_ID = cw.Week_ID });
+                }
+
+                classesGroupBehavior.AddAssociationsForGroup(groupType, groupId, EditedClasses);
+
+                context.SaveChanges();
+                NewClasses = EditedClasses;
+                this.Close();
+            }
+        }
+
+        private bool isValidated()
+        {
+            if (EditedClasses.SUBJECT_NAME.Length == 0 || EditedClasses.SUBJECT_SHORT.Length == 0)
+            {
+                MessageBox.Show("Nazwa jak i nazwa krótka nie mogą być puste.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (ClassesWeekAssociations.Count == 0)
+            {
+                MessageBox.Show("Należy wybrać co najmniej jeden tydzień z listy.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (EditedClasses.Room_ID == -1)
+            {
+                MessageBox.Show("Lokalizacja zajęć jest obowiązkowa.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (teacherComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Wybranie prowadzącego zajęć jest obowiązkowe.", "Błąd walidacji", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -475,10 +510,10 @@ namespace CommonScheduler.SchedulerControl
             timeSpanHour.ValueChanged -= timeSpanHour_ValueChanged;
             timeSpanMinute.ValueChanged -= timeSpanMinute_ValueChanged;
 
-            EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);
-
-            if((int?)timeSpanMinute.Value != null)
+            if ((int?)timeSpanMinute.Value != null)
                 checkTimeSpanConstraint();
+
+            EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)e.NewValue).AddMinutes((int?)timeSpanMinute.Value == null ? 0 : (int)timeSpanMinute.Value);            
 
             timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;
             timeSpanMinute.ValueChanged += timeSpanMinute_ValueChanged;
@@ -502,8 +537,8 @@ namespace CommonScheduler.SchedulerControl
             }
             else
             {
-                EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);
                 checkTimeSpanConstraint();
+                EditedClasses.END_DATE = EditedClasses.START_DATE.AddHours((int)timeSpanHour.Value).AddMinutes((int)e.NewValue);                
             }
 
             timeSpanHour.ValueChanged += timeSpanHour_ValueChanged;

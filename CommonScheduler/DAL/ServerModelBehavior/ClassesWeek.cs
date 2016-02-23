@@ -41,6 +41,15 @@ namespace CommonScheduler.DAL
             return classesWeekList.ToList();
         }
 
+        public List<ClassesWeek> GetLocalClassesWeekList(Classes classes)
+        {
+            var classesWeekList = from classesWeek in context.ClassesWeek.Local
+                                  where classesWeek.Classes_ID == classes.ID
+                                  select classesWeek;
+
+            return classesWeekList.ToList();
+        }
+
         public bool IsAssociated(Classes classes, Week week)
         {
             var classesWeekList = from classesWeek in context.ClassesWeek
