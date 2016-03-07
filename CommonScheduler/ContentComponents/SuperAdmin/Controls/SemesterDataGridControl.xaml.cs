@@ -130,8 +130,7 @@ namespace CommonScheduler.ContentComponents.SuperAdmin.Controls
             {
                 foreach (Semester semester in e.OldItems)
                 {
-                    context.Semester.Remove(semester);
-                    context.Semester.Local.Remove(semester);
+                    semesterBehavior.RemoveSemester(semester);
                 }
             }
         }       

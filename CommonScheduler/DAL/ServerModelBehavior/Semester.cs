@@ -11,12 +11,16 @@ namespace CommonScheduler.DAL
     {
         private serverDBEntities context;
         private Subgroup subgroupBehavior;
+        private Week weekBehavior;
+        private Holiday holidayBehavior;
 
 
         public Semester(serverDBEntities context)
         {
             this.context = context;
             this.subgroupBehavior = new Subgroup(context);
+            this.weekBehavior = new Week(context);
+            this.holidayBehavior = new Holiday(context);
         }
 
         public List<Semester> GetList()
@@ -49,9 +53,13 @@ namespace CommonScheduler.DAL
             return semester;
         }
 
-        public Semester DeleteSemester(Semester semester)
+        public Semester RemoveSemester(Semester semester)
         {
-            context.Entry(semester).State = EntityState.Deleted;
+            weekBehavior.RemoveWeeksListOnSemesterDelete(semester);
+            holidayBehavior.removeHolidaysForSemester(semester);
+
+            context.Semester.Remove(semester);
+            context.Semester.Local.Remove(semester);
             return semester;
         }
     }
